@@ -3,28 +3,28 @@
 
 Réinitialisation du switch `erase config-startup`
 
-## 1.1) Renommage du switch
+## 1.1 - Renommage du switch
 ```
  enable
  configure terminal
  hostname ‘nom du switch'
 ```
 
-## 1.2) Créer les différents Vlan nécessaires
+## 1.2 - Créer les différents Vlan nécessaires
 
 `vlan [numéro du port]` puis `name [nom_du_VLAN]`
 
-## 1.3) Attribuer des ports aux VLANS
+## 1.3 - Attribuer des ports aux VLANS
 ```
 interface [numéro du port]
 switchport mode access/trunk
 Switchport access vlan [numéro de vlan]
 ```
-## 1.4) Creation d'un utilisateur
+## 1.4 - Création d'un utilisateur
 
 `username [admin] privilege 15 secret [password]`
 
-## 1.5) Activation du ssh
+## 1.5 - Activation du ssh
 
 Et nous activons les interfaces avec la commande 
 ```
@@ -36,7 +36,7 @@ login local
 transport input ssh
 write memory
 ```
-## 1.6) Modification du switch après la mise en place du Pare-Feu
+## 1.6 - Modification du switch après la mise en place du Pare-Feu
 
 On a ajouté le VLAN 223.
 
@@ -52,7 +52,7 @@ Exemple : je veux sortir sur Internet en étant dans le VLAN Serveurs pour faire
 
 # <font color= 'red'> 2 - Configuration Routeur </font>
 
-## 2.1) Mise en place du NAT
+## 2.1 - Mise en place du NAT
 
 Interface du VLAN 120 `interface gig0/0.120` avec l'adresse ip `10.28.2.253 255.255.255.0` 
 
@@ -66,18 +66,18 @@ Route par défaut : `ip route 0.0.0.0 0.0.0.0 221.87.128.2`
 
 On mets une acess-list pour avoir internet sur tous les réseaux sauf Mana `access-list 1 permit 172.28.160.0 0.0.31.255`
 
-## 2.2) Mise en place internet sur les vlans
+## 2.2 - Mise en place internet sur les vlans
 
 On mets la route par défaut pour le switch : `0.0.0.0 0.0.0.0 192.168.222.254`
 
 On mets la route sur le routeur pour qu'il connaisse le VLAN 221: `172.28.161.0 255.255.255.0 192.168.222.1`
 
-## 2.3) Redirection de port vers la DMZ
+## 2.3 - Redirection de port vers la DMZ
 
 Pour nous permettre d'accéder au serveur DNS depuis l'extérieur, nous avons paramétré une redirection de port avec la commande ci-dessous :
 `ip nat inside source static udp 192.168.224.1 53 interface 221.87.128.1 53`
 
-## 2.4) Mise en place du 2eme Routeur
+## 2.4 - Mise en place du 2eme Routeur
 
 On met un deuxieme routeur pour assurer la disponibilité
 
@@ -98,11 +98,30 @@ R2:
  standby 1 priority 100
  standby 1 preempt
 ```
-<br>
+
+## 2.5 - Mise en place de la redirection de port pour un accès depuis l'extérieur aux services de la DMZ
+
+Pour commencer, nous configurons la redirection vers le site web de la DMZ
+
+CHA-WEB - 192.168.224.3
+
+On rentre les commandes suivantes :
+```
+enable
+configure terminal
+ 
+ip nat inside source static tcp 192.168.224.3 80 interface GigabitEthernet0/1 80
+ 
+ip nat inside source static tcp 192.168.224.3 443 interface GigabitEthernet0/1 443
+ 
+end
+write memory
+```
+Le port GigabitEthernet0/1 est notre interface WAN, qui va donc ensuite rediriger les requêtes avec les protocoles 80 (HTTP) et 443 (HTTPS) vers notre serveur Web.<br>
 
 # <font color= 'red'> 3 - Configuration de firewall </font>
 
-## 3.1) Mise a jour du firewall
+## 3.1 - Mise a jour du firewall
 
 Mettre une date en 2025.
 Redémarrer le firewall.
@@ -110,12 +129,12 @@ Installation de la licence.
 Installation de la mise à jour via son fichier.
 Après toutes ces étapes, définir l'heure du firewall avec le NTP.
 
-## 3.2) Mise en place des sous-interfaces
+## 3.2 - Mise en place des sous-interfaces
 
 Nous avons mis en place des interfaces virtuelles sur le notre firewall.
 Nous désactivons l'interface « in » (interface physique) pour ensuite mettre en place les interfaces virtuelles, MANA puis LAN.
 
-## 3.3) Mise en place des routes
+## 3.3 - Mise en place des routes
 
 Nous avons mis en place la route permettant au pare-feu de renvoyer les paquets à tous les VLAN du réseau.
 ```
@@ -124,7 +143,7 @@ Interface : lan
 Plan adressage : 172.28.160.0/19
 Passerelle : Pass-Serveur (192.168.223.1)
 ```
-## 3.4) Filtre et NAT
+## 3.4 - Filtre et NAT
 
 Nous avons mis le pare-feu en « pass all » pour finaliser la configuration ; ainsi, nous pourrons réactiver la règle « block all » après la fin de la configuration.
 
@@ -133,7 +152,7 @@ Nous avons mis le pare-feu en « pass all » pour finaliser la configuration ; a
 # <font color= 'red'> 4 - Mise en place des serveurs </font>
 
 
-## 4.1) Installation du DC1 & GUI1
+## 4.1 - Installation du DC1 & GUI1
 
 Le DC1 sera en mode core et le gui sera une interface graphique.
 
@@ -156,7 +175,7 @@ Nous ajoutons un serveur local à gérer sur le serveur CHA-GUI1 et on ajoute CH
 
 Des instatanées doivent être pris régulièrement pour nous permettre un retour en arrière.
 
-## 4.2)Configuration de GUI1
+## 4.2 - Configuration de GUI1
 
 Nous avons mis le GUI1 dans le VLAN serveur, puis dans le domaine.
 
@@ -203,7 +222,7 @@ Nous supposons que l'erreur vient d'une mauvaise réinitialisation du switch.
 
 # <font color= 'red'> 5 - Mise en place du DNS PUBLIC - DMZ </font>
 
-## 5.1) Création de la VM
+## 5.1 - Création de la VM
 
 Nous avons créer une machine virtuelle sous linux.
 
@@ -216,7 +235,7 @@ Nous installons ensuite BIND9 :
 sudo apt update
 sudo apt install bind9 bind9-utils dnsutils
 ```
-## 5.2) Configurer BIND comme DNS autoritatif uniquement
+## 5.2 - Configurer BIND comme DNS autoritatif uniquement
 
 On édite :
 ```
@@ -246,7 +265,7 @@ options {
         dnssec-validation auto;
 };
 ```
-## 5.3) Création de la zone chartres.sportludique.fr
+## 5.3 - Création de la zone chartres.sportludique.fr
 
 On crée le fichier de configuration pour créer la zone : `sudo nano /etc/bind/zones/db.chartres.sportludique.fr`
 
@@ -297,9 +316,10 @@ www.chartres.sportludique.fr. 3600 IN   A       221.87.128.1
 ;; SERVER: 121.183.90.205#53(121.183.90.205) (UDP) 
 ;; WHEN: Tue Oct 13 15:54:28 CEST 2026 
 ;; MSG SIZE  rcvd: 73
-```
+```depuis
 
-## 5.4) Mise en place du DNS Interne
+# <font color= 'red'> 6) Mise en place du DNS Interne </font>
+
 
 Pour ce faire, nous avons créé une machine virtuelle sous Windows Server 2022 (Core).
 
@@ -309,4 +329,63 @@ Nous avons installé le service DNS sur le serveur CHA-DNS1 ainsi que les outils
 
 Ensuite, nous avons créé la zone principale avec le nom `chartres.sportludique.fr`
 
+Nous avons mis en place les enregistrements DNS vers la DMZ pour les serveurs DNS, mail et web.
+Et nous avons aussi mis le redirecteur pour accéder à Internet depuis les différents VLAN en utilisant le serveur DNS interne.
+# <font color= 'red'> 7 - Mise en place du service web dans la DMZ </font>
 
+Nous avons mis en place une vm linux qui servaura le rôle de serveur web.
+
+Nous avons pu configurer les différents fichier de configuration.
+
+## 7.1 - Nous créeons le contenu du site
+```
+sudo install -d -m 755 /var/www/sportludique-public
+sudo nano /var/www/sportludique-public/index.html
+```
+Et nous intégrons le contenu suivant dans le fichier :
+```
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Chartres SportLudique — Site public</title>
+</head>
+<body>
+  <h1>SportLudique — Site public</h1>
+  <p>Ville : Chartres — Serveur : WEB1</p>
+</body>
+</html>
+```
+
+## 7.2 - Définir le premier VirtualHost
+
+Créer le fichier `/etc/apache2/sites-available/sportludique-public.conf`
+
+Puis insérer le contenu suivant :
+```
+<VirtualHost *:80>
+    ServerName www.chartres.sportludique.fr
+    DocumentRoot /var/www/sportludique-public
+
+    <Directory /var/www/sportludique-public>
+        Options None
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/sportludique-public_error.log
+    CustomLog ${APACHE_LOG_DIR}/sportludique-public_access.log combined
+</VirtualHost>
+```
+## 7.3 - On active le site et on contrôle la syntaxe
+```
+sudo a2ensite sportludique-public.conf
+sudo apache2ctl configtest
+```
+Si le résultat indique `Syntax OK`, nous pouvons recharger la configuration du site :
+```
+sudo systemctl reload apache2
+sudo apache2ctl -S
+```
+
+## 7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)
