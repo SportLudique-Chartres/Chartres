@@ -181,10 +181,37 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#6-mise-en-place-du-dns-interne" class="nav-link">6) Mise en place du DNS Interne</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#7-mise-en-place-du-service-web-dans-la-dmz" class="nav-link">7 - Mise en place du service web dans la DMZ</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#71-nous-creeons-le-contenu-du-site" class="nav-link">7.1 - Nous créeons le contenu du site</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#72-definir-le-premier-virtualhost" class="nav-link">7.2 - Définir le premier VirtualHost</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#73-on-active-le-site-et-on-controle-la-syntaxe" class="nav-link">7.3 - On active le site et on contrôle la syntaxe</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#74-activer-la-redirection-de-port-pour-un-acces-depuis-lexterieur-voir-25" class="nav-link">7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#8-mise-en-place-du-serveur-web-et-de-ses-certificats" class="nav-link">8 - Mise en place du serveur web et de ses certificats</a>
+              <ul class="nav flex-column">
               </ul>
             </li>
         </ul>
@@ -415,75 +442,50 @@ www.chartres.sportludique.fr. 3600 IN   A       221.87.128.1
 ;; SERVER: 121.183.90.205#53(121.183.90.205) (UDP) 
 ;; WHEN: Tue Oct 13 15:54:28 CEST 2026 
 ;; MSG SIZE  rcvd: 73
-```depuis
-
-# &lt;font color= 'red'&gt; 6) Mise en place du DNS Interne &lt;/font&gt;
-
-
-Pour ce faire, nous avons créé une machine virtuelle sous Windows Server 2022 (Core).
-
-Après la configuration et l'installation, nous l'avons jointe au domaine, puis nous avons pu  l'ajouter au serveur CHA-GUI1 pour nous permettre de l'administrer.
-
-Nous avons installé le service DNS sur le serveur CHA-DNS1 ainsi que les outils d'administration à distance sur notre serveur CHA-GUI1.
-
-Ensuite, nous avons créé la zone principale avec le nom `chartres.sportludique.fr`
-
-Nous avons mis en place les enregistrements DNS vers la DMZ pour les serveurs DNS, mail et web.
-Et nous avons aussi mis le redirecteur pour accéder à Internet depuis les différents VLAN en utilisant le serveur DNS interne.
-# &lt;font color= 'red'&gt; 7 - Mise en place du service web dans la DMZ &lt;/font&gt;
-
-Nous avons mis en place une vm linux qui servaura le rôle de serveur web.
-
-Nous avons pu configurer les différents fichier de configuration.
-
-## 7.1 - Nous créeons le contenu du site
 </code></pre>
-<p>sudo install -d -m 755 /var/www/sportludique-public
-sudo nano /var/www/sportludique-public/index.html</p>
-<pre><code>Et nous intégrons le contenu suivant dans le fichier :
+<p>depuis</p>
+<h1 id="6-mise-en-place-du-dns-interne"><font color= 'red'> 6) Mise en place du DNS Interne </font></h1>
+<p>Pour ce faire, nous avons créé une machine virtuelle sous Windows Server 2022 (Core).</p>
+<p>Après la configuration et l'installation, nous l'avons jointe au domaine, puis nous avons pu  l'ajouter au serveur CHA-GUI1 pour nous permettre de l'administrer.</p>
+<p>Nous avons installé le service DNS sur le serveur CHA-DNS1 ainsi que les outils d'administration à distance sur notre serveur CHA-GUI1.</p>
+<p>Ensuite, nous avons créé la zone principale avec le nom <code>chartres.sportludique.fr</code></p>
+<p>Nous avons mis en place les enregistrements DNS vers la DMZ pour les serveurs DNS, mail et web.
+Et nous avons aussi mis le redirecteur pour accéder à Internet depuis les différents VLAN en utilisant le serveur DNS interne.</p>
+<h1 id="7-mise-en-place-du-service-web-dans-la-dmz"><font color= 'red'> 7 - Mise en place du service web dans la DMZ </font></h1>
+<p>Nous avons mis en place une vm linux qui servaura le rôle de serveur web.</p>
+<p>Nous avons pu configurer les différents fichier de configuration.</p>
+<h2 id="71-nous-creeons-le-contenu-du-site">7.1 - Nous créeons le contenu du site</h2>
+<pre><code>sudo install -d -m 755 /var/www/sportludique-public
+sudo nano /var/www/sportludique-public/index.html
 </code></pre>
-<!doctype html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <title>Chartres SportLudique — Site public</title>
-</head>
-<body>
-  <h1>SportLudique — Site public</h1>
-  <p>Ville : Chartres — Serveur : WEB1</p>
-</body>
-</html>
-
-<pre><code>
-## 7.2 - Définir le premier VirtualHost
-
-Créer le fichier `/etc/apache2/sites-available/sportludique-public.conf`
-
-Puis insérer le contenu suivant :
-</code></pre>
-<p><VirtualHost *:80>
+<p>Et nous configurons la première page du site avec du contenu.</p>
+<h2 id="72-definir-le-premier-virtualhost">7.2 - Définir le premier VirtualHost</h2>
+<p>Créer le fichier <code>/etc/apache2/sites-available/sportludique-public.conf</code></p>
+<p>Puis insérer le contenu suivant :</p>
+<pre><code>&lt;VirtualHost *:80&gt;
     ServerName www.chartres.sportludique.fr
-    DocumentRoot /var/www/sportludique-public</p>
-<pre><code>&lt;Directory /var/www/sportludique-public&gt;
-    Options None
-    AllowOverride None
-    Require all granted
-&lt;/Directory&gt;
+    DocumentRoot /var/www/sportludique-public
 
-ErrorLog ${APACHE_LOG_DIR}/sportludique-public_error.log
-CustomLog ${APACHE_LOG_DIR}/sportludique-public_access.log combined
+    &lt;Directory /var/www/sportludique-public&gt;
+        Options None
+        AllowOverride None
+        Require all granted
+    &lt;/Directory&gt;
+
+    ErrorLog ${APACHE_LOG_DIR}/sportludique-public_error.log
+    CustomLog ${APACHE_LOG_DIR}/sportludique-public_access.log combined
+&lt;/VirtualHost&gt;
 </code></pre>
-<p></VirtualHost></p>
-<pre><code>## 7.3 - On active le site et on contrôle la syntaxe
+<h2 id="73-on-active-le-site-et-on-controle-la-syntaxe">7.3 - On active le site et on contrôle la syntaxe</h2>
+<pre><code>sudo a2ensite sportludique-public.conf
+sudo apache2ctl configtest
 </code></pre>
-<p>sudo a2ensite sportludique-public.conf
-sudo apache2ctl configtest</p>
-<pre><code>Si le résultat indique `Syntax OK`, nous pouvons recharger la configuration du site :
-</code></pre>
-<p>sudo systemctl reload apache2
+<p>Si le résultat indique <code>Syntax OK</code>, nous pouvons recharger la configuration du site :</p>
+<pre><code>sudo systemctl reload apache2
 sudo apache2ctl -S
-```</p>
-<h2 id="74-activer-la-redirection-de-port-pour-un-acces-depuis-lexterieur-voir-25">7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)</h2></div>
+</code></pre>
+<h2 id="74-activer-la-redirection-de-port-pour-un-acces-depuis-lexterieur-voir-25">7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)</h2>
+<h1 id="8-mise-en-place-du-serveur-web-et-de-ses-certificats"><font color= 'red'> 8 - Mise en place du serveur web et de ses certificats </font></h1></div>
             </div>
         </div>
 
