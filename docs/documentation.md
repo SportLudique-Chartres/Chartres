@@ -316,7 +316,8 @@ www.chartres.sportludique.fr. 3600 IN   A       221.87.128.1
 ;; SERVER: 121.183.90.205#53(121.183.90.205) (UDP) 
 ;; WHEN: Tue Oct 13 15:54:28 CEST 2026 
 ;; MSG SIZE  rcvd: 73
-```depuis
+```
+depuis
 
 # <font color= 'red'> 6) Mise en place du DNS Interne </font>
 
@@ -331,6 +332,7 @@ Ensuite, nous avons créé la zone principale avec le nom `chartres.sportludique
 
 Nous avons mis en place les enregistrements DNS vers la DMZ pour les serveurs DNS, mail et web.
 Et nous avons aussi mis le redirecteur pour accéder à Internet depuis les différents VLAN en utilisant le serveur DNS interne.
+
 # <font color= 'red'> 7 - Mise en place du service web dans la DMZ </font>
 
 Nous avons mis en place une vm linux qui servaura le rôle de serveur web.
@@ -338,30 +340,20 @@ Nous avons mis en place une vm linux qui servaura le rôle de serveur web.
 Nous avons pu configurer les différents fichier de configuration.
 
 ## 7.1 - Nous créeons le contenu du site
+
 ```
 sudo install -d -m 755 /var/www/sportludique-public
 sudo nano /var/www/sportludique-public/index.html
 ```
-Et nous intégrons le contenu suivant dans le fichier :
-```
-<!doctype html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <title>Chartres SportLudique — Site public</title>
-</head>
-<body>
-  <h1>SportLudique — Site public</h1>
-  <p>Ville : Chartres — Serveur : WEB1</p>
-</body>
-</html>
-```
+
+Et nous configurons la première page du site avec du contenu.
 
 ## 7.2 - Définir le premier VirtualHost
 
 Créer le fichier `/etc/apache2/sites-available/sportludique-public.conf`
 
 Puis insérer le contenu suivant :
+
 ```
 <VirtualHost *:80>
     ServerName www.chartres.sportludique.fr
@@ -377,15 +369,21 @@ Puis insérer le contenu suivant :
     CustomLog ${APACHE_LOG_DIR}/sportludique-public_access.log combined
 </VirtualHost>
 ```
+
 ## 7.3 - On active le site et on contrôle la syntaxe
+
 ```
 sudo a2ensite sportludique-public.conf
 sudo apache2ctl configtest
 ```
+
 Si le résultat indique `Syntax OK`, nous pouvons recharger la configuration du site :
+
 ```
 sudo systemctl reload apache2
 sudo apache2ctl -S
 ```
 
 ## 7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)
+
+# <font color= 'red'> 8 - Mise en place du serveur web et de ses certificats </font>
