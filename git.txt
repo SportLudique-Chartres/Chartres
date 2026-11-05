@@ -1,0 +1,13 @@
+cd lieux du document
+
+source venv/bin/activate
+git pull origin main
+
+
+python -m mkdocs serve
+
+git add .
+git commit -m 'description'
+git push origin main
+
+
