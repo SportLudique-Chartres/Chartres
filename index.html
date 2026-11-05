@@ -1,179 +1,593 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="None">
-        
-        
-        <link rel="shortcut icon" href="img/favicon.ico">
-        <title>Sport-Ludique Chartres</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/fontawesome.min.css" rel="stylesheet">
-        <link href="css/brands.min.css" rel="stylesheet">
-        <link href="css/solid.min.css" rel="stylesheet">
-        <link href="css/v4-font-face.min.css" rel="stylesheet">
-        <link href="css/base.css" rel="stylesheet">
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/color-brewer.min.css" >
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
-    </head>
 
-    <body class="homepage">
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href=".">Sport-Ludique Chartres</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<html lang="en">
 
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href="." class="nav-link active" aria-current="page">Accueil</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="documentation/" class="nav-link">Documentation</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="annexes/" class="nav-link">Annexes</a>
-                            </li>
-                        </ul>
+<head>
+    <script>
+        const base_url = (new URL(".", window.location)).href.replace(/\/+$/, ""); /* for search plugin notably */
+    </script>
+    <script integrity="sha384-m6cZ+Whl1ci89lidlu8DH4C+sZLNOYBvImtjUIhUK+iaNffXhqtbYgBVuuPfRsa0" src="js/dark.js"></script>
 
-                    <ul class="nav navbar-nav ms-md-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
-                            </a>
-                        </li>
-                            <li class="nav-item">
-                                <a rel="prev" class="nav-link disabled">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="documentation/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
 
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
-        <ul class="nav flex-column">
+    
+
+
+<title>Accueil</title>
+
+
+
+
+
+
+
+
+
+
+<!-- Open Graph (Facebook, LinkedIn) -->
+
+<meta property="og:title" content="Accueil">
+
+
+
+
+
+
+
+
+
+
+<!-- Twitter Card -->
+
+<meta name="twitter:title" content="Accueil">
+
+
+
+
+
+
+<!-- JSON-LD Structured Data -->
+
+
+
+    
+    <link href="img/logo.png" rel="icon" />
+
+    <link href="css/base.css" rel="stylesheet" />
+    <link href="css/geist.css" rel="stylesheet" />
+
+    
+    
+
+<link id="pygments-light" rel="stylesheet"
+    href="css/pygments/shadcn-light.css">
+<link id="pygments-dark" rel="stylesheet"
+    href="css/pygments/github-dark.css"
+    media="(prefers-color-scheme: dark)">
+
+
+    
+
+    <style>
+        :root {
+            --theme-accent: oklch(62.3% 0.214 259.815);
+        }
+    </style>
+    <link href="assets/css/toc.css" rel="stylesheet" />
+    <link href="stylesheets/accueil.css" rel="stylesheet" />
+
+    
+
+    <script integrity="sha384-2hn3q9jeDV70Gb3DuyWPKgeRxkowIjEpcHeOXSvWCEq2uHJHvXiVer7rbM8HYzYz"
+        src="js/callbacks.js"></script>
+    <script defer="" integrity="sha384-ljmRPFWw/c4kKFaKY5DIe8bgppHI9VBBrg7WZa8UPd23U9dEFesxZ1Ng8Hzjq2WB"
+        src="js/toc.js"></script>
+
+    
+
+    
+
+    
+
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("a.headerlink").forEach(function (link) {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                // Build the full URL with the anchor fragment
+                const url = window.location.origin + window.location.pathname + this.getAttribute("href");
+
+                navigator.clipboard.writeText(url).then(function () {
+                    // Optional: brief visual feedback
+                });
+            });
+        });
+    });
+</script>
+    
+
+    
+    
+</head>
+
+<body
+    class="text-foreground group/body overscroll-none font-sans antialiased [--footer-height:calc(var(--spacing)*14)] [--header-height:calc(var(--spacing)*14)] lg:[--header-height:calc(var(--spacing)*16)] xl:[--footer-height:calc(var(--spacing)*24)] theme-default">
+    <div class="bg-background relative z-10 flex min-h-svh flex-col" id="inner-body">
+        <header class="bg-background sticky top-0 z-50 w-full" view-transition-name="header">
+    <div class="container-wrapper 3xl:fixed:px-0 px-6">
+        <div class="3xl:fixed:container flex h-(--header-height) items-center gap-2 **:data-[slot=separator]:!h-4">
+            <button id="burger-button" data-slot="popover-trigger" onclick="onMobileMenuButtonClick(event)" class="group"
+    
+    type="button" aria-haspopup="dialog" data-state="closed">
+    <div class="relative flex h-8 w-4 items-center justify-center">
+        <div class="relative size-4">
+            <!-- 16px x 16px -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="0" x2="16" y1="5" y2="5"
+                    class="group-data-[state=open]:translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:rotate-45 transition-all duration-300 origin-center" />
+                <line x1="0" x2="16" y1="11" y2="11"
+                    class="group-data-[state=open]:-translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:-rotate-45 transition-all duration-300 origin-center" />
+            </svg>
+        </div>
+
+        <span class="sr-only">Toggle Menu</span>
+    </div>
+    <span class="flex h-8 items-center text-lg leading-none font-medium">Menu</span>
+</button>
+            <a data-slot="button" class="button ghost gap-2 hidden lg:flex"
+    
+    href="None">
+    <span class="flex flex-row justify-center items-center">
+        
+
+
+<img class="size-5" src="img/logo.png" alt="icon">
+
+
+
+    </span>
+
+    
+    <h1>Sport-Ludique Chartres</h1>
+    
+</a>
             
-            <li class="nav-item" data-bs-level="1"><a href="#sport-ludique-chartres" class="nav-link">Sport-ludique Chartres</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#objectif-du-projet" class="nav-link">Objectif du projet</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
+            <div class="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
+                <div class="hidden w-full flex-1 md:flex md:w-auto md:flex-none">
+                    <div class="hidden w-full flex-1 md:flex md:w-auto md:flex-none">
+    <button onclick="onSearchBarClick(event)" data-slot="dialog-trigger" data-variant="outline" data-size="default"
+    class="search secondary" type="button" aria-haspopup="dialog" aria-controls="search-dialog" data-state="closed">
+    <span class="hidden lg:inline-flex">Search documentation...</span>
+    <span class="inline-flex lg:hidden">Search...</span>
+</button>
+</div>
+<dialog id="search-dialog" onclick="onSearchDialogClick(event)"
+    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background rounded-lg shadow-lg border overflow-hidden p-0">
+    <div class="w-lg gap-4">
+        <div class="flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground">
+            <div data-slot="command-input-wrapper" class="flex h-9 items-center gap-2 border-b px-3">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="lucide lucide-search size-4 shrink-0 opacity-50">
+    <circle cx="11" cy="11" r="8"></circle>
+    <path d="m21 21-4.3-4.3"></path>
+</svg>
+                <input data-slot="command-input"
+                    class="placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Search documentation..." cmdk-input="" autocomplete="off" autocorrect="off"
+                    spellcheck="false" aria-label="Search documentation" type="search" value=""
+                    oninput="onInputHandler(event)">
+            </div>
+        </div>
+        <div id="mkdocs-search-results">
+            <!-- search results go there -->
+        </div>
+    </div>
+</dialog>
+<script>
+    document.removeEventListener("keydown", searchShortcutHandler);
+    document.addEventListener("keydown", searchShortcutHandler);
+</script>
+                </div>
+                
+                
+
+
+                
+
+                <div data-orientation="vertical" role="none" data-slot="separator"
+    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px">
+</div>
+                <button class="ghost icon" title="Toggle layout" onclick="toggleLayout(event)">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="lucide lucide-gallery-horizontal">
+    <path d="M2 3v18"></path>
+    <rect width="12" height="18" x="6" y="3" rx="2"></rect>
+    <path d="M22 3v18"></path>
+</svg>
+</button>
+                <div data-orientation="vertical" role="none" data-slot="separator"
+    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px">
+</div>
+                <button class="ghost icon" onclick="onThemeSwitch(event)" title="Toggle theme">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="size-4.5">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+    <path d="M12 3l0 18"></path>
+    <path d="M12 9l4.65 -4.65"></path>
+    <path d="M12 14.3l7.37 -7.37"></path>
+    <path d="M12 19.6l8.85 -8.85"></path>
+</svg>
+</button>
+            </div>
+        </div>
+    </div>
+</header>
+        <main class="flex flex-1 flex-col">
+            <div class="container-wrapper flex flex-1 flex-col px-2">
+                <div class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex w-full 3xl:fixed:container 3xl:fixed:px-3 min-h-min flex-1 items-start px-0 [--sidebar-width:220px] [--top-spacing:0] lg:grid lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)] lg:[--sidebar-width:240px] lg:[--top-spacing:calc(var(--spacing)*4)]"
+                    data-slot="sidebar-wrapper"
+                    style="--sidebar-width:calc(var(--spacing) * 72);--sidebar-width-icon:3rem;">
+                    <div class="w-(--sidebar-width) flex-col text-sidebar-foreground sticky top-[calc(var(--header-height)+0.6rem)] z-30 hidden max-h-[calc(100svh-10rem)] overscroll-none bg-transparent [--sidebar-menu-width:--spacing(56)] lg:flex"
+                        data-slot="sidebar">
+                        <div class="h-9"></div>
+                        <div
+                            class="absolute top-8 z-10 h-8 w-(--sidebar-menu-width) shrink-0 bg-gradient-to-b from-background via-background/80 to-background/50 blur-xs">
+                        </div>
+                        <div
+                            class="absolute top-12 right-2 bottom-0 hidden h-full w-px bg-gradient-to-b from-transparent via-border to-transparent lg:flex">
+                        </div>
+                        <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden mx-auto no-scrollbar w-(--sidebar-menu-width) overflow-x-hidden px-2"
+                            data-sidebar="content" data-slot="sidebar-content" view-transition-name="sidebar">
+                            
+
+
+
+
+
+
+
+
+
+
+
+<div data-slot="sidebar-group" data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2 pt-6">
+    <div data-slot="sidebar-group-content" data-sidebar="group-content" class="w-full text-sm">
+        <ul data-slot="sidebar-menu" data-sidebar="menu" class="flex w-full min-w-0 flex-col gap-0.5">
+            
+            
+            
+            <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="true" data-sidebar="menu-button"
+        data-size="default" href="."
+        class="peer/menu-button flex items-center gap-2 rounded-md p-2 text-left ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md data-[active=true]:border-accent data-[active=true]:bg-accent 3xl:fixed:w-full 3xl:fixed:max-w-48">
+        
+        Accueil
+        
+        
+        
+        
+    </a>
+</li>
+            
+            
+            
+            
+            <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="documentation/"
+        class="peer/menu-button flex items-center gap-2 rounded-md p-2 text-left ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md data-[active=true]:border-accent data-[active=true]:bg-accent 3xl:fixed:w-full 3xl:fixed:max-w-48">
+        
+        Documentation
+        
+        
+        
+        
+    </a>
+</li>
+            
+            
+            
+            
+            <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="annexes/"
+        class="peer/menu-button flex items-center gap-2 rounded-md p-2 text-left ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md data-[active=true]:border-accent data-[active=true]:bg-accent 3xl:fixed:w-full 3xl:fixed:max-w-48">
+        
+        Annexes
+        
+        
+        
+        
+    </a>
+</li>
+            
+            
         </ul>
-    </div>
-</div></div>
-                    <div class="col-md-9" role="main">
-
-<h1 id="sport-ludique-chartres">Sport-ludique Chartres</h1>
-<h2 id="objectif-du-projet">Objectif du projet</h2></div>
-            </div>
-        </div>
-
-        <footer class="col-md-12">
-            <hr>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script src="js/bootstrap.bundle.min.js"></script>
-        <script>
-            var base_url = ".",
-                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
-        </script>
-        <script src="js/base.js"></script>
-        <script src="search/main.js"></script>
-
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
     </div>
 </div>
 
-    </body>
-</html>
 
-<!--
-MkDocs version : 1.6.1
-Build Date UTC : 2026-11-04 08:42:11.141344+00:00
--->
+
+
+
+
+<div
+    class="sticky -bottom-1 z-10 h-16 shrink-0 bg-gradient-to-t from-background via-background/80 to-background/50 blur-xs">
+</div>
+
+                        </div>
+                    </div>
+                    <div class="h-full w-full">
+                        <div class="flex items-stretch text-[1.05rem] sm:text-[15px] xl:w-full" data-slot="docs">
+                            <div class="flex min-w-0 flex-1 flex-col">
+                                <div class="h-(--top-spacing) shrink-0"></div>
+                                
+                                
+                                <article class="w-full" view-transition-name="page">
+  <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2">
+      <div id="page-header" class="flex items-start justify-between">
+        <h1 class="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
+          Accueil
+        </h1>
+        <div class="flex items-start gap-2">
+          
+          <button id="copy-page"
+    onclick="fetch(`/index.md`).then((r) => r.text()).then((text) => navigator.clipboard.write([new ClipboardItem({ 'text/plain': text })]))"
+    data-slot="button" class="secondary cursor-pointer sm">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-copy ">
+        <path
+            d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z">
+        </path>
+        <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1"></path>
+    </svg>
+    <span class="max-md:hidden">Copy Page</span>
+</button>
+          
+          
+          
+          <a id="next-button" class="button secondary icon sm" href="documentation/">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="tabler-icon tabler-icon-arrow-right">
+    <path d="M5 12l14 0"></path>
+    <path d="M13 18l6 -6"></path>
+    <path d="M13 6l6 6"></path>
+</svg>
+    <span class="sr-only">Next</span>
+</a>
+          
+        </div>
+      </div>
+      
+    </div>
+    <div class="flex justify-end items-center">
+      
+
+      
+    </div>
+  </div>
+  <div class="typography w-full flex-1 *:data-[slot=alert]:first:mt-0">
+    <div class="sl-home" id="accueil">
+  <section class="sl-hero" aria-labelledby="sl-hero-title">
+    <div class="sl-hero-grid" aria-hidden="true"></div>
+    <div class="sl-hero-glow" aria-hidden="true"></div>
+    <div class="sl-hero-content">
+      <div class="sl-pill"><span class="sl-live-dot"></span> SPORTLUDIQUE · SIÈGE SOCIAL DE CHARTRES</div>
+      <img class="sl-hero-logo" src="img/logo.png" alt="Logo SportLudique Chartres" />
+      <p class="sl-eyebrow">DIRECTION DES SYSTÈMES D'INFORMATION</p>
+      <h1 id="sl-hero-title">L'esprit d'équipe.<br><span>La puissance du numérique.</span></h1>
+      <p class="sl-hero-description">Bienvenue sur le portail informatique de SportLudique Chartres. Découvrez nos infrastructures, nos services et nos réalisations techniques au service d'une entreprise dédiée au sport.</p>
+      <div class="sl-hero-actions">
+        <a class="sl-btn sl-btn-primary" href="#documentation">Explorer la documentation <span aria-hidden="true">↗</span></a>
+        <a class="sl-btn sl-btn-outline" href="#infrastructure">Découvrir l'infrastructure <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="sl-sports" aria-label="Disciplines sportives : football, handball, basketball et volleyball">
+        <span>⚽ Football</span><span>🤾 Handball</span><span>🏀 Basketball</span><span>🏐 Volleyball</span>
+      </div>
+    </div>
+    <div class="sl-hero-visual" aria-hidden="true">
+      <div class="sl-orbit sl-orbit-one"></div><div class="sl-orbit sl-orbit-two"></div>
+      <div class="sl-core"><span class="sl-core-icon">⌘</span><strong>DSI</strong><small>CHARTRES</small></div>
+      <span class="sl-float sl-float-top">⚽</span><span class="sl-float sl-float-right">🏀</span><span class="sl-float sl-float-bottom">🏐</span><span class="sl-float sl-float-left">🤾</span>
+      <div class="sl-mini-card">● <span>RÉSEAU · SYSTÈMES · SÉCURITÉ</span></div>
+    </div>
+  </section>
+
+  <div class="sl-overview" aria-label="SportLudique en bref">
+    <div><strong>Chartres</strong><span>Siège social et DSI</span></div>
+    <div><strong>≈ 450</strong><span>Collaborateurs dans le contexte</span></div>
+    <div><strong>5 sites</strong><span>Dont Blois, acquis en 2026</span></div>
+    <div><strong>4 sports</strong><span>Un même esprit collectif</span></div>
+  </div>
+
+  <section class="sl-section" id="documentation">
+    <div class="sl-section-heading"><div><p class="sl-kicker">CENTRE DE RESSOURCES</p><h2>Documentation informatique</h2><p>Retrouvez rapidement les domaines techniques de la DSI de Chartres.</p></div><span class="sl-heading-mark">01 / 04</span></div>
+    <div class="sl-card-grid">
+      <a class="sl-service-card" href="#domaine-systemes"><span class="sl-card-icon">▣</span><h3>Windows Server</h3><p>Active Directory, contrôleurs de domaine, DNS, GPO et administration.</p><span class="sl-card-more">Voir le domaine →</span></a>
+      <a class="sl-service-card" href="#domaine-systemes"><span class="sl-card-icon">⌘</span><h3>Linux & Debian</h3><p>Services réseau, BIND9, Apache, administration système et commandes.</p><span class="sl-card-more">Voir le domaine →</span></a>
+      <a class="sl-service-card" href="#domaine-reseaux"><span class="sl-card-icon">⇄</span><h3>Réseaux Cisco</h3><p>Routage, VLAN, NAT/PAT, interconnexions et haute disponibilité.</p><span class="sl-card-more">Voir le domaine →</span></a>
+      <a class="sl-service-card" href="#domaine-securite"><span class="sl-card-icon">◇</span><h3>Cybersécurité</h3><p>DMZ, pare-feu, segmentation, certificats et sécurisation des accès.</p><span class="sl-card-more">Voir le domaine →</span></a>
+      <a class="sl-service-card" href="#domaine-systemes"><span class="sl-card-icon">▤</span><h3>Virtualisation</h3><p>Machines virtuelles, Proxmox, disponibilité et hébergement des services.</p><span class="sl-card-more">Voir le domaine →</span></a>
+      <a class="sl-service-card" href="#domaine-web"><span class="sl-card-icon">&lt;/&gt;</span><h3>Web & DNS public</h3><p>Publication de sites, hébergement Apache, résolution DNS et HTTPS.</p><span class="sl-card-more">Voir le domaine →</span></a>
+    </div>
+  </section>
+
+  <section class="sl-section sl-infra-section" id="infrastructure">
+    <div class="sl-section-heading"><div><p class="sl-kicker">ARCHITECTURE TECHNIQUE</p><h2>L'infrastructure de Chartres</h2><p>Un système d'information organisé pour connecter les utilisateurs, les ressources et les sites.</p></div><span class="sl-heading-mark">02 / 04</span></div>
+    <div class="sl-infra-layout">
+      <div class="sl-infra-diagram" role="img" aria-label="Schéma simplifié : utilisateurs connectés au réseau de Chartres, puis aux serveurs et à une zone DMZ. Schéma illustratif, non contractuel.">
+        <div class="sl-diagram-top"><div class="sl-diagram-node"><span>◉</span><strong>Utilisateurs</strong><small>Postes & accès</small></div><div class="sl-diagram-node"><span>◎</span><strong>Sites distants</strong><small>Interconnexions</small></div></div>
+        <div class="sl-diagram-line"></div><div class="sl-diagram-center"><span>⇄</span><strong>RÉSEAU CHARTRES</strong><small>Commutation · Routage · Sécurité</small></div><div class="sl-diagram-line"></div>
+        <div class="sl-diagram-bottom"><div class="sl-diagram-node"><span>▣</span><strong>Serveurs</strong><small>AD · DNS · Services</small></div><div class="sl-diagram-node"><span>⬡</span><strong>DMZ</strong><small>Web · DNS public</small></div></div>
+      </div>
+      <div class="sl-infra-info"><span class="sl-info-chip">LE RÔLE DE LA DSI</span><h3>Un environnement fiable, sécurisé et évolutif.</h3><p>Le siège de Chartres héberge la direction des systèmes d'information. Nos travaux portent sur l'administration, la disponibilité des services, l'interconnexion des sites et la protection du système d'information.</p><div class="sl-feature"><span>✓</span><div><strong>Administrer</strong><small>Windows Server, Linux et virtualisation</small></div></div><div class="sl-feature"><span>✓</span><div><strong>Connecter</strong><small>Réseaux, routage et services DNS</small></div></div><div class="sl-feature"><span>✓</span><div><strong>Sécuriser</strong><small>DMZ, accès et disponibilité</small></div></div><a class="sl-inline-link" href="#domaines">Consulter les domaines techniques →</a></div>
+    </div>
+  </section>
+
+  <section class="sl-section" id="domaines">
+    <div class="sl-section-heading"><div><p class="sl-kicker">DOMAINES D'INTERVENTION</p><h2>Nos projets et compétences</h2><p>Les principaux axes de travail de notre équipe technique.</p></div><span class="sl-heading-mark">03 / 04</span></div>
+    <div class="sl-domain-grid">
+      <article class="sl-domain-card" id="domaine-systemes"><span class="sl-domain-number">01</span><h3>Systèmes & virtualisation</h3><p>Déploiement et administration des serveurs Windows et Debian, annuaires Active Directory et plateformes Proxmox.</p><div class="sl-tags"><span>Windows Server</span><span>Debian</span><span>Proxmox</span></div></article>
+      <article class="sl-domain-card" id="domaine-reseaux"><span class="sl-domain-number">02</span><h3>Réseaux & interconnexion</h3><p>Configuration des routeurs Cisco, routage, services d'adressage et continuité de la connectivité entre les sites.</p><div class="sl-tags"><span>Cisco</span><span>DNS</span><span>NAT / PAT</span></div></article>
+      <article class="sl-domain-card" id="domaine-securite"><span class="sl-domain-number">03</span><h3>Sécurité & disponibilité</h3><p>Segmentation des réseaux, architecture DMZ, contrôle des accès et renforcement de la résilience.</p><div class="sl-tags"><span>DMZ</span><span>Firewall</span><span>Redondance</span></div></article>
+      <article class="sl-domain-card" id="domaine-web"><span class="sl-domain-number">04</span><h3>Services web</h3><p>Publication des services internes et externes, administration Apache, DNS public et certificats TLS.</p><div class="sl-tags"><span>Apache</span><span>BIND9</span><span>HTTPS</span></div></article>
+    </div>
+  </section>
+
+  <section class="sl-section sl-sites-section" id="sites">
+    <div class="sl-section-heading"><div><p class="sl-kicker">ANCRAGE TERRITORIAL</p><h2>Chartres au cœur du réseau</h2><p>La DSI accompagne les métiers de SportLudique à travers ses implantations.</p></div><span class="sl-heading-mark">04 / 04</span></div>
+    <div class="sl-sites-grid"><div class="sl-site sl-site-main"><span class="sl-site-pin">⌖</span><h3>Chartres</h3><p>Siège social · Direction · DSI</p><strong>NOTRE SITE</strong></div><div class="sl-site"><span class="sl-site-pin">⌖</span><h3>Orléans</h3><p>Production</p></div><div class="sl-site"><span class="sl-site-pin">⌖</span><h3>Tours</h3><p>Production & tests</p></div><div class="sl-site"><span class="sl-site-pin">⌖</span><h3>Bourges</h3><p>Stockage & logistique</p></div><div class="sl-site"><span class="sl-site-pin">⌖</span><h3>Blois</h3><p>Nouveau site acquis en 2026</p></div></div>
+  </section>
+
+  <section class="sl-cta"><div><p class="sl-kicker">ESPRIT SPORTIF, EXPERTISE TECHNIQUE</p><h2>Le collectif fait avancer nos projets.</h2><p>SportLudique Chartres · Portail documentaire de la DSI</p></div><a class="sl-btn sl-btn-primary" href="#accueil">Retour en haut ↑</a></section>
+  <p class="sl-legal">Projet pédagogique fictif SportLudique 2026–2027. Ce site est un portail de documentation et ne présente pas des données de supervision en temps réel.</p>
+</div>
+  </div>
+</article>
+                                <div id="bottom-navigation" class="mx-auto flex h-16 w-full max-w-2xl items-center justify-between gap-2 px-4 md:px-0">
+    
+    
+    <a class="button secondary" href="documentation/">
+    <span class="max-[500px]:hidden truncate">Documentation</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="tabler-icon tabler-icon-arrow-right">
+    <path d="M5 12l14 0"></path>
+    <path d="M13 18l6 -6"></path>
+    <path d="M13 6l6 6"></path>
+</svg>
+</a>
+    
+</div>
+                                
+                                
+                            </div>
+                            
+                            <dialog id="bottom-sidebar" onclick="onBottomSidebarDialogClick(event)" class="bg-transparent"
+    style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 58px); min-width: max-content; --radix-popper-transform-origin: 0% 0px; will-change: transform; z-index: 50; --radix-popper-available-width: 504px; --radix-popper-available-height: 857px; --radix-popper-anchor-width: 72.94999694824219px; --radix-popper-anchor-height: 32px;">
+    <div data-side="bottom" data-align="start" data-state="open" role="dialog" data-slot="popover-content"
+        class="text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 origin-(--radix-popover-content-transform-origin) border outline-hidden bg-background/90 no-scrollbar h-(--radix-popper-available-height) w-(--radix-popper-available-width) overflow-y-auto rounded-none border-none p-0 shadow-none backdrop-blur duration-100"
+        style="--radix-popover-content-transform-origin: var(--radix-popper-transform-origin); --radix-popover-content-available-width: var(--radix-popper-available-width); --radix-popover-content-available-height: var(--radix-popper-available-height); --radix-popover-trigger-width: var(--radix-popper-anchor-width); --radix-popover-trigger-height: var(--radix-popper-anchor-height);"
+        tabindex="-1">
+        <div class="flex flex-col gap-12 overflow-auto px-6 py-6">
+            
+            
+            
+
+            
+            <div class="flex flex-col gap-4">
+                <div class="text-muted-foreground text-sm font-medium">Menu</div>
+                <div class="flex flex-col gap-3">
+                    
+                    <a class="text-2xl font-medium" href=".">
+                        
+                        Accueil
+                        
+                    </a>
+                    
+                    <a class="text-2xl font-medium" href="documentation/">
+                        
+                        Documentation
+                        
+                    </a>
+                    
+                    <a class="text-2xl font-medium" href="annexes/">
+                        
+                        Annexes
+                        
+                    </a>
+                    
+                </div>
+            </div>
+            
+
+            
+            
+
+        </div>
+    </div>
+</dialog>
+                            <div
+                                class="sticky top-[calc(var(--header-height)+1px)] ml-auto hidden h-[calc(100svh-var(--header-height)-var(--footer-height))] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
+                                <div class="h-(--top-spacing) shrink-0"></div>
+                                
+                                
+                                <div id="toc" view-transition-name="toc" class="no-scrollbar overflow-y-auto px-8">
+    <div class="flex flex-col gap-2 p-4 pt-0 text-sm">
+        <p class="text-muted-foreground bg-background sticky top-0 h-6 text-xs">On This Page</p>
+        
+
+    </div>
+    <div class="h-12"></div>
+
+</div>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer view-transition-name="footer"
+    class="group-has-[.section-soft]/body:bg-surface/40 3xl:fixed:bg-transparent dark:bg-transparent">
+    <div class="container-wrapper px-4 xl:px-6">
+        <div class="flex h-(--footer-height) items-center justify-between">
+            <div class="text-muted-foreground w-full text-center text-xs leading-loose sm:text-sm">
+                
+                <a href="https://github.com/asiffer/mkdocs-shadcn">shadcn theme</a> provided by
+                <a href="https://github.com/asiffer">@asiffer</a>
+            </div>
+        </div>
+    </div>
+</footer>
+    </div>
+     
+
+<script src="assets/js/toc.js"></script>
+
+     
+
+<script src="search/main.js"></script>
+
+
+    
+
+    <script integrity="sha384-JLNLRFGzvOp0up707XKgSnAjjt1w5BF/+lbeLQvlf6mNwf0m89IXFdpNAk4t6Hcs"
+        src="js/copy-button.js"></script>
+    <script integrity="sha384-JBx6cBEiyhK1KPwZgBHiI6GDaAmvlOxMQFyWAZTEpW5Ifo5XQ2LBcJ61GVOumwF1"
+        src="js/sidebar.js"></script>
+    <script integrity="sha384-fNURFMRt0p/HqXnQnV4+CT9dX1GiU5F0fC3pFbg7gfoANytoUMErSW7suWSBkSuF"
+        src="js/slider.js"></script>
+    <script>updatePygmentsStylesheet();</script>
+    
+    <script>fetchStargazers("None");</script>
+    
+    
+    
+    <script type="speculationrules">
+{
+  "prerender": [
+    {
+      "where": {
+          "selector_matches": ["#next-button", "#previous-button"]
+      }
+    }
+  ]
+}
+</script>
+</body>
+
+</html>
