@@ -4,6 +4,8 @@ nav:
   - Accueil: index.md
   - Documentation: documentation.md
   - Annexes: annexes.md
-theme: litera
+theme: shadcn
 
-
+markdown_extensions:
+  - fenced_code
+  - codehilite

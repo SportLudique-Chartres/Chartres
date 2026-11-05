@@ -1,32 +1,33 @@
-# <font color= 'red'> 1 - Configuration du switch </font>
+## <font color= 'red'> 1 - Configuration du switch </font>
 
+Réinitialisation du switch `erase config-startup`, cette commande supprime toute la configuration précédente.
 
-Réinitialisation du switch `erase config-startup`
-
-## 1.1 - Renommage du switch
+### 1.1 - Renommage du switch
 ```
  enable
  configure terminal
  hostname ‘nom du switch'
 ```
-
-## 1.2 - Créer les différents Vlan nécessaires
+### 1.2 - Créer les différents VLANS nécessaires
 
 `vlan [numéro du port]` puis `name [nom_du_VLAN]`
 
-## 1.3 - Attribuer des ports aux VLANS
+### 1.3 - Attribution des ports aux VLANS
+
 ```
 interface [numéro du port]
 switchport mode access/trunk
 Switchport access vlan [numéro de vlan]
 ```
-## 1.4 - Création d'un utilisateur
+
+### 1.4 - Création d'un utilisateur
 
 `username [admin] privilege 15 secret [password]`
 
-## 1.5 - Activation du ssh
+### 1.5 - Mise en place du SSH
 
-Et nous activons les interfaces avec la commande 
+Et nous activons les interfaces avec la commande
+
 ```
 ip domain name cha.chartres.sportludique.local
 ip ssh version 2
@@ -36,52 +37,60 @@ login local
 transport input ssh
 write memory
 ```
-## 1.6 - Modification du switch après la mise en place du Pare-Feu
 
-On a ajouté le VLAN 223.
+### 1.6 - Modification du switch après la mise en place du Pare-Feu
 
-Le port WAN est en mode access.
+Nous avons ajouté le VLAN 223 qui sera la DMZ.
+
+Le port WAN (fa0/3) est en mode access.
 
 Le port LAN est en trunk pour faire passer les VLAN Mana et LAN.
 
+Nous mettons en place deux nouveaux réseaux d'interconnexion :
+- le réseau d'interconnexion WAN, qui nous permettra de sortir sur Internet ;
+- le réseau d'interconnexion LAN, qui nous permettra de séparer le LAN et le WAN.
+
 Nous avons donc mis en place la nouvelle route par défaut, qui est la suivante : 0.0.0.0 0.0.0.0 192.168.223.254 ; elle va nous permettre de rediriger tous les paquets vers le pare-feu.
 
-Exemple : je veux sortir sur Internet en étant dans le VLAN Serveurs pour faire des requêtes HTTPS sur Internet.
+Exemple : je veux faire une recherche sur Internet, mon paquet passera par l'interconnexion LAN, et ensuite le pare-feu s'occupera de le distribuer à l'interconnexion WAN qui enverra le paquet sur internet
 
-<br>
+### 1.7 - Configuration intégrale du SW-CHA
 
-# <font color= 'red'> 2 - Configuration Routeur </font>
+## <font color= 'red'> 2 - Configuration Routeur </font>
 
-## 2.1 - Mise en place du NAT
+### 2.1 - Mise en place du NAT
 
-Interface du VLAN 120 `interface gig0/0.120` avec l'adresse ip `10.28.2.253 255.255.255.0` 
+Sur chaque routeur, nous mettons en place l'interface interne (LAN), qui comportera deux interfaces virtuelles :
 
-Interface du VLAN 222 `ip address 192.168.222.254 255.255.255.0` et `ip nat inside` avec `l'encapsulation dot1Q`
-Configuration
-Interface WAN `ip address 221.87.128.1 255.255.255.252` et `ip nat outside`
+- Interface du VLAN 120 `interface gig0/0.120` avec l'adresse IP `10.28.2.253 255.255.255.0` 
 
-`no shutdown`
+- Interface du VLAN 222 `ip address 192.168.222.254 255.255.255.0` et `ip nat inside` avec `l'encapsulation dot1Q`
 
-Route par défaut : `ip route 0.0.0.0 0.0.0.0 221.87.128.2`
+Et nous aurons l'interface externe (WAN) :
+```
+ip address 221.87.128.1 255.255.255.252
+ip nat outside
+no shutdown
+```
 
-On mets une acess-list pour avoir internet sur tous les réseaux sauf Mana `access-list 1 permit 172.28.160.0 0.0.31.255`
+Route par défaut : `ip route 0.0.0.0 0.0.0.0 221.87.128.2` - elle nous donnera l'accès à Internet.
 
-## 2.2 - Mise en place internet sur les vlans
+### 2.2 - Mise en place de l'accès internet sur les vlans
 
-On mets la route par défaut pour le switch : `0.0.0.0 0.0.0.0 192.168.222.254`
+On met la route par défaut pour le switch : `0.0.0.0 0.0.0.0 192.168.222.254`
 
-On mets la route sur le routeur pour qu'il connaisse le VLAN 221: `172.28.161.0 255.255.255.0 192.168.222.1`
+On met la route sur le routeur pour qu'il connaisse le VLAN 221: `172.28.161.0 255.255.255.0 192.168.222.1`
 
-## 2.3 - Redirection de port vers la DMZ
+### 2.3 - Redirection de port vers la DMZ
 
 Pour nous permettre d'accéder au serveur DNS depuis l'extérieur, nous avons paramétré une redirection de port avec la commande ci-dessous :
 `ip nat inside source static udp 192.168.224.1 53 interface 221.87.128.1 53`
 
-## 2.4 - Mise en place du 2eme Routeur
+### 2.4 - Mise en place du 2eme Routeur
 
-On met un deuxieme routeur pour assurer la disponibilité
+On met en place R2-CHA, pour assurer la haute disponibilité.
 
-On copie la conf du premier routeur sur le deuxieme
+Nous pouvons réutilisé la précédente configuration, en changeant les IP.
 
 On config HSRP sur les 2 routeurs
 
@@ -99,42 +108,43 @@ R2:
  standby 1 preempt
 ```
 
-## 2.5 - Mise en place de la redirection de port pour un accès depuis l'extérieur aux services de la DMZ
+### 2.5 - Mise en place de la redirection de port pour un accès depuis l'extérieur aux services de la DMZ
 
 Pour commencer, nous configurons la redirection vers le site web de la DMZ
 
 CHA-WEB - 192.168.224.3
 
-On rentre les commandes suivantes :
+Nous entrons les commandes suivantes :
+
 ```
 enable
 configure terminal
- 
 ip nat inside source static tcp 192.168.224.3 80 interface GigabitEthernet0/1 80
- 
 ip nat inside source static tcp 192.168.224.3 443 interface GigabitEthernet0/1 443
- 
 end
 write memory
 ```
-Le port GigabitEthernet0/1 est notre interface WAN, qui va donc ensuite rediriger les requêtes avec les protocoles 80 (HTTP) et 443 (HTTPS) vers notre serveur Web.<br>
+Le port GigabitEthernet0/1 est notre interface WAN, ce qui va permettre de rediriger toutes les requêtes HTTP, HTTPS vers CHA-WEB.
 
-# <font color= 'red'> 3 - Configuration de firewall </font>
+## <font color= 'red'> 3 - Configuration de firewall </font>
 
-## 3.1 - Mise a jour du firewall
+### 3.1 - Mise a jour du firewall
 
-Mettre une date en 2025.
-Redémarrer le firewall.
-Installation de la licence.
-Installation de la mise à jour via son fichier.
+Pour mettre le firewall à jour, il faut respecter ses étapes dans l'ordre :
+
+- Mettre une date en 2025;
+- redémarrer le firewall;
+- installation de la licence;
+- installation de la mise à jour via son fichier.
+
 Après toutes ces étapes, définir l'heure du firewall avec le NTP.
 
-## 3.2 - Mise en place des sous-interfaces
 
-Nous avons mis en place des interfaces virtuelles sur le notre firewall.
+### 3.2 - Mise en place des sous-interfaces
+
 Nous désactivons l'interface « in » (interface physique) pour ensuite mettre en place les interfaces virtuelles, MANA puis LAN.
 
-## 3.3 - Mise en place des routes
+### 3.3 - Mise en place des routes
 
 Nous avons mis en place la route permettant au pare-feu de renvoyer les paquets à tous les VLAN du réseau.
 ```
@@ -143,28 +153,26 @@ Interface : lan
 Plan adressage : 172.28.160.0/19
 Passerelle : Pass-Serveur (192.168.223.1)
 ```
-## 3.4 - Filtre et NAT
+### 3.4 - Filtre et NAT
 
-Nous avons mis le pare-feu en « pass all » pour finaliser la configuration ; ainsi, nous pourrons réactiver la règle « block all » après la fin de la configuration.
+Nous avons, pour le moment, sélectionné le profil « block all » pour finaliser la configuration du réseau ; nous mettrons en place le filtrage dans un second temps.
 
-<br>
+## <font color= 'red'> 4 - Mise en place des serveurs </font>
 
-# <font color= 'red'> 4 - Mise en place des serveurs </font>
+### 4.1 - Installation du CHA-DC1 & CHA-GUI1
 
+CHA-DC1 sera l'Active Directory - 172.28.160.1/24
+CHA-GUI1 sera le serveur d'administration - 172.28.160.2/24
 
-## 4.1 - Installation du DC1 & GUI1
+Pour les ressources alloués pour les VMs, nous serons sur 2 coeurs - 4go de RAM, elles sont déployer via un serveur PROXMOX.
 
-Le DC1 sera en mode core et le gui sera une interface graphique.
-
-Pour la création des VMs les ressources sont les mêmes : 2 coeurs, 4go de RAM.
-
-Nous les avons mis sur deux noeuds différents pour éviter la surcharge sur un seule noeud.
-
-
-CHA-DC1 : 172.28.160.1/24
-CHA-GUI1 : 172.28.160.2/24
+Nous avons mis les VMs sur deux noeuds différents pour répartir les ressources alloués sur les différents noeuds.
 
 On renomme les deux serveurs et on configure l'adressage réseau avant d'installer le rôle AD sur le CHA-DC1.
+
+### 4.2 - Configuration du rôle AD 
+
+Le rôle AD sera mis en place en amont sur CHA-DC1.
 
 Installation du rôle AD : 
 ```
