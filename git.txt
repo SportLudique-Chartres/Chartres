@@ -3,7 +3,7 @@ cd lieux du document
 source venv/bin/activate
 git pull origin main
 
-
+python3 -m pip install mkdocs-shadcn
 python -m mkdocs serve
 
 git add .

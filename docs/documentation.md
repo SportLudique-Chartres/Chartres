@@ -54,6 +54,43 @@ Nous avons donc mis en place la nouvelle route par défaut, qui est la suivante 
 
 Exemple : je veux faire une recherche sur Internet, mon paquet passera par l'interconnexion LAN, et ensuite le pare-feu s'occupera de le distribuer à l'interconnexion WAN qui enverra le paquet sur internet
 
+### Problème LACP
+
+Nous souhaitions accéder à l'interface de management du serveur CHA-GUI1, le switch désactiver directement un port, nous ne pouvions pas accéder au serveur CHA-GUI1 via la VLAN Mana.
+
+Lorsque nous avons établi le raccordement, nous avons constaté sur le switch Cisco que le port se désactivait ; nous avons conclu que le protocole Spanning Tree le désactivait à cause d'une potentielle boucle sur le réseau.
+
+Nous avons désactivé temporairement le protocole Spanning Tree pour nous permettre de connaître l'origine de la boucle ou, à défaut, de voir si une boucle est bien présente.
+
+Il s'est avéré qu'aucune boucle n'était présente sur notre réseau ; nous avons désactivé Spanning Tree et tout fonctionnait correctement.
+
+Après deux longues heures de recherche minutieuse, nous avons trouvé une solution : la mise en place du protocole EtherChannel LACP avec les ports Gig1/0/23 et Gig1/0/24, qui transporteront uniquement les VLAN 120 et 220.
+
+```
+conf t
+
+interface range GigabitEthernet1/0/23-24
+ description LACP-ETHERCHANNEL
+ switchport mode trunk
+ switchport trunk allowed vlan 120,220
+ channel-group 1 mode active
+ no shutdown
+ exit
+
+interface Port-channel1
+ description LACP-TRUNK
+ switchport mode trunk
+ switchport trunk allowed vlan 120,220
+ no shutdown
+ exit
+
+end
+write memory
+```
+Pour ensuite tester que notre solution fonctionne bien, nous avons remis en place le protocole Spanning Tree et nous avons testé l'accès au serveur CHA-GUI1 via son interface de Mana et le test fut un succès.
+
+Nous supposons que l'erreur vient d'une mauvaise réinitialisation du switch.
+
 ### 1.7 - Configuration intégrale du SW-CHA
 
 ## <font color= 'red'> 2 - Configuration Routeur </font>
@@ -161,14 +198,15 @@ Nous avons, pour le moment, sélectionné le profil « block all » pour finalis
 
 ### 4.1 - Installation du CHA-DC1 & CHA-GUI1
 
-CHA-DC1 sera l'Active Directory - 172.28.160.1/24
-CHA-GUI1 sera le serveur d'administration - 172.28.160.2/24
+CHA-DC1 sera l'Active Directory : 172.28.160.1/24.
 
-Pour les ressources alloués pour les VMs, nous serons sur 2 coeurs - 4go de RAM, elles sont déployer via un serveur PROXMOX.
+CHA-GUI1 sera le serveur d'administration : 172.28.160.2/24.
 
-Nous avons mis les VMs sur deux noeuds différents pour répartir les ressources alloués sur les différents noeuds.
+Pour les ressources allouées aux VM, nous serons sur 2 cœurs et 4 Go de RAM, elles sont déployées via un serveur Proxmox.
 
-On renomme les deux serveurs et on configure l'adressage réseau avant d'installer le rôle AD sur le CHA-DC1.
+Nous avons mis les VM sur deux nœuds différents pour répartir les ressources allouées sur les différents nœuds.
+
+On renomme les deux serveurs et on configure les interfaces réseau avant d'installer le rôle AD sur le serveur CHA-DC1.
 
 ### 4.2 - Configuration du rôle AD 
 
@@ -179,76 +217,44 @@ Installation du rôle AD :
 Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
 Install-ADDSForest -DomainName "cha.chartres.sportludique.fr" -DomainNetbiosName "CHA" -InstallDNS
 ```
-Nous ajoutons un serveur local à gérer sur le serveur CHA-GUI1 et on ajoute CHA-DC1 à gérer.
 
-Des instatanées doivent être pris régulièrement pour nous permettre un retour en arrière.
+Ainsi, nous pourrons administrer ce serveur avec le serveur CHA-GUI1.
 
-## 4.2 - Configuration de GUI1
+### 4.2 - Configuration de GUI1
 
-Nous avons mis le GUI1 dans le VLAN serveur, puis dans le domaine.
 
-On a ajouté une carte réseau pour l'administrer depuis le VLAN Mana.
+Nous mettons en place CHA-GUI1, un Windows Server 2022 sous interface graphique, qui va nous permettre d'administrer CHA-DC1 avec une interface graphique.
 
-Le serveur CHA-GUI1 a donc deux cartes réseau, soit une attribuée au VLAN Serveurs pour communiquer avec CHA-DC1 et la deuxième attribuée sur le VLAN Mana pour la manager.
+Nous aurons la configuration suivante : 
 
-### Probleme
+Carte réseau 1 -> VLAN SERVEURS -> 172.28.160.2/24
+Carte réseau 2 -> VLAN MANA -> 10.28.2.1
 
-Nous souhaitions accéder à l'interface de management du serveur CHA-GUI1, le switch désactiver directement un port, nous ne pouvions pas accéder au serveur CHA-GUI1 via la VLAN Mana.
+De suite, nous pourrons être dans le réseau de MANA, qui est isolé.
 
-Lorsque nous avons établi le raccordement, nous avons constaté sur le switch Cisco que le port se désactivait ; nous avons conclu que le protocole Spanning Tree le désactivait à cause d'une potentielle boucle sur le réseau.
 
-Nous avons désactivé temporairement le protocole Spanning Tree pour nous permettre de connaître l'origine de la boucle ou, à défaut, de voir si une boucle est bien présente.
+## <font color= 'red'> 5 - Mise en place du DNS PUBLIC - DMZ </font>
 
-Il s'est avéré qu'aucune boucle n'était présente sur notre réseau ; nous avons désactivé Spanning Tree et tout fonctionnait correctement.
+### 5.1 - Création de la VM
 
-Après deux longues heures de recherche minutieuse, nous avons trouvé une solution : la mise en place du protocole EtherChannel LACP avec les ports Gig1/0/23 et Gig1/0/24, qui transporteront uniquement les VLAN 120 et 220.
+Nous allons déployer un DNS externe, CHA-DNS2, qui permettra aux utilisateurs d'accéder aux services publics (DMZ). Nous allons le mettre en place sous une VM Debian.
 
-```
-conf t
+Nous utilisons le logiciel BIND9, un logiciel de serveur DNS qui est open source et qui est le plus utilisé au monde.
 
-interface range GigabitEthernet1/0/23-24
- description LACP-ETHERCHANNEL
- switchport mode trunk
- switchport trunk allowed vlan 120,220
- channel-group 1 mode active
- no shutdown
- exit
+La configuration réseau sera la suivante :
 
-interface Port-channel1
- description LACP-TRUNK
- switchport mode trunk
- switchport trunk allowed vlan 120,220
- no shutdown
- exit
-
-end
-write memory
-```
-Pour ensuite tester que notre solution fonctionne bien, nous avons remis en place le protocole Spanning Tree et nous avons testé l'accès au serveur CHA-GUI1 via son interface de Mana et le test fut un succès.
-
-Nous supposons que l'erreur vient d'une mauvaise réinitialisation du switch.
-
-# <font color= 'red'> 5 - Mise en place du DNS PUBLIC - DMZ </font>
-
-## 5.1 - Création de la VM
-
-Nous avons créer une machine virtuelle sous linux.
-
-Pour la mise en place de notre DNS PUBLIC, nous avons décidé d'utiliser BIND9.
-
-Pour se faire, nous aurons notre serveur DNS CHA-DNS2 en 192.168.224.1/24.
+Carte réseau 1 -> VLAN DMZ -> 192.168.224.1/24
+Carte réseau 2 -> VLAN MANA -> 10.28.2.2/24
 
 Nous installons ensuite BIND9 :
 ```
 sudo apt update
 sudo apt install bind9 bind9-utils dnsutils
 ```
-## 5.2 - Configurer BIND comme DNS autoritatif uniquement
 
-On édite :
-```
-sudo nano /etc/bind/named.conf.options
-```
+### 5.2 - Configurer BIND comme DNS autoritatif uniquement
+
+On édite le fichier suivant : `sudo nano /etc/bind/named.conf.options`
 
 Puis on insère le fichier de configuration suivant :
 ```
@@ -273,7 +279,8 @@ options {
         dnssec-validation auto;
 };
 ```
-## 5.3 - Création de la zone chartres.sportludique.fr
+
+### 5.3 - Création de la zone chartres.sportludique.fr
 
 On crée le fichier de configuration pour créer la zone : `sudo nano /etc/bind/zones/db.chartres.sportludique.fr`
 

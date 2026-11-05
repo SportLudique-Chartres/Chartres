@@ -1,11 +1,24 @@
 site_name: Sport-Ludique Chartres 
+site_description: Portail informatique de la DSI de Chartres
 
 nav:
   - Accueil: index.md
   - Documentation: documentation.md
   - Annexes: annexes.md
-theme: shadcn
+  
+theme: 
+  name: shadcn
+  icon: img/logo.png
+  show_title: true
 
 markdown_extensions:
   - fenced_code
   - codehilite
+
+extra_css:
+  - assets/css/toc.css
+  - stylesheets/accueil.css
+
+extra_javascript:
+  - assets/js/toc.js
+
