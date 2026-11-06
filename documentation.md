@@ -289,11 +289,11 @@ Ensuite, nous le configurons de la manière suivante :
 $TTL 3600
 
 @   IN SOA ns.chartres.sportludique.fr. admin.chartres.sportludique.fr. (
-        2026101301
-        3600
-        900
-        604800
-        3600
+2026101301
+3600
+900
+604800
+3600
 )
 
 @            IN NS      ns.chartres.sportludique.fr.
@@ -305,14 +305,14 @@ www          IN A       221.87.128.1
 ```
 Nous devons par la suite ajouter la redirection de port sur le routeur, pour permettre aux utilisateurs en dehors du LAN d'y accéder (voir 2.3).
 
-Après avoir réaliser toutes ces étapes, nous pouvons donc tester l'accès depuis l'extérieur avec la commande suivantes : `dig 221.87.128.1 www.chartres.sportludique.fr`
+Après avoir réalisé toutes ces étapes, nous pouvons donc tester l'accès depuis l'extérieur avec la commande suivante : `dig 221.87.128.1 www.chartres.sportludique.fr`
 
 Et nous devons le résultat suivant :
 ```
 administrateur@CHA-DNS2:/etc/bind/zones$ dig @121.183.90.205 www.chartres.sportludique.fr A 
 ;; communications error to 121.183.90.205#53: timed out 
  
-; <<>> DiG 9.20.29-1~deb13u1-Debian <<>> @121.183.90.205 www.chartres.sportludique.fr A 
+; > DiG 9.20.29-1~deb13u1-Debian > @121.183.90.205 www.chartres.sportludique.fr A 
 ; (1 server found) 
 ;; global options: +cmd 
 ;; Got answer: 
@@ -332,10 +332,9 @@ www.chartres.sportludique.fr. 3600 IN   A       221.87.128.1
 ;; WHEN: Tue Oct 13 15:54:28 CEST 2026 
 ;; MSG SIZE  rcvd: 73
 ```
-depuis
 
-# <font color= 'red'> 6) Mise en place du DNS Interne </font>
 
+## 6 - Mise en place du DNS interne
 
 Pour ce faire, nous avons créé une machine virtuelle sous Windows Server 2022 (Core).
 
@@ -346,15 +345,15 @@ Nous avons installé le service DNS sur le serveur CHA-DNS1 ainsi que les outils
 Ensuite, nous avons créé la zone principale avec le nom `chartres.sportludique.fr`
 
 Nous avons mis en place les enregistrements DNS vers la DMZ pour les serveurs DNS, mail et web.
-Et nous avons aussi mis le redirecteur pour accéder à Internet depuis les différents VLAN en utilisant le serveur DNS interne.
+Enfin, nous avons aussi configuré le redirecteur pour accéder à Internet depuis les différents VLAN en utilisant le serveur DNS interne.
 
-# <font color= 'red'> 7 - Mise en place du service web dans la DMZ </font>
+## 7 - Mise en place du service web dans la DMZ 
 
-Nous avons mis en place une vm linux qui servaura le rôle de serveur web.
+Nous avons mis en place une VM Linux qui servira le rôle de serveur web.
 
-Nous avons pu configurer les différents fichier de configuration.
+Nous avons pu configurer les différents fichiers de configuration.
 
-## 7.1 - Nous créeons le contenu du site
+### 7.1 - Nous créons le contenu du site
 
 ```
 sudo install -d -m 755 /var/www/sportludique-public
@@ -363,11 +362,11 @@ sudo nano /var/www/sportludique-public/index.html
 
 Et nous configurons la première page du site avec du contenu.
 
-## 7.2 - Définir le premier VirtualHost
+### 7.2 - Définir le premier VirtualHost
 
-Créer le fichier `/etc/apache2/sites-available/sportludique-public.conf`
+Créez le fichier `/etc/apache2/sites-available/sportludique-public.conf`
 
-Puis insérer le contenu suivant :
+Puis insérez le contenu suivant :
 
 ```
 <VirtualHost *:80>
@@ -385,7 +384,7 @@ Puis insérer le contenu suivant :
 </VirtualHost>
 ```
 
-## 7.3 - On active le site et on contrôle la syntaxe
+### 7.3 - On active le site et on contrôle la syntaxe
 
 ```
 sudo a2ensite sportludique-public.conf
@@ -399,6 +398,6 @@ sudo systemctl reload apache2
 sudo apache2ctl -S
 ```
 
-## 7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)
+### 7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)
 
-# <font color= 'red'> 8 - Mise en place du serveur web et de ses certificats </font>
+## <font color= 'red'> 8 - Mise en place du serveur web et de ses certificats </font>
