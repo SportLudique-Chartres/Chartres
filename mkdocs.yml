@@ -8,7 +8,7 @@ nav:
   
 theme: 
   name: shadcn
-  icon: img/logo.png
+  icon: favicon.ico
   show_title: true
 
 markdown_extensions:

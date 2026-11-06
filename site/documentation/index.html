@@ -393,31 +393,31 @@
     <h2 id="1-configuration-du-switch"><font color= 'red'> 1 - Configuration du switch </font></h2>
 <p>Réinitialisation du switch <code>erase config-startup</code>, cette commande supprime toute la configuration précédente.</p>
 <h3 id="11-renommage-du-switch">1.1 - Renommage du switch</h3>
-<pre class="codehilite"><code> enable
+<div class="codehilite"><pre><span></span><code> enable
  configure terminal
  hostname ‘nom du switch'
-</code></pre>
+</code></pre></div>
 
 <h3 id="12-creer-les-differents-vlans-necessaires">1.2 - Créer les différents VLANS nécessaires</h3>
 <p><code>vlan [numéro du port]</code> puis <code>name [nom_du_VLAN]</code></p>
 <h3 id="13-attribution-des-ports-aux-vlans">1.3 - Attribution des ports aux VLANS</h3>
-<pre class="codehilite"><code>interface [numéro du port]
+<div class="codehilite"><pre><span></span><code>interface [numéro du port]
 switchport mode access/trunk
 Switchport access vlan [numéro de vlan]
-</code></pre>
+</code></pre></div>
 
 <h3 id="14-creation-dun-utilisateur">1.4 - Création d'un utilisateur</h3>
 <p><code>username [admin] privilege 15 secret [password]</code></p>
 <h3 id="15-mise-en-place-du-ssh">1.5 - Mise en place du SSH</h3>
 <p>Et nous activons les interfaces avec la commande</p>
-<pre class="codehilite"><code>ip domain name cha.chartres.sportludique.local
+<div class="codehilite"><pre><span></span><code>ip domain name cha.chartres.sportludique.local
 ip ssh version 2
 crypto key generate-keys modulus 1024
 line vty 0 4
 login local
 transport input ssh
 write memory
-</code></pre>
+</code></pre></div>
 
 <h3 id="16-modification-du-switch-apres-la-mise-en-place-du-pare-feu">1.6 - Modification du switch après la mise en place du Pare-Feu</h3>
 <p>Nous avons ajouté le VLAN 223 qui sera la DMZ.</p>
@@ -434,26 +434,26 @@ write memory
 <p>Nous avons désactivé temporairement le protocole Spanning Tree pour nous permettre de connaître l'origine de la boucle ou, à défaut, de voir si une boucle est bien présente.</p>
 <p>Il s'est avéré qu'aucune boucle n'était présente sur notre réseau ; nous avons désactivé Spanning Tree et tout fonctionnait correctement.</p>
 <p>Après deux longues heures de recherche minutieuse, nous avons trouvé une solution : la mise en place du protocole EtherChannel LACP avec les ports Gig1/0/23 et Gig1/0/24, qui transporteront uniquement les VLAN 120 et 220.</p>
-<pre class="codehilite"><code>conf t
+<div class="codehilite"><pre><span></span><code><span class="nv">conf</span><span class="w"> </span><span class="nv">t</span>
 
-interface range GigabitEthernet1/0/23-24
- description LACP-ETHERCHANNEL
- switchport mode trunk
- switchport trunk allowed vlan 120,220
- channel-group 1 mode active
- no shutdown
- exit
+<span class="nv">interface</span><span class="w"> </span><span class="nv">range</span><span class="w"> </span><span class="nv">GigabitEthernet1</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mi">23</span><span class="o">-</span><span class="mi">24</span>
+<span class="w"> </span><span class="nv">description</span><span class="w"> </span><span class="nv">LACP</span><span class="o">-</span><span class="nv">ETHERCHANNEL</span>
+<span class="w"> </span><span class="nv">switchport</span><span class="w"> </span><span class="nv">mode</span><span class="w"> </span><span class="nv">trunk</span>
+<span class="w"> </span><span class="nv">switchport</span><span class="w"> </span><span class="nv">trunk</span><span class="w"> </span><span class="nv">allowed</span><span class="w"> </span><span class="nv">vlan</span><span class="w"> </span><span class="mi">120</span>,<span class="mi">220</span>
+<span class="w"> </span><span class="nv">channel</span><span class="o">-</span><span class="nv">group</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nv">mode</span><span class="w"> </span><span class="nv">active</span>
+<span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">shutdown</span>
+<span class="w"> </span><span class="k">exit</span>
 
-interface Port-channel1
- description LACP-TRUNK
- switchport mode trunk
- switchport trunk allowed vlan 120,220
- no shutdown
- exit
+<span class="nv">interface</span><span class="w"> </span><span class="nv">Port</span><span class="o">-</span><span class="nv">channel1</span>
+<span class="w"> </span><span class="nv">description</span><span class="w"> </span><span class="nv">LACP</span><span class="o">-</span><span class="nv">TRUNK</span>
+<span class="w"> </span><span class="nv">switchport</span><span class="w"> </span><span class="nv">mode</span><span class="w"> </span><span class="nv">trunk</span>
+<span class="w"> </span><span class="nv">switchport</span><span class="w"> </span><span class="nv">trunk</span><span class="w"> </span><span class="nv">allowed</span><span class="w"> </span><span class="nv">vlan</span><span class="w"> </span><span class="mi">120</span>,<span class="mi">220</span>
+<span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">shutdown</span>
+<span class="w"> </span><span class="k">exit</span>
 
-end
-write memory
-</code></pre>
+<span class="k">end</span>
+<span class="nv">write</span><span class="w"> </span><span class="nv">memory</span>
+</code></pre></div>
 
 <p>Pour ensuite tester que notre solution fonctionne bien, nous avons remis en place le protocole Spanning Tree et nous avons testé l'accès au serveur CHA-GUI1 via son interface de Mana et le test fut un succès.</p>
 <p>Nous supposons que l'erreur vient d'une mauvaise réinitialisation du switch.</p>
@@ -470,10 +470,10 @@ write memory
 </li>
 </ul>
 <p>Et nous aurons l'interface externe (WAN) :</p>
-<pre class="codehilite"><code>ip address 221.87.128.1 255.255.255.252
-ip nat outside
-no shutdown
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="nx">ip</span><span class="w"> </span><span class="nx">address</span><span class="w"> </span><span class="m m-Double">221.87.128.1</span><span class="w"> </span><span class="m m-Double">255.255.255.252</span>
+<span class="nx">ip</span><span class="w"> </span><span class="nx">nat</span><span class="w"> </span><span class="nx">outside</span>
+<span class="nx">no</span><span class="w"> </span><span class="nx">shutdown</span>
+</code></pre></div>
 
 <p>Route par défaut : <code>ip route 0.0.0.0 0.0.0.0 221.87.128.2</code> - elle nous donnera l'accès à Internet.</p>
 <h3 id="22-mise-en-place-de-lacces-internet-sur-les-vlans">2.2 - Mise en place de l'accès internet sur les vlans</h3>
@@ -487,28 +487,28 @@ no shutdown
 <p>Nous pouvons réutilisé la précédente configuration, en changeant les IP.</p>
 <p>On config HSRP sur les 2 routeurs</p>
 <p>R1:</p>
-<pre class="codehilite"><code> standby 1 ip 192.168.222.253
+<div class="codehilite"><pre><span></span><code> standby 1 ip 192.168.222.253
  standby 1 priority 110
  standby 1 preempt
-</code></pre>
+</code></pre></div>
 
 <p>R2:</p>
-<pre class="codehilite"><code> standby 1 ip 192.168.222.252
+<div class="codehilite"><pre><span></span><code> standby 1 ip 192.168.222.252
  standby 1 priority 100
  standby 1 preempt
-</code></pre>
+</code></pre></div>
 
 <h3 id="25-mise-en-place-de-la-redirection-de-port-pour-un-acces-depuis-lexterieur-aux-services-de-la-dmz">2.5 - Mise en place de la redirection de port pour un accès depuis l'extérieur aux services de la DMZ</h3>
 <p>Pour commencer, nous configurons la redirection vers le site web de la DMZ</p>
 <p>CHA-WEB - 192.168.224.3</p>
 <p>Nous entrons les commandes suivantes :</p>
-<pre class="codehilite"><code>enable
-configure terminal
-ip nat inside source static tcp 192.168.224.3 80 interface GigabitEthernet0/1 80
-ip nat inside source static tcp 192.168.224.3 443 interface GigabitEthernet0/1 443
-end
-write memory
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="nv">enable</span>
+<span class="nv">configure</span><span class="w"> </span><span class="nv">terminal</span>
+<span class="nv">ip</span><span class="w"> </span><span class="nv">nat</span><span class="w"> </span><span class="nv">inside</span><span class="w"> </span><span class="nv">source</span><span class="w"> </span><span class="nv">static</span><span class="w"> </span><span class="nv">tcp</span><span class="w"> </span><span class="mi">192</span>.<span class="mi">168</span>.<span class="mi">224</span>.<span class="mi">3</span><span class="w"> </span><span class="mi">80</span><span class="w"> </span><span class="nv">interface</span><span class="w"> </span><span class="nv">GigabitEthernet0</span><span class="o">/</span><span class="mi">1</span><span class="w"> </span><span class="mi">80</span>
+<span class="nv">ip</span><span class="w"> </span><span class="nv">nat</span><span class="w"> </span><span class="nv">inside</span><span class="w"> </span><span class="nv">source</span><span class="w"> </span><span class="nv">static</span><span class="w"> </span><span class="nv">tcp</span><span class="w"> </span><span class="mi">192</span>.<span class="mi">168</span>.<span class="mi">224</span>.<span class="mi">3</span><span class="w"> </span><span class="mi">443</span><span class="w"> </span><span class="nv">interface</span><span class="w"> </span><span class="nv">GigabitEthernet0</span><span class="o">/</span><span class="mi">1</span><span class="w"> </span><span class="mi">443</span>
+<span class="k">end</span>
+<span class="nv">write</span><span class="w"> </span><span class="nv">memory</span>
+</code></pre></div>
 
 <p>Le port GigabitEthernet0/1 est notre interface WAN, ce qui va permettre de rediriger toutes les requêtes HTTP, HTTPS vers CHA-WEB.</p>
 <h2 id="3-configuration-de-firewall"><font color= 'red'> 3 - Configuration de firewall </font></h2>
@@ -525,11 +525,11 @@ write memory
 <p>Nous désactivons l'interface « in » (interface physique) pour ensuite mettre en place les interfaces virtuelles, MANA puis LAN.</p>
 <h3 id="33-mise-en-place-des-routes">3.3 - Mise en place des routes</h3>
 <p>Nous avons mis en place la route permettant au pare-feu de renvoyer les paquets à tous les VLAN du réseau.</p>
-<pre class="codehilite"><code>Dest : VLAN-INTERNE
+<div class="codehilite"><pre><span></span><code>Dest : VLAN-INTERNE
 Interface : lan
 Plan adressage : 172.28.160.0/19
 Passerelle : Pass-Serveur (192.168.223.1)
-</code></pre>
+</code></pre></div>
 
 <h3 id="34-filtre-et-nat">3.4 - Filtre et NAT</h3>
 <p>Nous avons, pour le moment, sélectionné le profil « block all » pour finaliser la configuration du réseau ; nous mettrons en place le filtrage dans un second temps.</p>
@@ -543,9 +543,9 @@ Passerelle : Pass-Serveur (192.168.223.1)
 <h3 id="42-configuration-du-role-ad">4.2 - Configuration du rôle AD</h3>
 <p>Le rôle AD sera mis en place en amont sur CHA-DC1.</p>
 <p>Installation du rôle AD : </p>
-<pre class="codehilite"><code>Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
-Install-ADDSForest -DomainName &quot;cha.chartres.sportludique.fr&quot; -DomainNetbiosName &quot;CHA&quot; -InstallDNS
-</code></pre>
+<div class="codehilite"><pre><span></span><code>Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
+Install-ADDSForest -DomainName "cha.chartres.sportludique.fr" -DomainNetbiosName "CHA" -InstallDNS
+</code></pre></div>
 
 <p>Ainsi, nous pourrons administrer ce serveur avec le serveur CHA-GUI1.</p>
 <h3 id="42-configuration-de-gui1">4.2 - Configuration de GUI1</h3>
@@ -562,46 +562,46 @@ Carte réseau 2 -&gt; VLAN MANA -&gt; 10.28.2.1</p>
 <p>Carte réseau 1 -&gt; VLAN DMZ -&gt; 192.168.224.1/24
 Carte réseau 2 -&gt; VLAN MANA -&gt; 10.28.2.2/24</p>
 <p>Nous installons ensuite BIND9 :</p>
-<pre class="codehilite"><code>sudo apt update
+<div class="codehilite"><pre><span></span><code>sudo apt update
 sudo apt install bind9 bind9-utils dnsutils
-</code></pre>
+</code></pre></div>
 
 <h3 id="52-configurer-bind-comme-dns-autoritatif-uniquement">5.2 - Configurer BIND comme DNS autoritatif uniquement</h3>
 <p>On édite le fichier suivant : <code>sudo nano /etc/bind/named.conf.options</code></p>
 <p>Puis on insère le fichier de configuration suivant :</p>
-<pre class="codehilite"><code>options {
-        directory &quot;/var/cache/bind&quot;;
+<div class="codehilite"><pre><span></span><code><span class="n">options</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">directory</span><span class="w"> </span><span class="s2">"/var/cache/bind"</span><span class="p">;</span>
 
-        listen-on {
-            127.0.0.1; 
-            192.168.224.1; 
-};
-        listen-on-v6 { none; };
+<span class="w">        </span><span class="n">listen</span><span class="o">-</span><span class="n">on</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">;</span><span class="w"> </span>
+<span class="w">            </span><span class="mf">192.168</span><span class="o">.</span><span class="mf">224.1</span><span class="p">;</span><span class="w"> </span>
+<span class="p">};</span>
+<span class="w">        </span><span class="n">listen</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">v6</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">none</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
 
-        recursion no;
+<span class="w">        </span><span class="n">recursion</span><span class="w"> </span><span class="n">no</span><span class="p">;</span>
 
-        allow-query { any; };
-        allow-recursion { none; };
+<span class="w">        </span><span class="n">allow</span><span class="o">-</span><span class="n">query</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">any</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
+<span class="w">        </span><span class="n">allow</span><span class="o">-</span><span class="n">recursion</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">none</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
 
-        allow-transfer { none; };
+<span class="w">        </span><span class="n">allow</span><span class="o">-</span><span class="n">transfer</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">none</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
 
-        version &quot;not disclosed&quot;;
+<span class="w">        </span><span class="n">version</span><span class="w"> </span><span class="s2">"not disclosed"</span><span class="p">;</span>
 
-        dnssec-validation auto;
-};
-</code></pre>
+<span class="w">        </span><span class="n">dnssec</span><span class="o">-</span><span class="n">validation</span><span class="w"> </span><span class="n">auto</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
 
 <h3 id="53-creation-de-la-zone-chartressportludiquefr">5.3 - Création de la zone chartres.sportludique.fr</h3>
 <p>On crée le fichier de configuration pour créer la zone : <code>sudo nano /etc/bind/zones/db.chartres.sportludique.fr</code></p>
 <p>Ensuite, nous le configurons de la manière suivante :</p>
-<pre class="codehilite"><code>$TTL 3600
+<div class="codehilite"><pre><span></span><code>$TTL 3600
 
 @   IN SOA ns.chartres.sportludique.fr. admin.chartres.sportludique.fr. (
-        2026101301
-        3600
-        900
-        604800
-        3600
+2026101301
+3600
+900
+604800
+3600
 )
 
 @            IN NS      ns.chartres.sportludique.fr.
@@ -610,82 +610,81 @@ ns           IN A       221.87.128.1
 
 @            IN A       221.87.128.1
 www          IN A       221.87.128.1
-</code></pre>
+</code></pre></div>
 
 <p>Nous devons par la suite ajouter la redirection de port sur le routeur, pour permettre aux utilisateurs en dehors du LAN d'y accéder (voir 2.3).</p>
-<p>Après avoir réaliser toutes ces étapes, nous pouvons donc tester l'accès depuis l'extérieur avec la commande suivantes : <code>dig 221.87.128.1 www.chartres.sportludique.fr</code></p>
+<p>Après avoir réalisé toutes ces étapes, nous pouvons donc tester l'accès depuis l'extérieur avec la commande suivante : <code>dig 221.87.128.1 www.chartres.sportludique.fr</code></p>
 <p>Et nous devons le résultat suivant :</p>
-<pre class="codehilite"><code>administrateur@CHA-DNS2:/etc/bind/zones$ dig @121.183.90.205 www.chartres.sportludique.fr A 
-;; communications error to 121.183.90.205#53: timed out 
+<div class="codehilite"><pre><span></span><code><span class="n">administrateur</span><span class="p">@</span><span class="n">CHA</span><span class="o">-</span><span class="n">DNS2</span><span class="o">:/</span><span class="n">etc</span><span class="o">/</span><span class="n">bind</span><span class="o">/</span><span class="n">zones$</span><span class="w"> </span><span class="n">dig</span><span class="w"> </span><span class="mf">@121.183.90.205</span><span class="w"> </span><span class="n">www</span><span class="p">.</span><span class="n">chartres</span><span class="p">.</span><span class="n">sportludique</span><span class="p">.</span><span class="n">fr</span><span class="w"> </span><span class="n">A</span><span class="w"> </span>
+<span class="p">;;</span><span class="w"> </span><span class="n">communications</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="mf">121.183.90.205</span><span class="err">#</span><span class="mi">53</span><span class="o">:</span><span class="w"> </span><span class="n">timed</span><span class="w"> </span><span class="k">out</span><span class="w"> </span>
 
-; &lt;&lt;&gt;&gt; DiG 9.20.29-1~deb13u1-Debian &lt;&lt;&gt;&gt; @121.183.90.205 www.chartres.sportludique.fr A 
-; (1 server found) 
-;; global options: +cmd 
-;; Got answer: 
-;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 29782 
-;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1 
+<span class="p">;</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">DiG</span><span class="w"> </span><span class="mf">9.20.29</span><span class="mi">-1</span><span class="o">~</span><span class="n">deb13u1</span><span class="o">-</span><span class="n">Debian</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">@121.183.90.205</span><span class="w"> </span><span class="n">www</span><span class="p">.</span><span class="n">chartres</span><span class="p">.</span><span class="n">sportludique</span><span class="p">.</span><span class="n">fr</span><span class="w"> </span><span class="n">A</span><span class="w"> </span>
+<span class="p">;</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="n">found</span><span class="p">)</span><span class="w"> </span>
+<span class="p">;;</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="n">options</span><span class="o">:</span><span class="w"> </span><span class="o">+</span><span class="n">cmd</span><span class="w"> </span>
+<span class="p">;;</span><span class="w"> </span><span class="n">Got</span><span class="w"> </span><span class="n">answer</span><span class="o">:</span><span class="w"> </span>
+<span class="p">;;</span><span class="w"> </span><span class="o">-&gt;&gt;</span><span class="n">HEADER</span><span class="o">&lt;&lt;-</span><span class="w"> </span><span class="n">opcode</span><span class="o">:</span><span class="w"> </span><span class="n">QUERY</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">:</span><span class="w"> </span><span class="n">NOERROR</span><span class="p">,</span><span class="w"> </span><span class="kt">id</span><span class="o">:</span><span class="w"> </span><span class="mi">29782</span><span class="w"> </span>
+<span class="p">;;</span><span class="w"> </span><span class="n">flags</span><span class="o">:</span><span class="w"> </span><span class="n">qr</span><span class="w"> </span><span class="n">rd</span><span class="w"> </span><span class="n">ra</span><span class="p">;</span><span class="w"> </span><span class="n">QUERY</span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ANSWER</span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">AUTHORITY</span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">ADDITIONAL</span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span>
 
-;; OPT PSEUDOSECTION: 
-; EDNS: version: 0, flags:; udp: 1232 
-;; QUESTION SECTION: 
-;www.chartres.sportludique.fr.  IN      A 
+<span class="p">;;</span><span class="w"> </span><span class="n">OPT</span><span class="w"> </span><span class="n">PSEUDOSECTION</span><span class="o">:</span><span class="w"> </span>
+<span class="p">;</span><span class="w"> </span><span class="n">EDNS</span><span class="o">:</span><span class="w"> </span><span class="n">version</span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="o">:</span><span class="p">;</span><span class="w"> </span><span class="n">udp</span><span class="o">:</span><span class="w"> </span><span class="mi">1232</span><span class="w"> </span>
+<span class="p">;;</span><span class="w"> </span><span class="n">QUESTION</span><span class="w"> </span><span class="n">SECTION</span><span class="o">:</span><span class="w"> </span>
+<span class="p">;</span><span class="n">www</span><span class="p">.</span><span class="n">chartres</span><span class="p">.</span><span class="n">sportludique</span><span class="p">.</span><span class="n">fr</span><span class="p">.</span><span class="w">  </span><span class="n">IN</span><span class="w">      </span><span class="n">A</span><span class="w"> </span>
 
-;; ANSWER SECTION: 
-www.chartres.sportludique.fr. 3600 IN   A       221.87.128.1 
+<span class="p">;;</span><span class="w"> </span><span class="n">ANSWER</span><span class="w"> </span><span class="n">SECTION</span><span class="o">:</span><span class="w"> </span>
+<span class="n">www</span><span class="p">.</span><span class="n">chartres</span><span class="p">.</span><span class="n">sportludique</span><span class="p">.</span><span class="n">fr</span><span class="p">.</span><span class="w"> </span><span class="mi">3600</span><span class="w"> </span><span class="n">IN</span><span class="w">   </span><span class="n">A</span><span class="w">       </span><span class="mf">221.87.128.1</span><span class="w"> </span>
 
-;; Query time: 11 msec 
-;; SERVER: 121.183.90.205#53(121.183.90.205) (UDP) 
-;; WHEN: Tue Oct 13 15:54:28 CEST 2026 
-;; MSG SIZE  rcvd: 73
-</code></pre>
+<span class="p">;;</span><span class="w"> </span><span class="n">Query</span><span class="w"> </span><span class="n">time</span><span class="o">:</span><span class="w"> </span><span class="mi">11</span><span class="w"> </span><span class="n">msec</span><span class="w"> </span>
+<span class="p">;;</span><span class="w"> </span><span class="n">SERVER</span><span class="o">:</span><span class="w"> </span><span class="mf">121.183.90.205</span><span class="err">#</span><span class="mi">53</span><span class="p">(</span><span class="mf">121.183.90.205</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">UDP</span><span class="p">)</span><span class="w"> </span>
+<span class="p">;;</span><span class="w"> </span><span class="n">WHEN</span><span class="o">:</span><span class="w"> </span><span class="n">Tue</span><span class="w"> </span><span class="n">Oct</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="mi">15</span><span class="o">:</span><span class="mi">54</span><span class="o">:</span><span class="mi">28</span><span class="w"> </span><span class="n">CEST</span><span class="w"> </span><span class="mi">2026</span><span class="w"> </span>
+<span class="p">;;</span><span class="w"> </span><span class="n">MSG</span><span class="w"> </span><span class="n">SIZE</span><span class="w">  </span><span class="n">rcvd</span><span class="o">:</span><span class="w"> </span><span class="mi">73</span>
+</code></pre></div>
 
-<p>depuis</p>
-<h1 id="6-mise-en-place-du-dns-interne"><font color= 'red'> 6) Mise en place du DNS Interne </font></h1>
+<h2 id="6-mise-en-place-du-dns-interne">6 - Mise en place du DNS interne</h2>
 <p>Pour ce faire, nous avons créé une machine virtuelle sous Windows Server 2022 (Core).</p>
 <p>Après la configuration et l'installation, nous l'avons jointe au domaine, puis nous avons pu  l'ajouter au serveur CHA-GUI1 pour nous permettre de l'administrer.</p>
 <p>Nous avons installé le service DNS sur le serveur CHA-DNS1 ainsi que les outils d'administration à distance sur notre serveur CHA-GUI1.</p>
 <p>Ensuite, nous avons créé la zone principale avec le nom <code>chartres.sportludique.fr</code></p>
 <p>Nous avons mis en place les enregistrements DNS vers la DMZ pour les serveurs DNS, mail et web.
-Et nous avons aussi mis le redirecteur pour accéder à Internet depuis les différents VLAN en utilisant le serveur DNS interne.</p>
-<h1 id="7-mise-en-place-du-service-web-dans-la-dmz"><font color= 'red'> 7 - Mise en place du service web dans la DMZ </font></h1>
-<p>Nous avons mis en place une vm linux qui servaura le rôle de serveur web.</p>
-<p>Nous avons pu configurer les différents fichier de configuration.</p>
-<h2 id="71-nous-creeons-le-contenu-du-site">7.1 - Nous créeons le contenu du site</h2>
-<pre class="codehilite"><code>sudo install -d -m 755 /var/www/sportludique-public
-sudo nano /var/www/sportludique-public/index.html
-</code></pre>
+Enfin, nous avons aussi configuré le redirecteur pour accéder à Internet depuis les différents VLAN en utilisant le serveur DNS interne.</p>
+<h2 id="7-mise-en-place-du-service-web-dans-la-dmz">7 - Mise en place du service web dans la DMZ</h2>
+<p>Nous avons mis en place une VM Linux qui servira le rôle de serveur web.</p>
+<p>Nous avons pu configurer les différents fichiers de configuration.</p>
+<h3 id="71-nous-creons-le-contenu-du-site">7.1 - Nous créons le contenu du site</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="o">-</span><span class="n">d</span><span class="w"> </span><span class="o">-</span><span class="n">m</span><span class="w"> </span><span class="mi">755</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">sportludique</span><span class="o">-</span><span class="n">public</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">nano</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">sportludique</span><span class="o">-</span><span class="n">public</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span>
+</code></pre></div>
 
 <p>Et nous configurons la première page du site avec du contenu.</p>
-<h2 id="72-definir-le-premier-virtualhost">7.2 - Définir le premier VirtualHost</h2>
-<p>Créer le fichier <code>/etc/apache2/sites-available/sportludique-public.conf</code></p>
-<p>Puis insérer le contenu suivant :</p>
-<pre class="codehilite"><code>&lt;VirtualHost *:80&gt;
-    ServerName www.chartres.sportludique.fr
-    DocumentRoot /var/www/sportludique-public
+<h3 id="72-definir-le-premier-virtualhost">7.2 - Définir le premier VirtualHost</h3>
+<p>Créez le fichier <code>/etc/apache2/sites-available/sportludique-public.conf</code></p>
+<p>Puis insérez le contenu suivant :</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;VirtualHost</span> <span class="err">*:80</span><span class="nt">&gt;</span>
+<span class="w">    </span>ServerName<span class="w"> </span>www.chartres.sportludique.fr
+<span class="w">    </span>DocumentRoot<span class="w"> </span>/var/www/sportludique-public
 
-    &lt;Directory /var/www/sportludique-public&gt;
-        Options None
-        AllowOverride None
-        Require all granted
-    &lt;/Directory&gt;
+<span class="w">    </span><span class="nt">&lt;Directory</span> <span class="err">/var/www/sportludique-public</span><span class="nt">&gt;</span>
+<span class="w">        </span>Options<span class="w"> </span>None
+<span class="w">        </span>AllowOverride<span class="w"> </span>None
+<span class="w">        </span>Require<span class="w"> </span>all<span class="w"> </span>granted
+<span class="w">    </span><span class="nt">&lt;/Directory&gt;</span>
 
-    ErrorLog ${APACHE_LOG_DIR}/sportludique-public_error.log
-    CustomLog ${APACHE_LOG_DIR}/sportludique-public_access.log combined
-&lt;/VirtualHost&gt;
-</code></pre>
+<span class="w">    </span>ErrorLog<span class="w"> </span><span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/sportludique-public_error.log
+<span class="w">    </span>CustomLog<span class="w"> </span><span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/sportludique-public_access.log<span class="w"> </span>combined
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</code></pre></div>
 
-<h2 id="73-on-active-le-site-et-on-controle-la-syntaxe">7.3 - On active le site et on contrôle la syntaxe</h2>
-<pre class="codehilite"><code>sudo a2ensite sportludique-public.conf
+<h3 id="73-on-active-le-site-et-on-controle-la-syntaxe">7.3 - On active le site et on contrôle la syntaxe</h3>
+<div class="codehilite"><pre><span></span><code>sudo a2ensite sportludique-public.conf
 sudo apache2ctl configtest
-</code></pre>
+</code></pre></div>
 
 <p>Si le résultat indique <code>Syntax OK</code>, nous pouvons recharger la configuration du site :</p>
-<pre class="codehilite"><code>sudo systemctl reload apache2
-sudo apache2ctl -S
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">apache2</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">apache2ctl</span><span class="w"> </span><span class="o">-</span><span class="n">S</span>
+</code></pre></div>
 
-<h2 id="74-activer-la-redirection-de-port-pour-un-acces-depuis-lexterieur-voir-25">7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)</h2>
-<h1 id="8-mise-en-place-du-serveur-web-et-de-ses-certificats"><font color= 'red'> 8 - Mise en place du serveur web et de ses certificats </font></h1>
+<h3 id="74-activer-la-redirection-de-port-pour-un-acces-depuis-lexterieur-voir-25">7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)</h3>
+<h2 id="8-mise-en-place-du-serveur-web-et-de-ses-certificats"><font color= 'red'> 8 - Mise en place du serveur web et de ses certificats </font></h2>
   </div>
 </article>
                                 <div id="bottom-navigation" class="mx-auto flex h-16 w-full max-w-2xl items-center justify-between gap-2 px-4 md:px-0">
@@ -907,7 +906,7 @@ sudo apache2ctl -S
 
         
         <a href="#6-mise-en-place-du-dns-interne" data-active="false" data-depth="2">
-            6) Mise en place du DNS Interne
+            6 - Mise en place du DNS interne
         </a>
         
 
@@ -917,8 +916,8 @@ sudo apache2ctl -S
         </a>
         
         
-        <a href="#71-nous-creeons-le-contenu-du-site" data-active="false" data-depth="3">
-            7.1 - Nous créeons le contenu du site
+        <a href="#71-nous-creons-le-contenu-du-site" data-active="false" data-depth="3">
+            7.1 - Nous créons le contenu du site
         </a>
         
         <a href="#72-definir-le-premier-virtualhost" data-active="false" data-depth="3">
