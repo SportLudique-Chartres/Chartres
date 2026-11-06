@@ -1,216 +1,416 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        
-        
-        <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Documentation - Sport-Ludique Chartres</title>
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../css/fontawesome.min.css" rel="stylesheet">
-        <link href="../css/brands.min.css" rel="stylesheet">
-        <link href="../css/solid.min.css" rel="stylesheet">
-        <link href="../css/v4-font-face.min.css" rel="stylesheet">
-        <link href="../css/base.css" rel="stylesheet">
-        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/color-brewer.min.css" >
-        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
-    </head>
 
-    <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="..">Sport-Ludique Chartres</a>
-                <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<html lang="en">
 
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-                        <!-- Main navigation -->
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href=".." class="nav-link">Accueil</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="./" class="nav-link active" aria-current="page">Documentation</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="../annexes/" class="nav-link">Annexes</a>
-                            </li>
-                        </ul>
+<head>
+    <script>
+        const base_url = (new URL("..", window.location)).href.replace(/\/+$/, ""); /* for search plugin notably */
+    </script>
+    <script integrity="sha384-m6cZ+Whl1ci89lidlu8DH4C+sZLNOYBvImtjUIhUK+iaNffXhqtbYgBVuuPfRsa0" src="../js/dark.js"></script>
 
-                    <ul class="nav navbar-nav ms-md-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
-                            </a>
-                        </li>
-                            <li class="nav-item">
-                                <a rel="prev" href=".." class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../annexes/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
 
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
-    </div>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
-        <ul class="nav flex-column">
+    
+
+
+<title>Documentation</title>
+
+
+
+
+
+
+
+
+
+
+<!-- Open Graph (Facebook, LinkedIn) -->
+
+<meta property="og:title" content="Documentation">
+
+
+
+
+
+
+
+
+
+
+<!-- Twitter Card -->
+
+<meta name="twitter:title" content="Documentation">
+
+
+
+
+
+
+<!-- JSON-LD Structured Data -->
+
+
+
+    
+    <link href="../img/logo.png" rel="icon" />
+
+    <link href="../css/base.css" rel="stylesheet" />
+    <link href="../css/geist.css" rel="stylesheet" />
+
+    
+    
+
+<link id="pygments-light" rel="stylesheet"
+    href="../css/pygments/shadcn-light.css">
+<link id="pygments-dark" rel="stylesheet"
+    href="../css/pygments/github-dark.css"
+    media="(prefers-color-scheme: dark)">
+
+
+    
+
+    <style>
+        :root {
+            --theme-accent: oklch(62.3% 0.214 259.815);
+        }
+    </style>
+    <link href="../assets/css/toc.css" rel="stylesheet" />
+    <link href="../stylesheets/accueil.css" rel="stylesheet" />
+
+    
+
+    <script integrity="sha384-2hn3q9jeDV70Gb3DuyWPKgeRxkowIjEpcHeOXSvWCEq2uHJHvXiVer7rbM8HYzYz"
+        src="../js/callbacks.js"></script>
+    <script defer="" integrity="sha384-ljmRPFWw/c4kKFaKY5DIe8bgppHI9VBBrg7WZa8UPd23U9dEFesxZ1Ng8Hzjq2WB"
+        src="../js/toc.js"></script>
+
+    
+
+    
+
+    
+
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("a.headerlink").forEach(function (link) {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                // Build the full URL with the anchor fragment
+                const url = window.location.origin + window.location.pathname + this.getAttribute("href");
+
+                navigator.clipboard.writeText(url).then(function () {
+                    // Optional: brief visual feedback
+                });
+            });
+        });
+    });
+</script>
+    
+
+    
+    
+</head>
+
+<body
+    class="text-foreground group/body overscroll-none font-sans antialiased [--footer-height:calc(var(--spacing)*14)] [--header-height:calc(var(--spacing)*14)] lg:[--header-height:calc(var(--spacing)*16)] xl:[--footer-height:calc(var(--spacing)*24)] theme-default">
+    <div class="bg-background relative z-10 flex min-h-svh flex-col" id="inner-body">
+        <header class="bg-background sticky top-0 z-50 w-full" view-transition-name="header">
+    <div class="container-wrapper 3xl:fixed:px-0 px-6">
+        <div class="3xl:fixed:container flex h-(--header-height) items-center gap-2 **:data-[slot=separator]:!h-4">
+            <button id="burger-button" data-slot="popover-trigger" onclick="onMobileMenuButtonClick(event)" class="group"
+    
+    type="button" aria-haspopup="dialog" data-state="closed">
+    <div class="relative flex h-8 w-4 items-center justify-center">
+        <div class="relative size-4">
+            <!-- 16px x 16px -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="0" x2="16" y1="5" y2="5"
+                    class="group-data-[state=open]:translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:rotate-45 transition-all duration-300 origin-center" />
+                <line x1="0" x2="16" y1="11" y2="11"
+                    class="group-data-[state=open]:-translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:-rotate-45 transition-all duration-300 origin-center" />
+            </svg>
+        </div>
+
+        <span class="sr-only">Toggle Menu</span>
+    </div>
+    <span class="flex h-8 items-center text-lg leading-none font-medium">Menu</span>
+</button>
+            <a data-slot="button" class="button ghost gap-2 hidden lg:flex"
+    
+    href="None">
+    <span class="flex flex-row justify-center items-center">
+        
+
+
+<img class="size-5" src="../img/logo.png" alt="icon">
+
+
+
+    </span>
+
+    
+    <h1>Sport-Ludique Chartres</h1>
+    
+</a>
             
-            <li class="nav-item" data-bs-level="1"><a href="#1-configuration-du-switch" class="nav-link">1 - Configuration du switch</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#11-renommage-du-switch" class="nav-link">1.1 - Renommage du switch</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#12-creer-les-differents-vlan-necessaires" class="nav-link">1.2 - Créer les différents Vlan nécessaires</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#13-attribuer-des-ports-aux-vlans" class="nav-link">1.3 - Attribuer des ports aux VLANS</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#14-creation-dun-utilisateur" class="nav-link">1.4 - Création d'un utilisateur</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#15-activation-du-ssh" class="nav-link">1.5 - Activation du ssh</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#16-modification-du-switch-apres-la-mise-en-place-du-pare-feu" class="nav-link">1.6 - Modification du switch après la mise en place du Pare-Feu</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
+            <div class="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
+                <div class="hidden w-full flex-1 md:flex md:w-auto md:flex-none">
+                    <div class="hidden w-full flex-1 md:flex md:w-auto md:flex-none">
+    <button onclick="onSearchBarClick(event)" data-slot="dialog-trigger" data-variant="outline" data-size="default"
+    class="search secondary" type="button" aria-haspopup="dialog" aria-controls="search-dialog" data-state="closed">
+    <span class="hidden lg:inline-flex">Search documentation...</span>
+    <span class="inline-flex lg:hidden">Search...</span>
+</button>
+</div>
+<dialog id="search-dialog" onclick="onSearchDialogClick(event)"
+    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background rounded-lg shadow-lg border overflow-hidden p-0">
+    <div class="w-lg gap-4">
+        <div class="flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground">
+            <div data-slot="command-input-wrapper" class="flex h-9 items-center gap-2 border-b px-3">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="lucide lucide-search size-4 shrink-0 opacity-50">
+    <circle cx="11" cy="11" r="8"></circle>
+    <path d="m21 21-4.3-4.3"></path>
+</svg>
+                <input data-slot="command-input"
+                    class="placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Search documentation..." cmdk-input="" autocomplete="off" autocorrect="off"
+                    spellcheck="false" aria-label="Search documentation" type="search" value=""
+                    oninput="onInputHandler(event)">
+            </div>
+        </div>
+        <div id="mkdocs-search-results">
+            <!-- search results go there -->
+        </div>
+    </div>
+</dialog>
+<script>
+    document.removeEventListener("keydown", searchShortcutHandler);
+    document.addEventListener("keydown", searchShortcutHandler);
+</script>
+                </div>
+                
+                
+
+
+                
+
+                <div data-orientation="vertical" role="none" data-slot="separator"
+    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px">
+</div>
+                <button class="ghost icon" title="Toggle layout" onclick="toggleLayout(event)">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="lucide lucide-gallery-horizontal">
+    <path d="M2 3v18"></path>
+    <rect width="12" height="18" x="6" y="3" rx="2"></rect>
+    <path d="M22 3v18"></path>
+</svg>
+</button>
+                <div data-orientation="vertical" role="none" data-slot="separator"
+    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px">
+</div>
+                <button class="ghost icon" onclick="onThemeSwitch(event)" title="Toggle theme">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="size-4.5">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+    <path d="M12 3l0 18"></path>
+    <path d="M12 9l4.65 -4.65"></path>
+    <path d="M12 14.3l7.37 -7.37"></path>
+    <path d="M12 19.6l8.85 -8.85"></path>
+</svg>
+</button>
+            </div>
+        </div>
+    </div>
+</header>
+        <main class="flex flex-1 flex-col">
+            <div class="container-wrapper flex flex-1 flex-col px-2">
+                <div class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex w-full 3xl:fixed:container 3xl:fixed:px-3 min-h-min flex-1 items-start px-0 [--sidebar-width:220px] [--top-spacing:0] lg:grid lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)] lg:[--sidebar-width:240px] lg:[--top-spacing:calc(var(--spacing)*4)]"
+                    data-slot="sidebar-wrapper"
+                    style="--sidebar-width:calc(var(--spacing) * 72);--sidebar-width-icon:3rem;">
+                    <div class="w-(--sidebar-width) flex-col text-sidebar-foreground sticky top-[calc(var(--header-height)+0.6rem)] z-30 hidden max-h-[calc(100svh-10rem)] overscroll-none bg-transparent [--sidebar-menu-width:--spacing(56)] lg:flex"
+                        data-slot="sidebar">
+                        <div class="h-9"></div>
+                        <div
+                            class="absolute top-8 z-10 h-8 w-(--sidebar-menu-width) shrink-0 bg-gradient-to-b from-background via-background/80 to-background/50 blur-xs">
+                        </div>
+                        <div
+                            class="absolute top-12 right-2 bottom-0 hidden h-full w-px bg-gradient-to-b from-transparent via-border to-transparent lg:flex">
+                        </div>
+                        <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden mx-auto no-scrollbar w-(--sidebar-menu-width) overflow-x-hidden px-2"
+                            data-sidebar="content" data-slot="sidebar-content" view-transition-name="sidebar">
+                            
+
+
+
+
+
+
+
+
+
+
+
+<div data-slot="sidebar-group" data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2 pt-6">
+    <div data-slot="sidebar-group-content" data-sidebar="group-content" class="w-full text-sm">
+        <ul data-slot="sidebar-menu" data-sidebar="menu" class="flex w-full min-w-0 flex-col gap-0.5">
             
-            <li class="nav-item" data-bs-level="1"><a href="#2-configuration-routeur" class="nav-link">2 - Configuration Routeur</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#21-mise-en-place-du-nat" class="nav-link">2.1 - Mise en place du NAT</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#22-mise-en-place-internet-sur-les-vlans" class="nav-link">2.2 - Mise en place internet sur les vlans</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#23-redirection-de-port-vers-la-dmz" class="nav-link">2.3 - Redirection de port vers la DMZ</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#24-mise-en-place-du-2eme-routeur" class="nav-link">2.4 - Mise en place du 2eme Routeur</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#25-mise-en-place-de-la-redirection-de-port-pour-un-acces-depuis-lexterieur-aux-services-de-la-dmz" class="nav-link">2.5 - Mise en place de la redirection de port pour un accès depuis l'extérieur aux services de la DMZ</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
             
-            <li class="nav-item" data-bs-level="1"><a href="#3-configuration-de-firewall" class="nav-link">3 - Configuration de firewall</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#31-mise-a-jour-du-firewall" class="nav-link">3.1 - Mise a jour du firewall</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#32-mise-en-place-des-sous-interfaces" class="nav-link">3.2 - Mise en place des sous-interfaces</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#33-mise-en-place-des-routes" class="nav-link">3.3 - Mise en place des routes</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#34-filtre-et-nat" class="nav-link">3.4 - Filtre et NAT</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
             
-            <li class="nav-item" data-bs-level="1"><a href="#4-mise-en-place-des-serveurs" class="nav-link">4 - Mise en place des serveurs</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#41-installation-du-dc1-gui1" class="nav-link">4.1 - Installation du DC1 &amp; GUI1</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#42-configuration-de-gui1" class="nav-link">4.2 - Configuration de GUI1</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
+            <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href=".."
+        class="peer/menu-button flex items-center gap-2 rounded-md p-2 text-left ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md data-[active=true]:border-accent data-[active=true]:bg-accent 3xl:fixed:w-full 3xl:fixed:max-w-48">
+        
+        Accueil
+        
+        
+        
+        
+    </a>
+</li>
             
-            <li class="nav-item" data-bs-level="1"><a href="#5-mise-en-place-du-dns-public-dmz" class="nav-link">5 - Mise en place du DNS PUBLIC - DMZ</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#51-creation-de-la-vm" class="nav-link">5.1 - Création de la VM</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#52-configurer-bind-comme-dns-autoritatif-uniquement" class="nav-link">5.2 - Configurer BIND comme DNS autoritatif uniquement</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#53-creation-de-la-zone-chartressportludiquefr" class="nav-link">5.3 - Création de la zone chartres.sportludique.fr</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#74-activer-la-redirection-de-port-pour-un-acces-depuis-lexterieur-voir-25" class="nav-link">7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
+            
+            
+            
+            <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="true" data-sidebar="menu-button"
+        data-size="default" href="./"
+        class="peer/menu-button flex items-center gap-2 rounded-md p-2 text-left ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md data-[active=true]:border-accent data-[active=true]:bg-accent 3xl:fixed:w-full 3xl:fixed:max-w-48">
+        
+        Documentation
+        
+        
+        
+        
+    </a>
+</li>
+            
+            
+            
+            
+            <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="../annexes/"
+        class="peer/menu-button flex items-center gap-2 rounded-md p-2 text-left ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md data-[active=true]:border-accent data-[active=true]:bg-accent 3xl:fixed:w-full 3xl:fixed:max-w-48">
+        
+        Annexes
+        
+        
+        
+        
+    </a>
+</li>
+            
+            
         </ul>
     </div>
-</div></div>
-                    <div class="col-md-9" role="main">
+</div>
 
-<h1 id="1-configuration-du-switch"><font color= 'red'> 1 - Configuration du switch </font></h1>
-<p>Réinitialisation du switch <code>erase config-startup</code></p>
-<h2 id="11-renommage-du-switch">1.1 - Renommage du switch</h2>
-<pre><code> enable
+
+
+
+
+
+<div
+    class="sticky -bottom-1 z-10 h-16 shrink-0 bg-gradient-to-t from-background via-background/80 to-background/50 blur-xs">
+</div>
+
+                        </div>
+                    </div>
+                    <div class="h-full w-full">
+                        <div class="flex items-stretch text-[1.05rem] sm:text-[15px] xl:w-full" data-slot="docs">
+                            <div class="flex min-w-0 flex-1 flex-col">
+                                <div class="h-(--top-spacing) shrink-0"></div>
+                                
+                                
+                                <article class="w-full" view-transition-name="page">
+  <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2">
+      <div id="page-header" class="flex items-start justify-between">
+        <h1 class="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
+          Documentation
+        </h1>
+        <div class="flex items-start gap-2">
+          
+          <button id="copy-page"
+    onclick="fetch(`/documentation.md`).then((r) => r.text()).then((text) => navigator.clipboard.write([new ClipboardItem({ 'text/plain': text })]))"
+    data-slot="button" class="secondary cursor-pointer sm">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-copy ">
+        <path
+            d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z">
+        </path>
+        <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1"></path>
+    </svg>
+    <span class="max-md:hidden">Copy Page</span>
+</button>
+          
+          
+          <a id="previous-button" class="button secondary icon sm" href="..">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="tabler-icon tabler-icon-arrow-left">
+    <path d="M5 12l14 0"></path>
+    <path d="M5 12l6 6"></path>
+    <path d="M5 12l6 -6"></path>
+</svg>
+    <span class="sr-only">Previous</span>
+</a>
+          
+          
+          <a id="next-button" class="button secondary icon sm" href="../annexes/">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="tabler-icon tabler-icon-arrow-right">
+    <path d="M5 12l14 0"></path>
+    <path d="M13 18l6 -6"></path>
+    <path d="M13 6l6 6"></path>
+</svg>
+    <span class="sr-only">Next</span>
+</a>
+          
+        </div>
+      </div>
+      
+    </div>
+    <div class="flex justify-end items-center">
+      
+
+      
+    </div>
+  </div>
+  <div class="typography w-full flex-1 *:data-[slot=alert]:first:mt-0">
+    <h2 id="1-configuration-du-switch"><font color= 'red'> 1 - Configuration du switch </font></h2>
+<p>Réinitialisation du switch <code>erase config-startup</code>, cette commande supprime toute la configuration précédente.</p>
+<h3 id="11-renommage-du-switch">1.1 - Renommage du switch</h3>
+<pre class="codehilite"><code> enable
  configure terminal
  hostname ‘nom du switch'
 </code></pre>
-<h2 id="12-creer-les-differents-vlan-necessaires">1.2 - Créer les différents Vlan nécessaires</h2>
+
+<h3 id="12-creer-les-differents-vlans-necessaires">1.2 - Créer les différents VLANS nécessaires</h3>
 <p><code>vlan [numéro du port]</code> puis <code>name [nom_du_VLAN]</code></p>
-<h2 id="13-attribuer-des-ports-aux-vlans">1.3 - Attribuer des ports aux VLANS</h2>
-<pre><code>interface [numéro du port]
+<h3 id="13-attribution-des-ports-aux-vlans">1.3 - Attribution des ports aux VLANS</h3>
+<pre class="codehilite"><code>interface [numéro du port]
 switchport mode access/trunk
 Switchport access vlan [numéro de vlan]
 </code></pre>
-<h2 id="14-creation-dun-utilisateur">1.4 - Création d'un utilisateur</h2>
+
+<h3 id="14-creation-dun-utilisateur">1.4 - Création d'un utilisateur</h3>
 <p><code>username [admin] privilege 15 secret [password]</code></p>
-<h2 id="15-activation-du-ssh">1.5 - Activation du ssh</h2>
-<p>Et nous activons les interfaces avec la commande </p>
-<pre><code>ip domain name cha.chartres.sportludique.local
+<h3 id="15-mise-en-place-du-ssh">1.5 - Mise en place du SSH</h3>
+<p>Et nous activons les interfaces avec la commande</p>
+<pre class="codehilite"><code>ip domain name cha.chartres.sportludique.local
 ip ssh version 2
 crypto key generate-keys modulus 1024
 line vty 0 4
@@ -218,102 +418,23 @@ login local
 transport input ssh
 write memory
 </code></pre>
-<h2 id="16-modification-du-switch-apres-la-mise-en-place-du-pare-feu">1.6 - Modification du switch après la mise en place du Pare-Feu</h2>
-<p>On a ajouté le VLAN 223.</p>
-<p>Le port WAN est en mode access.</p>
+
+<h3 id="16-modification-du-switch-apres-la-mise-en-place-du-pare-feu">1.6 - Modification du switch après la mise en place du Pare-Feu</h3>
+<p>Nous avons ajouté le VLAN 223 qui sera la DMZ.</p>
+<p>Le port WAN (fa0/3) est en mode access.</p>
 <p>Le port LAN est en trunk pour faire passer les VLAN Mana et LAN.</p>
+<p>Nous mettons en place deux nouveaux réseaux d'interconnexion :
+- le réseau d'interconnexion WAN, qui nous permettra de sortir sur Internet ;
+- le réseau d'interconnexion LAN, qui nous permettra de séparer le LAN et le WAN.</p>
 <p>Nous avons donc mis en place la nouvelle route par défaut, qui est la suivante : 0.0.0.0 0.0.0.0 192.168.223.254 ; elle va nous permettre de rediriger tous les paquets vers le pare-feu.</p>
-<p>Exemple : je veux sortir sur Internet en étant dans le VLAN Serveurs pour faire des requêtes HTTPS sur Internet.</p>
-<p><br></p>
-<h1 id="2-configuration-routeur"><font color= 'red'> 2 - Configuration Routeur </font></h1>
-<h2 id="21-mise-en-place-du-nat">2.1 - Mise en place du NAT</h2>
-<p>Interface du VLAN 120 <code>interface gig0/0.120</code> avec l'adresse ip <code>10.28.2.253 255.255.255.0</code> </p>
-<p>Interface du VLAN 222 <code>ip address 192.168.222.254 255.255.255.0</code> et <code>ip nat inside</code> avec <code>l'encapsulation dot1Q</code>
-Configuration
-Interface WAN <code>ip address 221.87.128.1 255.255.255.252</code> et <code>ip nat outside</code></p>
-<p><code>no shutdown</code></p>
-<p>Route par défaut : <code>ip route 0.0.0.0 0.0.0.0 221.87.128.2</code></p>
-<p>On mets une acess-list pour avoir internet sur tous les réseaux sauf Mana <code>access-list 1 permit 172.28.160.0 0.0.31.255</code></p>
-<h2 id="22-mise-en-place-internet-sur-les-vlans">2.2 - Mise en place internet sur les vlans</h2>
-<p>On mets la route par défaut pour le switch : <code>0.0.0.0 0.0.0.0 192.168.222.254</code></p>
-<p>On mets la route sur le routeur pour qu'il connaisse le VLAN 221: <code>172.28.161.0 255.255.255.0 192.168.222.1</code></p>
-<h2 id="23-redirection-de-port-vers-la-dmz">2.3 - Redirection de port vers la DMZ</h2>
-<p>Pour nous permettre d'accéder au serveur DNS depuis l'extérieur, nous avons paramétré une redirection de port avec la commande ci-dessous :
-<code>ip nat inside source static udp 192.168.224.1 53 interface 221.87.128.1 53</code></p>
-<h2 id="24-mise-en-place-du-2eme-routeur">2.4 - Mise en place du 2eme Routeur</h2>
-<p>On met un deuxieme routeur pour assurer la disponibilité</p>
-<p>On copie la conf du premier routeur sur le deuxieme</p>
-<p>On config HSRP sur les 2 routeurs</p>
-<p>R1:</p>
-<pre><code> standby 1 ip 192.168.222.253
- standby 1 priority 110
- standby 1 preempt
-</code></pre>
-<p>R2:</p>
-<pre><code> standby 1 ip 192.168.222.252
- standby 1 priority 100
- standby 1 preempt
-</code></pre>
-<h2 id="25-mise-en-place-de-la-redirection-de-port-pour-un-acces-depuis-lexterieur-aux-services-de-la-dmz">2.5 - Mise en place de la redirection de port pour un accès depuis l'extérieur aux services de la DMZ</h2>
-<p>Pour commencer, nous configurons la redirection vers le site web de la DMZ</p>
-<p>CHA-WEB - 192.168.224.3</p>
-<p>On rentre les commandes suivantes :</p>
-<pre><code>enable
-configure terminal
-
-ip nat inside source static tcp 192.168.224.3 80 interface GigabitEthernet0/1 80
-
-ip nat inside source static tcp 192.168.224.3 443 interface GigabitEthernet0/1 443
-
-end
-write memory
-</code></pre>
-<p>Le port GigabitEthernet0/1 est notre interface WAN, qui va donc ensuite rediriger les requêtes avec les protocoles 80 (HTTP) et 443 (HTTPS) vers notre serveur Web.<br></p>
-<h1 id="3-configuration-de-firewall"><font color= 'red'> 3 - Configuration de firewall </font></h1>
-<h2 id="31-mise-a-jour-du-firewall">3.1 - Mise a jour du firewall</h2>
-<p>Mettre une date en 2025.
-Redémarrer le firewall.
-Installation de la licence.
-Installation de la mise à jour via son fichier.
-Après toutes ces étapes, définir l'heure du firewall avec le NTP.</p>
-<h2 id="32-mise-en-place-des-sous-interfaces">3.2 - Mise en place des sous-interfaces</h2>
-<p>Nous avons mis en place des interfaces virtuelles sur le notre firewall.
-Nous désactivons l'interface « in » (interface physique) pour ensuite mettre en place les interfaces virtuelles, MANA puis LAN.</p>
-<h2 id="33-mise-en-place-des-routes">3.3 - Mise en place des routes</h2>
-<p>Nous avons mis en place la route permettant au pare-feu de renvoyer les paquets à tous les VLAN du réseau.</p>
-<pre><code>Dest : VLAN-INTERNE
-Interface : lan
-Plan adressage : 172.28.160.0/19
-Passerelle : Pass-Serveur (192.168.223.1)
-</code></pre>
-<h2 id="34-filtre-et-nat">3.4 - Filtre et NAT</h2>
-<p>Nous avons mis le pare-feu en « pass all » pour finaliser la configuration ; ainsi, nous pourrons réactiver la règle « block all » après la fin de la configuration.</p>
-<p><br></p>
-<h1 id="4-mise-en-place-des-serveurs"><font color= 'red'> 4 - Mise en place des serveurs </font></h1>
-<h2 id="41-installation-du-dc1-gui1">4.1 - Installation du DC1 &amp; GUI1</h2>
-<p>Le DC1 sera en mode core et le gui sera une interface graphique.</p>
-<p>Pour la création des VMs les ressources sont les mêmes : 2 coeurs, 4go de RAM.</p>
-<p>Nous les avons mis sur deux noeuds différents pour éviter la surcharge sur un seule noeud.</p>
-<p>CHA-DC1 : 172.28.160.1/24
-CHA-GUI1 : 172.28.160.2/24</p>
-<p>On renomme les deux serveurs et on configure l'adressage réseau avant d'installer le rôle AD sur le CHA-DC1.</p>
-<p>Installation du rôle AD : </p>
-<pre><code>Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
-Install-ADDSForest -DomainName &quot;cha.chartres.sportludique.fr&quot; -DomainNetbiosName &quot;CHA&quot; -InstallDNS
-</code></pre>
-<p>Nous ajoutons un serveur local à gérer sur le serveur CHA-GUI1 et on ajoute CHA-DC1 à gérer.</p>
-<p>Des instatanées doivent être pris régulièrement pour nous permettre un retour en arrière.</p>
-<h2 id="42-configuration-de-gui1">4.2 - Configuration de GUI1</h2>
-<p>Nous avons mis le GUI1 dans le VLAN serveur, puis dans le domaine.</p>
-<p>On a ajouté une carte réseau pour l'administrer depuis le VLAN Mana.</p>
-<p>Le serveur CHA-GUI1 a donc deux cartes réseau, soit une attribuée au VLAN Serveurs pour communiquer avec CHA-DC1 et la deuxième attribuée sur le VLAN Mana pour la manager.</p>
-<h3 id="probleme">Probleme</h3>
+<p>Exemple : je veux faire une recherche sur Internet, mon paquet passera par l'interconnexion LAN, et ensuite le pare-feu s'occupera de le distribuer à l'interconnexion WAN qui enverra le paquet sur internet</p>
+<h3 id="probleme-lacp">Problème LACP</h3>
 <p>Nous souhaitions accéder à l'interface de management du serveur CHA-GUI1, le switch désactiver directement un port, nous ne pouvions pas accéder au serveur CHA-GUI1 via la VLAN Mana.</p>
 <p>Lorsque nous avons établi le raccordement, nous avons constaté sur le switch Cisco que le port se désactivait ; nous avons conclu que le protocole Spanning Tree le désactivait à cause d'une potentielle boucle sur le réseau.</p>
 <p>Nous avons désactivé temporairement le protocole Spanning Tree pour nous permettre de connaître l'origine de la boucle ou, à défaut, de voir si une boucle est bien présente.</p>
 <p>Il s'est avéré qu'aucune boucle n'était présente sur notre réseau ; nous avons désactivé Spanning Tree et tout fonctionnait correctement.</p>
 <p>Après deux longues heures de recherche minutieuse, nous avons trouvé une solution : la mise en place du protocole EtherChannel LACP avec les ports Gig1/0/23 et Gig1/0/24, qui transporteront uniquement les VLAN 120 et 220.</p>
-<pre><code>conf t
+<pre class="codehilite"><code>conf t
 
 interface range GigabitEthernet1/0/23-24
  description LACP-ETHERCHANNEL
@@ -333,23 +454,122 @@ interface Port-channel1
 end
 write memory
 </code></pre>
+
 <p>Pour ensuite tester que notre solution fonctionne bien, nous avons remis en place le protocole Spanning Tree et nous avons testé l'accès au serveur CHA-GUI1 via son interface de Mana et le test fut un succès.</p>
 <p>Nous supposons que l'erreur vient d'une mauvaise réinitialisation du switch.</p>
-<h1 id="5-mise-en-place-du-dns-public-dmz"><font color= 'red'> 5 - Mise en place du DNS PUBLIC - DMZ </font></h1>
-<h2 id="51-creation-de-la-vm">5.1 - Création de la VM</h2>
-<p>Nous avons créer une machine virtuelle sous linux.</p>
-<p>Pour la mise en place de notre DNS PUBLIC, nous avons décidé d'utiliser BIND9.</p>
-<p>Pour se faire, nous aurons notre serveur DNS CHA-DNS2 en 192.168.224.1/24.</p>
+<h3 id="17-configuration-integrale-du-sw-cha">1.7 - Configuration intégrale du SW-CHA</h3>
+<h2 id="2-configuration-routeur"><font color= 'red'> 2 - Configuration Routeur </font></h2>
+<h3 id="21-mise-en-place-du-nat">2.1 - Mise en place du NAT</h3>
+<p>Sur chaque routeur, nous mettons en place l'interface interne (LAN), qui comportera deux interfaces virtuelles :</p>
+<ul>
+<li>
+<p>Interface du VLAN 120 <code>interface gig0/0.120</code> avec l'adresse IP <code>10.28.2.253 255.255.255.0</code> </p>
+</li>
+<li>
+<p>Interface du VLAN 222 <code>ip address 192.168.222.254 255.255.255.0</code> et <code>ip nat inside</code> avec <code>l'encapsulation dot1Q</code></p>
+</li>
+</ul>
+<p>Et nous aurons l'interface externe (WAN) :</p>
+<pre class="codehilite"><code>ip address 221.87.128.1 255.255.255.252
+ip nat outside
+no shutdown
+</code></pre>
+
+<p>Route par défaut : <code>ip route 0.0.0.0 0.0.0.0 221.87.128.2</code> - elle nous donnera l'accès à Internet.</p>
+<h3 id="22-mise-en-place-de-lacces-internet-sur-les-vlans">2.2 - Mise en place de l'accès internet sur les vlans</h3>
+<p>On met la route par défaut pour le switch : <code>0.0.0.0 0.0.0.0 192.168.222.254</code></p>
+<p>On met la route sur le routeur pour qu'il connaisse le VLAN 221: <code>172.28.161.0 255.255.255.0 192.168.222.1</code></p>
+<h3 id="23-redirection-de-port-vers-la-dmz">2.3 - Redirection de port vers la DMZ</h3>
+<p>Pour nous permettre d'accéder au serveur DNS depuis l'extérieur, nous avons paramétré une redirection de port avec la commande ci-dessous :
+<code>ip nat inside source static udp 192.168.224.1 53 interface 221.87.128.1 53</code></p>
+<h3 id="24-mise-en-place-du-2eme-routeur">2.4 - Mise en place du 2eme Routeur</h3>
+<p>On met en place R2-CHA, pour assurer la haute disponibilité.</p>
+<p>Nous pouvons réutilisé la précédente configuration, en changeant les IP.</p>
+<p>On config HSRP sur les 2 routeurs</p>
+<p>R1:</p>
+<pre class="codehilite"><code> standby 1 ip 192.168.222.253
+ standby 1 priority 110
+ standby 1 preempt
+</code></pre>
+
+<p>R2:</p>
+<pre class="codehilite"><code> standby 1 ip 192.168.222.252
+ standby 1 priority 100
+ standby 1 preempt
+</code></pre>
+
+<h3 id="25-mise-en-place-de-la-redirection-de-port-pour-un-acces-depuis-lexterieur-aux-services-de-la-dmz">2.5 - Mise en place de la redirection de port pour un accès depuis l'extérieur aux services de la DMZ</h3>
+<p>Pour commencer, nous configurons la redirection vers le site web de la DMZ</p>
+<p>CHA-WEB - 192.168.224.3</p>
+<p>Nous entrons les commandes suivantes :</p>
+<pre class="codehilite"><code>enable
+configure terminal
+ip nat inside source static tcp 192.168.224.3 80 interface GigabitEthernet0/1 80
+ip nat inside source static tcp 192.168.224.3 443 interface GigabitEthernet0/1 443
+end
+write memory
+</code></pre>
+
+<p>Le port GigabitEthernet0/1 est notre interface WAN, ce qui va permettre de rediriger toutes les requêtes HTTP, HTTPS vers CHA-WEB.</p>
+<h2 id="3-configuration-de-firewall"><font color= 'red'> 3 - Configuration de firewall </font></h2>
+<h3 id="31-mise-a-jour-du-firewall">3.1 - Mise a jour du firewall</h3>
+<p>Pour mettre le firewall à jour, il faut respecter ses étapes dans l'ordre :</p>
+<ul>
+<li>Mettre une date en 2025;</li>
+<li>redémarrer le firewall;</li>
+<li>installation de la licence;</li>
+<li>installation de la mise à jour via son fichier.</li>
+</ul>
+<p>Après toutes ces étapes, définir l'heure du firewall avec le NTP.</p>
+<h3 id="32-mise-en-place-des-sous-interfaces">3.2 - Mise en place des sous-interfaces</h3>
+<p>Nous désactivons l'interface « in » (interface physique) pour ensuite mettre en place les interfaces virtuelles, MANA puis LAN.</p>
+<h3 id="33-mise-en-place-des-routes">3.3 - Mise en place des routes</h3>
+<p>Nous avons mis en place la route permettant au pare-feu de renvoyer les paquets à tous les VLAN du réseau.</p>
+<pre class="codehilite"><code>Dest : VLAN-INTERNE
+Interface : lan
+Plan adressage : 172.28.160.0/19
+Passerelle : Pass-Serveur (192.168.223.1)
+</code></pre>
+
+<h3 id="34-filtre-et-nat">3.4 - Filtre et NAT</h3>
+<p>Nous avons, pour le moment, sélectionné le profil « block all » pour finaliser la configuration du réseau ; nous mettrons en place le filtrage dans un second temps.</p>
+<h2 id="4-mise-en-place-des-serveurs"><font color= 'red'> 4 - Mise en place des serveurs </font></h2>
+<h3 id="41-installation-du-cha-dc1-cha-gui1">4.1 - Installation du CHA-DC1 &amp; CHA-GUI1</h3>
+<p>CHA-DC1 sera l'Active Directory : 172.28.160.1/24.</p>
+<p>CHA-GUI1 sera le serveur d'administration : 172.28.160.2/24.</p>
+<p>Pour les ressources allouées aux VM, nous serons sur 2 cœurs et 4 Go de RAM, elles sont déployées via un serveur Proxmox.</p>
+<p>Nous avons mis les VM sur deux nœuds différents pour répartir les ressources allouées sur les différents nœuds.</p>
+<p>On renomme les deux serveurs et on configure les interfaces réseau avant d'installer le rôle AD sur le serveur CHA-DC1.</p>
+<h3 id="42-configuration-du-role-ad">4.2 - Configuration du rôle AD</h3>
+<p>Le rôle AD sera mis en place en amont sur CHA-DC1.</p>
+<p>Installation du rôle AD : </p>
+<pre class="codehilite"><code>Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
+Install-ADDSForest -DomainName &quot;cha.chartres.sportludique.fr&quot; -DomainNetbiosName &quot;CHA&quot; -InstallDNS
+</code></pre>
+
+<p>Ainsi, nous pourrons administrer ce serveur avec le serveur CHA-GUI1.</p>
+<h3 id="42-configuration-de-gui1">4.2 - Configuration de GUI1</h3>
+<p>Nous mettons en place CHA-GUI1, un Windows Server 2022 sous interface graphique, qui va nous permettre d'administrer CHA-DC1 avec une interface graphique.</p>
+<p>Nous aurons la configuration suivante : </p>
+<p>Carte réseau 1 -&gt; VLAN SERVEURS -&gt; 172.28.160.2/24
+Carte réseau 2 -&gt; VLAN MANA -&gt; 10.28.2.1</p>
+<p>De suite, nous pourrons être dans le réseau de MANA, qui est isolé.</p>
+<h2 id="5-mise-en-place-du-dns-public-dmz"><font color= 'red'> 5 - Mise en place du DNS PUBLIC - DMZ </font></h2>
+<h3 id="51-creation-de-la-vm">5.1 - Création de la VM</h3>
+<p>Nous allons déployer un DNS externe, CHA-DNS2, qui permettra aux utilisateurs d'accéder aux services publics (DMZ). Nous allons le mettre en place sous une VM Debian.</p>
+<p>Nous utilisons le logiciel BIND9, un logiciel de serveur DNS qui est open source et qui est le plus utilisé au monde.</p>
+<p>La configuration réseau sera la suivante :</p>
+<p>Carte réseau 1 -&gt; VLAN DMZ -&gt; 192.168.224.1/24
+Carte réseau 2 -&gt; VLAN MANA -&gt; 10.28.2.2/24</p>
 <p>Nous installons ensuite BIND9 :</p>
-<pre><code>sudo apt update
+<pre class="codehilite"><code>sudo apt update
 sudo apt install bind9 bind9-utils dnsutils
 </code></pre>
-<h2 id="52-configurer-bind-comme-dns-autoritatif-uniquement">5.2 - Configurer BIND comme DNS autoritatif uniquement</h2>
-<p>On édite :</p>
-<pre><code>sudo nano /etc/bind/named.conf.options
-</code></pre>
+
+<h3 id="52-configurer-bind-comme-dns-autoritatif-uniquement">5.2 - Configurer BIND comme DNS autoritatif uniquement</h3>
+<p>On édite le fichier suivant : <code>sudo nano /etc/bind/named.conf.options</code></p>
 <p>Puis on insère le fichier de configuration suivant :</p>
-<pre><code>options {
+<pre class="codehilite"><code>options {
         directory &quot;/var/cache/bind&quot;;
 
         listen-on {
@@ -370,10 +590,11 @@ sudo apt install bind9 bind9-utils dnsutils
         dnssec-validation auto;
 };
 </code></pre>
-<h2 id="53-creation-de-la-zone-chartressportludiquefr">5.3 - Création de la zone chartres.sportludique.fr</h2>
+
+<h3 id="53-creation-de-la-zone-chartressportludiquefr">5.3 - Création de la zone chartres.sportludique.fr</h3>
 <p>On crée le fichier de configuration pour créer la zone : <code>sudo nano /etc/bind/zones/db.chartres.sportludique.fr</code></p>
 <p>Ensuite, nous le configurons de la manière suivante :</p>
-<pre><code>$TTL 3600
+<pre class="codehilite"><code>$TTL 3600
 
 @   IN SOA ns.chartres.sportludique.fr. admin.chartres.sportludique.fr. (
         2026101301
@@ -390,10 +611,11 @@ ns           IN A       221.87.128.1
 @            IN A       221.87.128.1
 www          IN A       221.87.128.1
 </code></pre>
+
 <p>Nous devons par la suite ajouter la redirection de port sur le routeur, pour permettre aux utilisateurs en dehors du LAN d'y accéder (voir 2.3).</p>
 <p>Après avoir réaliser toutes ces étapes, nous pouvons donc tester l'accès depuis l'extérieur avec la commande suivantes : <code>dig 221.87.128.1 www.chartres.sportludique.fr</code></p>
 <p>Et nous devons le résultat suivant :</p>
-<pre><code>administrateur@CHA-DNS2:/etc/bind/zones$ dig @121.183.90.205 www.chartres.sportludique.fr A 
+<pre class="codehilite"><code>administrateur@CHA-DNS2:/etc/bind/zones$ dig @121.183.90.205 www.chartres.sportludique.fr A 
 ;; communications error to 121.183.90.205#53: timed out 
 
 ; &lt;&lt;&gt;&gt; DiG 9.20.29-1~deb13u1-Debian &lt;&lt;&gt;&gt; @121.183.90.205 www.chartres.sportludique.fr A 
@@ -415,150 +637,374 @@ www.chartres.sportludique.fr. 3600 IN   A       221.87.128.1
 ;; SERVER: 121.183.90.205#53(121.183.90.205) (UDP) 
 ;; WHEN: Tue Oct 13 15:54:28 CEST 2026 
 ;; MSG SIZE  rcvd: 73
-```depuis
-
-# &lt;font color= 'red'&gt; 6) Mise en place du DNS Interne &lt;/font&gt;
-
-
-Pour ce faire, nous avons créé une machine virtuelle sous Windows Server 2022 (Core).
-
-Après la configuration et l'installation, nous l'avons jointe au domaine, puis nous avons pu  l'ajouter au serveur CHA-GUI1 pour nous permettre de l'administrer.
-
-Nous avons installé le service DNS sur le serveur CHA-DNS1 ainsi que les outils d'administration à distance sur notre serveur CHA-GUI1.
-
-Ensuite, nous avons créé la zone principale avec le nom `chartres.sportludique.fr`
-
-Nous avons mis en place les enregistrements DNS vers la DMZ pour les serveurs DNS, mail et web.
-Et nous avons aussi mis le redirecteur pour accéder à Internet depuis les différents VLAN en utilisant le serveur DNS interne.
-# &lt;font color= 'red'&gt; 7 - Mise en place du service web dans la DMZ &lt;/font&gt;
-
-Nous avons mis en place une vm linux qui servaura le rôle de serveur web.
-
-Nous avons pu configurer les différents fichier de configuration.
-
-## 7.1 - Nous créeons le contenu du site
 </code></pre>
-<p>sudo install -d -m 755 /var/www/sportludique-public
-sudo nano /var/www/sportludique-public/index.html</p>
-<pre><code>Et nous intégrons le contenu suivant dans le fichier :
+
+<p>depuis</p>
+<h1 id="6-mise-en-place-du-dns-interne"><font color= 'red'> 6) Mise en place du DNS Interne </font></h1>
+<p>Pour ce faire, nous avons créé une machine virtuelle sous Windows Server 2022 (Core).</p>
+<p>Après la configuration et l'installation, nous l'avons jointe au domaine, puis nous avons pu  l'ajouter au serveur CHA-GUI1 pour nous permettre de l'administrer.</p>
+<p>Nous avons installé le service DNS sur le serveur CHA-DNS1 ainsi que les outils d'administration à distance sur notre serveur CHA-GUI1.</p>
+<p>Ensuite, nous avons créé la zone principale avec le nom <code>chartres.sportludique.fr</code></p>
+<p>Nous avons mis en place les enregistrements DNS vers la DMZ pour les serveurs DNS, mail et web.
+Et nous avons aussi mis le redirecteur pour accéder à Internet depuis les différents VLAN en utilisant le serveur DNS interne.</p>
+<h1 id="7-mise-en-place-du-service-web-dans-la-dmz"><font color= 'red'> 7 - Mise en place du service web dans la DMZ </font></h1>
+<p>Nous avons mis en place une vm linux qui servaura le rôle de serveur web.</p>
+<p>Nous avons pu configurer les différents fichier de configuration.</p>
+<h2 id="71-nous-creeons-le-contenu-du-site">7.1 - Nous créeons le contenu du site</h2>
+<pre class="codehilite"><code>sudo install -d -m 755 /var/www/sportludique-public
+sudo nano /var/www/sportludique-public/index.html
 </code></pre>
-<!doctype html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <title>Chartres SportLudique — Site public</title>
-</head>
-<body>
-  <h1>SportLudique — Site public</h1>
-  <p>Ville : Chartres — Serveur : WEB1</p>
-</body>
-</html>
 
-<pre><code>
-## 7.2 - Définir le premier VirtualHost
-
-Créer le fichier `/etc/apache2/sites-available/sportludique-public.conf`
-
-Puis insérer le contenu suivant :
-</code></pre>
-<p><VirtualHost *:80>
+<p>Et nous configurons la première page du site avec du contenu.</p>
+<h2 id="72-definir-le-premier-virtualhost">7.2 - Définir le premier VirtualHost</h2>
+<p>Créer le fichier <code>/etc/apache2/sites-available/sportludique-public.conf</code></p>
+<p>Puis insérer le contenu suivant :</p>
+<pre class="codehilite"><code>&lt;VirtualHost *:80&gt;
     ServerName www.chartres.sportludique.fr
-    DocumentRoot /var/www/sportludique-public</p>
-<pre><code>&lt;Directory /var/www/sportludique-public&gt;
-    Options None
-    AllowOverride None
-    Require all granted
-&lt;/Directory&gt;
+    DocumentRoot /var/www/sportludique-public
 
-ErrorLog ${APACHE_LOG_DIR}/sportludique-public_error.log
-CustomLog ${APACHE_LOG_DIR}/sportludique-public_access.log combined
+    &lt;Directory /var/www/sportludique-public&gt;
+        Options None
+        AllowOverride None
+        Require all granted
+    &lt;/Directory&gt;
+
+    ErrorLog ${APACHE_LOG_DIR}/sportludique-public_error.log
+    CustomLog ${APACHE_LOG_DIR}/sportludique-public_access.log combined
+&lt;/VirtualHost&gt;
 </code></pre>
-<p></VirtualHost></p>
-<pre><code>## 7.3 - On active le site et on contrôle la syntaxe
+
+<h2 id="73-on-active-le-site-et-on-controle-la-syntaxe">7.3 - On active le site et on contrôle la syntaxe</h2>
+<pre class="codehilite"><code>sudo a2ensite sportludique-public.conf
+sudo apache2ctl configtest
 </code></pre>
-<p>sudo a2ensite sportludique-public.conf
-sudo apache2ctl configtest</p>
-<pre><code>Si le résultat indique `Syntax OK`, nous pouvons recharger la configuration du site :
-</code></pre>
-<p>sudo systemctl reload apache2
+
+<p>Si le résultat indique <code>Syntax OK</code>, nous pouvons recharger la configuration du site :</p>
+<pre class="codehilite"><code>sudo systemctl reload apache2
 sudo apache2ctl -S
-```</p>
-<h2 id="74-activer-la-redirection-de-port-pour-un-acces-depuis-lexterieur-voir-25">7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)</h2></div>
-            </div>
-        </div>
+</code></pre>
 
-        <footer class="col-md-12">
-            <hr>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script src="../js/bootstrap.bundle.min.js"></script>
-        <script>
-            var base_url = "..",
-                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
-        </script>
-        <script src="../js/base.js"></script>
-        <script src="../search/main.js"></script>
-
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
+<h2 id="74-activer-la-redirection-de-port-pour-un-acces-depuis-lexterieur-voir-25">7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)</h2>
+<h1 id="8-mise-en-place-du-serveur-web-et-de-ses-certificats"><font color= 'red'> 8 - Mise en place du serveur web et de ses certificats </font></h1>
+  </div>
+</article>
+                                <div id="bottom-navigation" class="mx-auto flex h-16 w-full max-w-2xl items-center justify-between gap-2 px-4 md:px-0">
+    
+    <a class="button secondary" href="..">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="tabler-icon tabler-icon-arrow-left">
+    <path d="M5 12l14 0"></path>
+    <path d="M5 12l6 6"></path>
+    <path d="M5 12l6 -6"></path>
+</svg>
+    <span class="max-[500px]:hidden truncate">Accueil</span>
+</a>
+    
+    
+    <a class="button secondary" href="../annexes/">
+    <span class="max-[500px]:hidden truncate">Annexes</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="tabler-icon tabler-icon-arrow-right">
+    <path d="M5 12l14 0"></path>
+    <path d="M13 18l6 -6"></path>
+    <path d="M13 6l6 6"></path>
+</svg>
+</a>
+    
 </div>
+                                
+                                
+                            </div>
+                            
+                            <dialog id="bottom-sidebar" onclick="onBottomSidebarDialogClick(event)" class="bg-transparent"
+    style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 58px); min-width: max-content; --radix-popper-transform-origin: 0% 0px; will-change: transform; z-index: 50; --radix-popper-available-width: 504px; --radix-popper-available-height: 857px; --radix-popper-anchor-width: 72.94999694824219px; --radix-popper-anchor-height: 32px;">
+    <div data-side="bottom" data-align="start" data-state="open" role="dialog" data-slot="popover-content"
+        class="text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 origin-(--radix-popover-content-transform-origin) border outline-hidden bg-background/90 no-scrollbar h-(--radix-popper-available-height) w-(--radix-popper-available-width) overflow-y-auto rounded-none border-none p-0 shadow-none backdrop-blur duration-100"
+        style="--radix-popover-content-transform-origin: var(--radix-popper-transform-origin); --radix-popover-content-available-width: var(--radix-popper-available-width); --radix-popover-content-available-height: var(--radix-popper-available-height); --radix-popover-trigger-width: var(--radix-popper-anchor-width); --radix-popover-trigger-height: var(--radix-popper-anchor-height);"
+        tabindex="-1">
+        <div class="flex flex-col gap-12 overflow-auto px-6 py-6">
+            
+            
+            
 
-    </body>
+            
+            <div class="flex flex-col gap-4">
+                <div class="text-muted-foreground text-sm font-medium">Menu</div>
+                <div class="flex flex-col gap-3">
+                    
+                    <a class="text-2xl font-medium" href="..">
+                        
+                        Accueil
+                        
+                    </a>
+                    
+                    <a class="text-2xl font-medium" href="./">
+                        
+                        Documentation
+                        
+                    </a>
+                    
+                    <a class="text-2xl font-medium" href="../annexes/">
+                        
+                        Annexes
+                        
+                    </a>
+                    
+                </div>
+            </div>
+            
+
+            
+            
+
+        </div>
+    </div>
+</dialog>
+                            <div
+                                class="sticky top-[calc(var(--header-height)+1px)] ml-auto hidden h-[calc(100svh-var(--header-height)-var(--footer-height))] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
+                                <div class="h-(--top-spacing) shrink-0"></div>
+                                
+                                
+                                <div id="toc" view-transition-name="toc" class="no-scrollbar overflow-y-auto px-8">
+    <div class="flex flex-col gap-2 p-4 pt-0 text-sm">
+        <p class="text-muted-foreground bg-background sticky top-0 h-6 text-xs">On This Page</p>
+        
+        
+        
+        
+        <a href="#1-configuration-du-switch" data-active="false" data-depth="2">
+            1 - Configuration du switch
+        </a>
+        
+        
+        <a href="#11-renommage-du-switch" data-active="false" data-depth="3">
+            1.1 - Renommage du switch
+        </a>
+        
+        <a href="#12-creer-les-differents-vlans-necessaires" data-active="false" data-depth="3">
+            1.2 - Créer les différents VLANS nécessaires
+        </a>
+        
+        <a href="#13-attribution-des-ports-aux-vlans" data-active="false" data-depth="3">
+            1.3 - Attribution des ports aux VLANS
+        </a>
+        
+        <a href="#14-creation-dun-utilisateur" data-active="false" data-depth="3">
+            1.4 - Création d'un utilisateur
+        </a>
+        
+        <a href="#15-mise-en-place-du-ssh" data-active="false" data-depth="3">
+            1.5 - Mise en place du SSH
+        </a>
+        
+        <a href="#16-modification-du-switch-apres-la-mise-en-place-du-pare-feu" data-active="false" data-depth="3">
+            1.6 - Modification du switch après la mise en place du Pare-Feu
+        </a>
+        
+        <a href="#probleme-lacp" data-active="false" data-depth="3">
+            Problème LACP
+        </a>
+        
+        <a href="#17-configuration-integrale-du-sw-cha" data-active="false" data-depth="3">
+            1.7 - Configuration intégrale du SW-CHA
+        </a>
+        
+        
+
+        
+        <a href="#2-configuration-routeur" data-active="false" data-depth="2">
+            2 - Configuration Routeur
+        </a>
+        
+        
+        <a href="#21-mise-en-place-du-nat" data-active="false" data-depth="3">
+            2.1 - Mise en place du NAT
+        </a>
+        
+        <a href="#22-mise-en-place-de-lacces-internet-sur-les-vlans" data-active="false" data-depth="3">
+            2.2 - Mise en place de l'accès internet sur les vlans
+        </a>
+        
+        <a href="#23-redirection-de-port-vers-la-dmz" data-active="false" data-depth="3">
+            2.3 - Redirection de port vers la DMZ
+        </a>
+        
+        <a href="#24-mise-en-place-du-2eme-routeur" data-active="false" data-depth="3">
+            2.4 - Mise en place du 2eme Routeur
+        </a>
+        
+        <a href="#25-mise-en-place-de-la-redirection-de-port-pour-un-acces-depuis-lexterieur-aux-services-de-la-dmz" data-active="false" data-depth="3">
+            2.5 - Mise en place de la redirection de port pour un accès depuis l'extérieur aux services de la DMZ
+        </a>
+        
+        
+
+        
+        <a href="#3-configuration-de-firewall" data-active="false" data-depth="2">
+            3 - Configuration de firewall
+        </a>
+        
+        
+        <a href="#31-mise-a-jour-du-firewall" data-active="false" data-depth="3">
+            3.1 - Mise a jour du firewall
+        </a>
+        
+        <a href="#32-mise-en-place-des-sous-interfaces" data-active="false" data-depth="3">
+            3.2 - Mise en place des sous-interfaces
+        </a>
+        
+        <a href="#33-mise-en-place-des-routes" data-active="false" data-depth="3">
+            3.3 - Mise en place des routes
+        </a>
+        
+        <a href="#34-filtre-et-nat" data-active="false" data-depth="3">
+            3.4 - Filtre et NAT
+        </a>
+        
+        
+
+        
+        <a href="#4-mise-en-place-des-serveurs" data-active="false" data-depth="2">
+            4 - Mise en place des serveurs
+        </a>
+        
+        
+        <a href="#41-installation-du-cha-dc1-cha-gui1" data-active="false" data-depth="3">
+            4.1 - Installation du CHA-DC1 &amp; CHA-GUI1
+        </a>
+        
+        <a href="#42-configuration-du-role-ad" data-active="false" data-depth="3">
+            4.2 - Configuration du rôle AD
+        </a>
+        
+        <a href="#42-configuration-de-gui1" data-active="false" data-depth="3">
+            4.2 - Configuration de GUI1
+        </a>
+        
+        
+
+        
+        <a href="#5-mise-en-place-du-dns-public-dmz" data-active="false" data-depth="2">
+            5 - Mise en place du DNS PUBLIC - DMZ
+        </a>
+        
+        
+        <a href="#51-creation-de-la-vm" data-active="false" data-depth="3">
+            5.1 - Création de la VM
+        </a>
+        
+        <a href="#52-configurer-bind-comme-dns-autoritatif-uniquement" data-active="false" data-depth="3">
+            5.2 - Configurer BIND comme DNS autoritatif uniquement
+        </a>
+        
+        <a href="#53-creation-de-la-zone-chartressportludiquefr" data-active="false" data-depth="3">
+            5.3 - Création de la zone chartres.sportludique.fr
+        </a>
+        
+        
+
+        
+        <a href="#6-mise-en-place-du-dns-interne" data-active="false" data-depth="2">
+            6) Mise en place du DNS Interne
+        </a>
+        
+
+        
+        <a href="#7-mise-en-place-du-service-web-dans-la-dmz" data-active="false" data-depth="2">
+            7 - Mise en place du service web dans la DMZ
+        </a>
+        
+        
+        <a href="#71-nous-creeons-le-contenu-du-site" data-active="false" data-depth="3">
+            7.1 - Nous créeons le contenu du site
+        </a>
+        
+        <a href="#72-definir-le-premier-virtualhost" data-active="false" data-depth="3">
+            7.2 - Définir le premier VirtualHost
+        </a>
+        
+        <a href="#73-on-active-le-site-et-on-controle-la-syntaxe" data-active="false" data-depth="3">
+            7.3 - On active le site et on contrôle la syntaxe
+        </a>
+        
+        <a href="#74-activer-la-redirection-de-port-pour-un-acces-depuis-lexterieur-voir-25" data-active="false" data-depth="3">
+            7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)
+        </a>
+        
+        
+
+        
+        <a href="#8-mise-en-place-du-serveur-web-et-de-ses-certificats" data-active="false" data-depth="2">
+            8 - Mise en place du serveur web et de ses certificats
+        </a>
+        
+
+        
+        
+        
+        
+
+    </div>
+    <div class="h-12"></div>
+
+</div>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer view-transition-name="footer"
+    class="group-has-[.section-soft]/body:bg-surface/40 3xl:fixed:bg-transparent dark:bg-transparent">
+    <div class="container-wrapper px-4 xl:px-6">
+        <div class="flex h-(--footer-height) items-center justify-between">
+            <div class="text-muted-foreground w-full text-center text-xs leading-loose sm:text-sm">
+                
+                <a href="https://github.com/asiffer/mkdocs-shadcn">shadcn theme</a> provided by
+                <a href="https://github.com/asiffer">@asiffer</a>
+            </div>
+        </div>
+    </div>
+</footer>
+    </div>
+     
+
+<script src="../assets/js/toc.js"></script>
+
+     
+
+<script src="../search/main.js"></script>
+
+
+    
+
+    <script integrity="sha384-JLNLRFGzvOp0up707XKgSnAjjt1w5BF/+lbeLQvlf6mNwf0m89IXFdpNAk4t6Hcs"
+        src="../js/copy-button.js"></script>
+    <script integrity="sha384-JBx6cBEiyhK1KPwZgBHiI6GDaAmvlOxMQFyWAZTEpW5Ifo5XQ2LBcJ61GVOumwF1"
+        src="../js/sidebar.js"></script>
+    <script integrity="sha384-fNURFMRt0p/HqXnQnV4+CT9dX1GiU5F0fC3pFbg7gfoANytoUMErSW7suWSBkSuF"
+        src="../js/slider.js"></script>
+    <script>updatePygmentsStylesheet();</script>
+    
+    <script>fetchStargazers("None");</script>
+    
+    
+    
+    <script type="speculationrules">
+{
+  "prerender": [
+    {
+      "where": {
+          "selector_matches": ["#next-button", "#previous-button"]
+      }
+    }
+  ]
+}
+</script>
+</body>
+
 </html>
