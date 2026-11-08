@@ -8,7 +8,12 @@ title: Accueil
     <div class="sl-hero-glow" aria-hidden="true"></div>
     <div class="sl-hero-content">
       <div class="sl-pill"><span class="sl-live-dot"></span> SPORTLUDIQUE · SIÈGE SOCIAL DE CHARTRES</div>
-      <img class="sl-hero-logo" src="img/logo.png" alt="Logo SportLudique Chartres" />
+      
+<img
+  class="sl-hero-logo"
+  src="https://sportludique-chartres.github.io/Chartres/img/logo.png?v=2"
+  alt="Logo SportLudique Chartres"
+  />
       <p class="sl-eyebrow">DIRECTION DES SYSTÈMES D'INFORMATION</p>
       <h1 id="sl-hero-title">L'esprit d'équipe.<br><span>La puissance du numérique.</span></h1>
       <p class="sl-hero-description">Bienvenue sur le portail informatique de SportLudique Chartres. Découvrez nos infrastructures, nos services et nos réalisations techniques au service d'une entreprise dédiée au sport.</p>

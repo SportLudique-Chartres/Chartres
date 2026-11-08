@@ -13,7 +13,7 @@ title: Accueil
       <h1 id="sl-hero-title">L'esprit d'équipe.<br><span>La puissance du numérique.</span></h1>
       <p class="sl-hero-description">Bienvenue sur le portail informatique de SportLudique Chartres. Découvrez nos infrastructures, nos services et nos réalisations techniques au service d'une entreprise dédiée au sport.</p>
       <div class="sl-hero-actions">
-        <a class="sl-btn sl-btn-primary" href="#documentation">Explorer la documentation <span aria-hidden="true">↗</span></a>
+        <a class="sl-btn sl-btn-primary" href="#documentation">Explorer nos services <span aria-hidden="true">↗</span></a>
         <a class="sl-btn sl-btn-outline" href="#infrastructure">Découvrir l'infrastructure <span aria-hidden="true">→</span></a>
       </div>
       <div class="sl-sports" aria-label="Disciplines sportives : football, handball, basketball et volleyball">

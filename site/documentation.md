@@ -353,7 +353,7 @@ Nous avons mis en place une VM Linux qui servira le rôle de serveur web.
 
 Nous avons pu configurer les différents fichiers de configuration.
 
-### 7.1 - Nous créons le contenu du site
+### 7.1 - Création du fichier qui acceuillera le premier contenu du site
 
 ```
 sudo install -d -m 755 /var/www/sportludique-public
