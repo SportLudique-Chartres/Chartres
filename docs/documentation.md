@@ -400,7 +400,7 @@ sudo apache2ctl -S
 
 ### 7.5 - Créer l'autorité de certification de Chartres
 
-1 - Préparation de l'environnement de travail
+1. Préparation de l'environnement de travail
 
 Installation OpenSSL :
 
@@ -409,7 +409,7 @@ sudo apt update
 sudo apt install openssl tree
 ```
 
-2 - Création d'un dossier pki-groupe en respectant donc l'arborescence :
+2. Création d'un dossier pki-groupe en respectant donc l'arborescence :
 
 ```
 pki-groupe/
@@ -422,7 +422,7 @@ pki-groupe/
     └── demandes/
 ```
 
-3 - Génération d'une clé RSA 4096 bits, chiffrée avec une phrase de passe :
+3. Génération d'une clé RSA 4096 bits, chiffrée avec une phrase de passe :
 
 ```
 openssl genpkey -algorithm RSA -aes-256-cbc \
@@ -430,14 +430,14 @@ openssl genpkey -algorithm RSA -aes-256-cbc \
   -out autorite/cles/ca-chartres.key
 ```
 
-4 - Vérification de sa création :
+4. Vérification de sa création :
 
 ```
 ls -l autorite/cles/ca-chartres.key
 openssl pkey -in autorite/cles/ca-chartres.key -noout -check
 ```
 
-5 - Création de CSR de votre CA existante
+5. Création de la CSR de votre CA existante
 
 ```
 mkdir -p autorite/demandes
@@ -450,28 +450,28 @@ openssl req -new -sha256 \
 openssl req -in autorite/demandes/ca-groupe.csr -noout -verify -text
 ```
 
-Puis transmettre uniquement `ca-chartres.csr` au prestataire (enseignant), le prestataire controlera la demande et signera avec les extensions d'une CA intermédiaire.
+Puis, transmettez uniquement `ca-chartres.csr` au prestataire (enseignant) ; le prestataire contrôlera la demande et signera avec les extensions d'une CA intermédiaire.
 
-6 - Récuperer et vérifier la confiance des certificats
+6. Récupérer et vérifier la confiance des certificats
 
-Récuperation du certicat public de la CA racine SportLudique et nous récupérons le CA intermédiaire signé par le prestataire
+Récupération du certificat public de la CA racine SportLudique et récupération de la CA intermédiaire signée par le prestataire.
 
-Attention : Vérifiez l'empreinte SHA-256 :
+Attention : vérifiez l'empreinte SHA-256 :
 
 ```
 openssl x509 -in autorite/certificats/sportludique-root.crt.pem -noout -fingerprint -sha256
 ```
 
-7 - Vérificationd de la chaîne de confiance
+7. Vérification de la chaîne de confiance
 
-Vérification des deux certificats récuperé de la CA racine :
+Vérification des deux certificats récupérés de la CA racine :
 
 ```
 openssl x509 -in autorite/certificats/sportludique-root.crt.pem \
   -noout -fingerprint -sha256
 ```
 
-Vérifiez ensuite que le CA intermédiaire a bien été certifiée par la CA racine SportLudique
+Vérifiez ensuite que le CA intermédiaire a bien été certifié par la CA racine SportLudique.
 
 ```
 openssl verify \
@@ -485,7 +485,7 @@ Résultat attendu :
 autorite/certificats/ca-intermediaire.crt: OK
 ```
 
-8 - Découvrir me registre d'une CA
+8. Découvrir le registre d'une CA
 
 Préparer ce registre une seule fois, sans écraser un registre déjà utilisé :
 
@@ -522,7 +522,7 @@ countryName = optional
 organizationName = optional
 commonName = supplied
 ```
-9 - Emettre un nouveau certificat serveur
+9. Émettre un nouveau certificat serveur
 
 Nous reprenons le certificat `ca-chartres.csr`, puis nous créons `serveur/demandes/web.ext` en adaptant les noms DNS :
 
@@ -535,7 +535,7 @@ authorityKeyIdentifier = keyid:always,issuer
 subjectAltName = DNS:www.chartres.sportludique.fr,DNS:chartres.sportludique.fr
 ```
 
-Puis on signe avec le certificat intermédiaire :
+Puis, on signe avec le certificat intermédiaire :
 
 ```
 openssl ca -config autorite/openssl.cnf \
@@ -544,7 +544,7 @@ openssl ca -config autorite/openssl.cnf \
   -out serveur/certificats/web-intermediaire.crt \
   -notext -days 200
 ```
-Puis nous vérifions la chaîne complète :
+Puis, nous vérifions la chaîne complète :
 
 ```
 openssl verify -show_chain \
@@ -554,7 +554,7 @@ openssl verify -show_chain \
   serveur/certificats/web-intermediaire.crt
 ```
 
-Création du fichier fullchain.pem :
+Création du fichier `fullchain.pem` :
 
 ```
 cat serveur/certificats/web-intermediaire.crt \
@@ -566,34 +566,37 @@ Cette commande regroupe deux certificats publics dans un même fichier, dans l'o
 
 ### 7.6 - Publication du site en HTTPS sur Apache
 
-1 - Installation des certificats sur le serveur web
+1. Installation des certificats sur le serveur web
 
-Sur le serveur Apache, nous préparons les dossiers de destinations :
+Sur le serveur Apache, nous préparons les dossiers de destination :
 
 ```
 sudo mkdir -p /etc/ssl/sportludique/certs
 sudo mkdir -p /etc/ssl/sportludique/private
 ```
-Nous copions les fichiers nécessaire depuis le répertoire PKI vers ces dossiers : 
+Nous copions les fichiers nécessaires depuis le répertoire PKI vers ces dossiers : 
 
 - `web.key` vers `/etc/ssl/sportludique/private/web.key` ;
  
 - CA intermédiaire :`fullchain.pem` vers `/etc/ssl/sportludique/certs/fullchain.pem`.
  
-Nous protégeons la clé privé sur le serveur web :
+Nous protégeons la clé privée sur le serveur web :
 
 ```
 sudo chown root:root /etc/ssl/sportludique/private/web.key
 sudo chmod 600 /etc/ssl/sportludique/private/web.key
 ```
 
-2 - Activer HTTPS
+Nous protégeons la clé privée sur le serveur web
+
+2. Activer HTTPS
 
 On active le module SSL : `sudo a2enmod ssl`
 
-Nous créeons le fichier `/etc/apache2/sites-avaibles/sportludique-ssl.conf`
+Nous créons le fichier `/etc/apache2/sites-avaibles/sportludique-ssl.conf`
 
-Nous mettons la configuration suivante dans le fichier qui pécède :
+Nous mettons la configuration suivante dans le fichier qui précède :
+
 
 ```
 <VirtualHost *:443>
@@ -610,7 +613,7 @@ Nous mettons la configuration suivante dans le fichier qui pécède :
 </VirtualHost>
 ```
 
-On active donc le site, nous testons la configuration et on recharge Apache :
+On active donc le site, nous testons la configuration et nous rechargeons Apache :
 
 ```
 sudo a2ensite sportludique-ssl.conf
