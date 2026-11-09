@@ -353,7 +353,7 @@ Nous avons mis en place une VM Linux qui servira le rôle de serveur web.
 
 Nous avons pu configurer les différents fichiers de configuration.
 
-### 7.1 - Création du fichier qui acceuillera le premier contenu du site
+### 7.1 - Nous créons le contenu du site
 
 ```
 sudo install -d -m 755 /var/www/sportludique-public
@@ -400,4 +400,108 @@ sudo apache2ctl -S
 
 ### 7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)
 
-## <font color= 'red'> 8 - Mise en place du serveur web et de ses certificats </font>
+### 7.5 - Créer l'autorité de certification de Chartres
+
+1 - Préparation de l'environnement de travail
+
+Installation OpenSSL :
+```
+sudo apt update
+sudo apt install openssl tree
+```
+
+2 - Création d'un dossier pki-groupe en respectant donc l'arborescence :
+```
+pki-groupe/
+├── autorite/
+│   ├── certificats/
+│   └── cles/
+└── serveur/
+    ├── certificats/
+    ├── cles/
+    └── demandes/
+```
+3 - Génération d'une clé RSA 4096 bits, chiffrée avec une phrase de passe :
+```
+openssl genpkey -algorithm RSA -aes-256-cbc \
+  -pkeyopt rsa_keygen_bits:4096 \
+  -out autorite/cles/ca-chartres.key
+```
+4 - Vérification de sa création :
+```
+ls -l autorite/cles/ca-chartres.key
+openssl pkey -in autorite/cles/ca-chartres.key -noout -check
+```
+5 - Création de CSR de votre CA existante
+```
+mkdir -p autorite/demandes
+ 
+openssl req -new -sha256 \
+  -key autorite/cles/ca-chartres.key \
+  -out autorite/demandes/ca-chartres.csr \
+  -subj "/C=FR/O=SportLudique/CN=CA Chartres SportLudique"
+ 
+openssl req -in autorite/demandes/ca-groupe.csr -noout -verify -text
+```
+Puis transmettre uniquement `ca-chartres.csr` au prestataire (enseignant), le prestataire controlera la demande et signera avec les extensions d'une CA intermédiaire.
+
+6 - Récuperer et vérifier la confiance des certificats
+
+Récuperation du certicat public de la CA racine SportLudique et nous récupérons le CA intermédiaire signé par le prestataire
+
+Attention : Vérifiez l'empreinte SHA-256 :
+```
+openssl x509 -in autorite/certificats/sportludique-root.crt.pem -noout -fingerprint -sha256
+ ```
+7 - Vérificationd de la chaîne de confiance
+
+Vérification des deux certificats récuperé de la CA racine :
+```
+openssl x509 -in autorite/certificats/sportludique-root.crt.pem \
+  -noout -fingerprint -sha256
+```
+Vérifiez ensuite que le CA intermédiaire a bien été certifiée par la CA racine SportLudique
+```
+openssl verify \
+  -CAfile autorite/certificats/sportludique-root.crt.pem \
+  autorite/certificats/ca-intermediaire.crt
+```
+Résultat attendu :
+```
+autorite/certificats/ca-intermediaire.crt: OK
+```
+8 - Découvrir me registre d'une CA
+
+Préparer ce registre une seule fois, sans écraser un registre déjà utilisé :
+```
+mkdir -p autorite/newcerts autorite/crl
+touch autorite/index.txt
+openssl rand -hex 16 > autorite/serial
+printf '1000\n' > autorite/crlnumber
+```
+
+Créez `autorite/openssl.cnf` :
+[ ca ]
+default_ca = CA_default
+ 
+[ CA_default ]
+dir = ./autorite
+database = $dir/index.txt
+new_certs_dir = $dir/newcerts
+serial = $dir/serial
+crlnumber = $dir/crlnumber
+certificate = $dir/certificats/ca-intermediaire.crt
+private_key = $dir/cles/ca-chartres.key
+default_md = sha256
+default_days = 90
+default_crl_days = 7
+policy = policy_server
+copy_extensions = none
+unique_subject = no
+ 
+[ policy_server ]
+countryName = optional
+organizationName = optional
+commonName = supplied
+```
+9 - Emettre un nouveau certificat serveur

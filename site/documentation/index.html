@@ -684,7 +684,104 @@ sudo apache2ctl configtest
 </code></pre></div>
 
 <h3 id="74-activer-la-redirection-de-port-pour-un-acces-depuis-lexterieur-voir-25">7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)</h3>
-<h2 id="8-mise-en-place-du-serveur-web-et-de-ses-certificats"><font color= 'red'> 8 - Mise en place du serveur web et de ses certificats </font></h2>
+<h3 id="75-creer-lautorite-de-certification-de-chartres">7.5 - Créer l'autorité de certification de Chartres</h3>
+<p>1 - Préparation de l'environnement de travail</p>
+<p>Installation OpenSSL :</p>
+<div class="codehilite"><pre><span></span><code>sudo apt update
+sudo apt install openssl tree
+</code></pre></div>
+
+<p>2 - Création d'un dossier pki-groupe en respectant donc l'arborescence :</p>
+<div class="codehilite"><pre><span></span><code>pki-groupe/
+├── autorite/
+│   ├── certificats/
+│   └── cles/
+└── serveur/
+    ├── certificats/
+    ├── cles/
+    └── demandes/
+</code></pre></div>
+
+<p>3 - Génération d'une clé RSA 4096 bits, chiffrée avec une phrase de passe :</p>
+<div class="codehilite"><pre><span></span><code>openssl genpkey -algorithm RSA -aes-256-cbc \
+  -pkeyopt rsa_keygen_bits:4096 \
+  -out autorite/cles/ca-chartres.key
+</code></pre></div>
+
+<p>4 - Vérification de sa création :</p>
+<div class="codehilite"><pre><span></span><code>ls -l autorite/cles/ca-chartres.key
+openssl pkey -in autorite/cles/ca-chartres.key -noout -check
+</code></pre></div>
+
+<p>5 - Création de CSR de votre CA existante</p>
+<div class="codehilite"><pre><span></span><code>mkdir -p autorite/demandes
+
+openssl req -new -sha256 \
+  -key autorite/cles/ca-chartres.key \
+  -out autorite/demandes/ca-chartres.csr \
+  -subj "/C=FR/O=SportLudique/CN=CA Chartres SportLudique"
+
+openssl req -in autorite/demandes/ca-groupe.csr -noout -verify -text
+</code></pre></div>
+
+<p>Puis transmettre uniquement <code>ca-chartres.csr</code> au prestataire (enseignant), le prestataire controlera la demande et signera avec les extensions d'une CA intermédiaire.</p>
+<p>6 - Récuperer et vérifier la confiance des certificats</p>
+<p>Récuperation du certicat public de la CA racine SportLudique et nous récupérons le CA intermédiaire signé par le prestataire</p>
+<p>Attention : Vérifiez l'empreinte SHA-256 :</p>
+<div class="codehilite"><pre><span></span><code>openssl x509 -in autorite/certificats/sportludique-root.crt.pem -noout -fingerprint -sha256
+ ```
+7 - Vérificationd de la chaîne de confiance
+
+Vérification des deux certificats récuperé de la CA racine :
+</code></pre></div>
+
+<p>openssl x509 -in autorite/certificats/sportludique-root.crt.pem \
+  -noout -fingerprint -sha256</p>
+<div class="codehilite"><pre><span></span><code>Vérifiez ensuite que le CA intermédiaire a bien été certifiée par la CA racine SportLudique
+</code></pre></div>
+
+<p>openssl verify \
+  -CAfile autorite/certificats/sportludique-root.crt.pem \
+  autorite/certificats/ca-intermediaire.crt</p>
+<div class="codehilite"><pre><span></span><code>Résultat attendu :
+</code></pre></div>
+
+<p>autorite/certificats/ca-intermediaire.crt: OK</p>
+<div class="codehilite"><pre><span></span><code><span class="mf">8</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Découvrir</span><span class="w"> </span><span class="n">me</span><span class="w"> </span><span class="n">registre</span><span class="w"> </span><span class="n">d</span><span class="err">'</span><span class="n">une</span><span class="w"> </span><span class="n">CA</span>
+
+<span class="n">Préparer</span><span class="w"> </span><span class="n">ce</span><span class="w"> </span><span class="n">registre</span><span class="w"> </span><span class="n">une</span><span class="w"> </span><span class="n">seule</span><span class="w"> </span><span class="n">fois</span><span class="p">,</span><span class="w"> </span><span class="n">sans</span><span class="w"> </span><span class="n">écraser</span><span class="w"> </span><span class="n">un</span><span class="w"> </span><span class="n">registre</span><span class="w"> </span><span class="n">déjà</span><span class="w"> </span><span class="n">utilisé</span><span class="w"> </span><span class="p">:</span>
+</code></pre></div>
+
+<p>mkdir -p autorite/newcerts autorite/crl
+touch autorite/index.txt
+openssl rand -hex 16 &gt; autorite/serial
+printf '1000\n' &gt; autorite/crlnumber</p>
+<div class="codehilite"><pre><span></span><code>Créez <span class="sb">`autorite/openssl.cnf`</span> :
+[ ca ]
+default_ca = CA_default
+
+[ CA_default ]
+dir = ./autorite
+database = $dir/index.txt
+new_certs_dir = $dir/newcerts
+serial = $dir/serial
+crlnumber = $dir/crlnumber
+certificate = $dir/certificats/ca-intermediaire.crt
+private_key = $dir/cles/ca-chartres.key
+default_md = sha256
+default_days = 90
+default_crl_days = 7
+policy = policy_server
+copy_extensions = none
+unique_subject = no
+
+[ policy_server ]
+countryName = optional
+organizationName = optional
+commonName = supplied
+</code></pre></div>
+
+<p>9 - Emettre un nouveau certificat serveur</p>
   </div>
 </article>
                                 <div id="bottom-navigation" class="mx-auto flex h-16 w-full max-w-2xl items-center justify-between gap-2 px-4 md:px-0">
@@ -932,12 +1029,10 @@ sudo apache2ctl configtest
             7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)
         </a>
         
-        
-
-        
-        <a href="#8-mise-en-place-du-serveur-web-et-de-ses-certificats" data-active="false" data-depth="2">
-            8 - Mise en place du serveur web et de ses certificats
+        <a href="#75-creer-lautorite-de-certification-de-chartres" data-active="false" data-depth="3">
+            7.5 - Créer l'autorité de certification de Chartres
         </a>
+        
         
 
         
