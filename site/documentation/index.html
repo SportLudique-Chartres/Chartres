@@ -729,59 +729,136 @@ openssl req -in autorite/demandes/ca-groupe.csr -noout -verify -text
 <p>Récuperation du certicat public de la CA racine SportLudique et nous récupérons le CA intermédiaire signé par le prestataire</p>
 <p>Attention : Vérifiez l'empreinte SHA-256 :</p>
 <div class="codehilite"><pre><span></span><code>openssl x509 -in autorite/certificats/sportludique-root.crt.pem -noout -fingerprint -sha256
- ```
-7 - Vérificationd de la chaîne de confiance
-
-Vérification des deux certificats récuperé de la CA racine :
 </code></pre></div>
 
-<p>openssl x509 -in autorite/certificats/sportludique-root.crt.pem \
-  -noout -fingerprint -sha256</p>
-<div class="codehilite"><pre><span></span><code>Vérifiez ensuite que le CA intermédiaire a bien été certifiée par la CA racine SportLudique
+<p>7 - Vérificationd de la chaîne de confiance</p>
+<p>Vérification des deux certificats récuperé de la CA racine :</p>
+<div class="codehilite"><pre><span></span><code>openssl x509 -in autorite/certificats/sportludique-root.crt.pem \
+  -noout -fingerprint -sha256
 </code></pre></div>
 
-<p>openssl verify \
+<p>Vérifiez ensuite que le CA intermédiaire a bien été certifiée par la CA racine SportLudique</p>
+<div class="codehilite"><pre><span></span><code>openssl verify \
   -CAfile autorite/certificats/sportludique-root.crt.pem \
-  autorite/certificats/ca-intermediaire.crt</p>
-<div class="codehilite"><pre><span></span><code>Résultat attendu :
+  autorite/certificats/ca-intermediaire.crt
 </code></pre></div>
 
-<p>autorite/certificats/ca-intermediaire.crt: OK</p>
-<div class="codehilite"><pre><span></span><code><span class="mf">8</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Découvrir</span><span class="w"> </span><span class="n">me</span><span class="w"> </span><span class="n">registre</span><span class="w"> </span><span class="n">d</span><span class="err">'</span><span class="n">une</span><span class="w"> </span><span class="n">CA</span>
-
-<span class="n">Préparer</span><span class="w"> </span><span class="n">ce</span><span class="w"> </span><span class="n">registre</span><span class="w"> </span><span class="n">une</span><span class="w"> </span><span class="n">seule</span><span class="w"> </span><span class="n">fois</span><span class="p">,</span><span class="w"> </span><span class="n">sans</span><span class="w"> </span><span class="n">écraser</span><span class="w"> </span><span class="n">un</span><span class="w"> </span><span class="n">registre</span><span class="w"> </span><span class="n">déjà</span><span class="w"> </span><span class="n">utilisé</span><span class="w"> </span><span class="p">:</span>
+<p>Résultat attendu :</p>
+<div class="codehilite"><pre><span></span><code>autorite/certificats/ca-intermediaire.crt: OK
 </code></pre></div>
 
-<p>mkdir -p autorite/newcerts autorite/crl
+<p>8 - Découvrir me registre d'une CA</p>
+<p>Préparer ce registre une seule fois, sans écraser un registre déjà utilisé :</p>
+<div class="codehilite"><pre><span></span><code>mkdir -p autorite/newcerts autorite/crl
 touch autorite/index.txt
 openssl rand -hex 16 &gt; autorite/serial
-printf '1000\n' &gt; autorite/crlnumber</p>
-<div class="codehilite"><pre><span></span><code>Créez <span class="sb">`autorite/openssl.cnf`</span> :
-[ ca ]
-default_ca = CA_default
+printf '1000\n' &gt; autorite/crlnumber
+</code></pre></div>
 
-[ CA_default ]
-dir = ./autorite
-database = $dir/index.txt
-new_certs_dir = $dir/newcerts
-serial = $dir/serial
-crlnumber = $dir/crlnumber
-certificate = $dir/certificats/ca-intermediaire.crt
-private_key = $dir/cles/ca-chartres.key
-default_md = sha256
-default_days = 90
-default_crl_days = 7
-policy = policy_server
-copy_extensions = none
-unique_subject = no
+<p>Créez <code>autorite/openssl.cnf</code> :</p>
+<div class="codehilite"><pre><span></span><code><span class="k">[ ca ]</span>
+<span class="na">default_ca</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">CA_default</span>
 
-[ policy_server ]
-countryName = optional
-organizationName = optional
-commonName = supplied
+<span class="k">[ CA_default ]</span>
+<span class="na">dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">./autorite</span>
+<span class="na">database</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$dir/index.txt</span>
+<span class="na">new_certs_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$dir/newcerts</span>
+<span class="na">serial</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$dir/serial</span>
+<span class="na">crlnumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$dir/crlnumber</span>
+<span class="na">certificate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$dir/certificats/ca-intermediaire.crt</span>
+<span class="na">private_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$dir/cles/ca-chartres.key</span>
+<span class="na">default_md</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">sha256</span>
+<span class="na">default_days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">90</span>
+<span class="na">default_crl_days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">7</span>
+<span class="na">policy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">policy_server</span>
+<span class="na">copy_extensions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">none</span>
+<span class="na">unique_subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">no</span>
+
+<span class="k">[ policy_server ]</span>
+<span class="na">countryName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">optional</span>
+<span class="na">organizationName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">optional</span>
+<span class="na">commonName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">supplied</span>
 </code></pre></div>
 
 <p>9 - Emettre un nouveau certificat serveur</p>
+<p>Nous reprenons le certificat <code>ca-chartres.csr</code>, puis nous créons <code>serveur/demandes/web.ext</code> en adaptant les noms DNS :</p>
+<div class="codehilite"><pre><span></span><code>basicConstraints = critical, CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+subjectAltName = DNS:www.chartres.sportludique.fr,DNS:chartres.sportludique.fr
+</code></pre></div>
+
+<p>Puis on signe avec le certificat intermédiaire :</p>
+<div class="codehilite"><pre><span></span><code>openssl ca -config autorite/openssl.cnf \
+  -in serveur/demandes/web.csr \
+  -extfile serveur/demandes/web.ext \
+  -out serveur/certificats/web-intermediaire.crt \
+  -notext -days 200
+</code></pre></div>
+
+<p>Puis nous vérifions la chaîne complète :</p>
+<div class="codehilite"><pre><span></span><code>openssl verify -show_chain \
+  -verify_hostname "www.ville.sportludique.fr" \
+  -CAfile autorite/certificats/sportludique-root.crt.pem \
+  -untrusted autorite/certificats/ca-intermediaire.crt \
+  serveur/certificats/web-intermediaire.crt
+</code></pre></div>
+
+<p>Création du fichier fullchain.pem :</p>
+<div class="codehilite"><pre><span></span><code>cat serveur/certificats/web-intermediaire.crt \
+    autorite/certificats/ca-intermediaire.crt \
+&gt; serveur/certificats/fullchain.pem
+</code></pre></div>
+
+<p>Cette commande regroupe deux certificats publics dans un même fichier, dans l'ordre attendu par Apache.</p>
+<h3 id="76-publication-du-site-en-https-sur-apache">7.6 - Publication du site en HTTPS sur Apache</h3>
+<p>1 - Installation des certificats sur le serveur web</p>
+<p>Sur le serveur Apache, nous préparons les dossiers de destinations :</p>
+<div class="codehilite"><pre><span></span><code>sudo mkdir -p /etc/ssl/sportludique/certs
+sudo mkdir -p /etc/ssl/sportludique/private
+</code></pre></div>
+
+<p>Nous copions les fichiers nécessaire depuis le répertoire PKI vers ces dossiers : </p>
+<ul>
+<li>
+<p><code>web.key</code> vers <code>/etc/ssl/sportludique/private/web.key</code> ;</p>
+</li>
+<li>
+<p>CA intermédiaire :<code>fullchain.pem</code> vers <code>/etc/ssl/sportludique/certs/fullchain.pem</code>.</p>
+</li>
+</ul>
+<p>Nous protégeons la clé privé sur le serveur web :</p>
+<div class="codehilite"><pre><span></span><code>sudo chown root:root /etc/ssl/sportludique/private/web.key
+sudo chmod 600 /etc/ssl/sportludique/private/web.key
+</code></pre></div>
+
+<p>2 - Activer HTTPS</p>
+<p>On active le module SSL : <code>sudo a2enmod ssl</code></p>
+<p>Nous créeons le fichier <code>/etc/apache2/sites-avaibles/sportludique-ssl.conf</code></p>
+<p>Nous mettons la configuration suivante dans le fichier qui pécède :</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;VirtualHost</span><span class="w"> </span><span class="err">*:443</span><span class="nt">&gt;</span>
+<span class="w">    </span>ServerName<span class="w"> </span>www.chartres.sportludique.fr
+<span class="w">    </span>DocumentRoot<span class="w"> </span>/var/www/sportludique-public
+
+<span class="w">    </span>SSLEngine<span class="w"> </span>on
+<span class="w">    </span>SSLCertificateFile<span class="w"> </span>/etc/ssl/sportludique/certs/fullchain.pem
+<span class="w">    </span>SSLCertificateKeyFile<span class="w"> </span>/etc/ssl/sportludique/private/web.key
+
+<span class="w">    </span><span class="nt">&lt;Directory</span><span class="w"> </span><span class="err">/var/www/sportludique-public</span><span class="nt">&gt;</span>
+<span class="w">        </span>Require<span class="w"> </span>all<span class="w"> </span>granted
+<span class="nt">&lt;/Directory&gt;</span>
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</code></pre></div>
+
+<p>On active donc le site, nous testons la configuration et on recharge Apache :</p>
+<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">a2ensite</span><span class="w"> </span><span class="n">sportludique</span><span class="o">-</span><span class="n">ssl</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">apache2ctl</span><span class="w"> </span><span class="n">configtest</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">apache2</span>
+</code></pre></div>
+
+<h2 id="8-mise-en-place-du-serveur-mail-cha-mail">8 - Mise en place du serveur Mail (CHA-MAIL)</h2>
   </div>
 </article>
                                 <div id="bottom-navigation" class="mx-auto flex h-16 w-full max-w-2xl items-center justify-between gap-2 px-4 md:px-0">
@@ -1033,6 +1110,16 @@ commonName = supplied
             7.5 - Créer l'autorité de certification de Chartres
         </a>
         
+        <a href="#76-publication-du-site-en-https-sur-apache" data-active="false" data-depth="3">
+            7.6 - Publication du site en HTTPS sur Apache
+        </a>
+        
+        
+
+        
+        <a href="#8-mise-en-place-du-serveur-mail-cha-mail" data-active="false" data-depth="2">
+            8 - Mise en place du serveur Mail (CHA-MAIL)
+        </a>
         
 
         
