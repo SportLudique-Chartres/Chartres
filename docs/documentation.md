@@ -401,7 +401,7 @@ sudo apache2ctl -S
 
 ### 7.5 - Créer l'autorité de certification de Chartres
 
-1) Préparation de l'environnement de travail
+1 - Préparation de l'environnement de travail
 
 Installation OpenSSL :web. Enfin, nous avons aussi config
 
@@ -410,7 +410,7 @@ sudo apt update
 sudo apt install openssl tree
 ```
 
-2) Création d'un dossier pki-groupe en respectant donc l'arborescence :
+2 - Création d'un dossier pki-groupe en respectant donc l'arborescence :
 
 ```
 pki-groupe/
@@ -421,9 +421,10 @@ pki-groupe/
     ├── certificats/
     ├── cles/
     └── demandes/
-```web. Enfin, nous avons aussi config
+```
+Enfin, nous avons aussi config
 
-3) Génération d'une clé RSA 4096 bits, chiffrée avec une phrase de passe :
+3 - Génération d'une clé RSA 4096 bits, chiffrée avec une phrase de passe :
 
 ```
 openssl genpkey -algorithm RSA -aes-256-cbc \
@@ -431,14 +432,15 @@ openssl genpkey -algorithm RSA -aes-256-cbc \
   -out autorite/cles/ca-chartres.key
 ```
 
-4) Vérification de sa création :
+4 - Vérification de sa création :
 
 ```
 ls -l autorite/cles/ca-chartres.key
 openssl pkey -in autorite/cles/ca-chartres.key -noout -check
 ```
 
-5) Création de la CSR de votre CA existante
+
+5 - Création de la CSR de votre CA existante
 
 ```
 mkdir -p autorite/demandes
@@ -453,17 +455,17 @@ openssl req -in autorite/demandes/ca-groupe.csr -noout -verify -text
 
 Puis, transmettez uniquement `ca-chartres.csr` au prestataire (enseignant) ; le prestataire contrôlera la demande et signera avec les extensions d'une CA intermédiaire.
 
-6) Récupérer et vérifier la conweb. Enfin, nous avons aussi configfiance des certificats
+
+6 - Récupérer et vérifier la conweb. Enfin, nous avons aussi configfiance des certificats
+
 
 Récupération du certificat public de la CA racine SportLudique et récupération de la CA intermédiaire signée par le prestataire.
 
 Attention : vérifiez l'empreinte SHA-256 :
 
-```
-openssl x509 -in autorite/certificats/sportludique-root.crt.pem -noout -fingerprint -sha256
-```
+`openssl x509 -in autorite/certificats/sportludique-root.crt.pem -noout -fingerprint -sha256`
 
-7) Vérification de la chaîne de confiance
+7 - Vérification de la chaîne de confiance
 
 Vérification des deux certificats récupérés de la CA racine :
 
@@ -486,7 +488,7 @@ Résultat attendu :
 autorite/certificats/ca-intermediaire.crt: OK
 ```
 
-8) Découvrir le registre d'une CA
+8 - Découvrir le registre d'une CA
 
 Préparer ce registre une seule fois, sans écraser un registre déjà utilisé :
 
@@ -523,7 +525,8 @@ countryName = optional
 organizationName = optional
 commonName = supplied
 ```
-9) Émettre un nouveau certificat serveur
+
+9 - Émettre un nouveau certificat serveur
 
 Nous reprenons le certificat `ca-chartres.csr`, puis nous créons `serveur/demandes/web.ext` en adaptant les noms DNS :
 
@@ -545,6 +548,7 @@ openssl ca -config autorite/openssl.cnf \
   -out serveur/certificats/web-intermediaire.crt \
   -notext -days 200
 ```
+
 Puis, nous vérifions la chaîne complète :
 
 ```
