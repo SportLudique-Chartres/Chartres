@@ -685,13 +685,13 @@ sudo apache2ctl configtest
 
 <h3 id="74-activer-la-redirection-de-port-pour-un-acces-depuis-lexterieur-voir-25">7.4 - Activer la redirection de port pour un accès depuis l'extérieur (voir 2.5)</h3>
 <h3 id="75-creer-lautorite-de-certification-de-chartres">7.5 - Créer l'autorité de certification de Chartres</h3>
-<p>1 - Préparation de l'environnement de travail</p>
+<p>1) Préparation de l'environnement de travail</p>
 <p>Installation OpenSSL :</p>
 <div class="codehilite"><pre><span></span><code>sudo apt update
 sudo apt install openssl tree
 </code></pre></div>
 
-<p>2 - Création d'un dossier pki-groupe en respectant donc l'arborescence :</p>
+<p>2) Création d'un dossier pki-groupe en respectant donc l'arborescence :</p>
 <div class="codehilite"><pre><span></span><code>pki-groupe/
 ├── autorite/
 │   ├── certificats/
@@ -702,18 +702,18 @@ sudo apt install openssl tree
     └── demandes/
 </code></pre></div>
 
-<p>3 - Génération d'une clé RSA 4096 bits, chiffrée avec une phrase de passe :</p>
+<p>3) Génération d'une clé RSA 4096 bits, chiffrée avec une phrase de passe :</p>
 <div class="codehilite"><pre><span></span><code>openssl genpkey -algorithm RSA -aes-256-cbc \
   -pkeyopt rsa_keygen_bits:4096 \
   -out autorite/cles/ca-chartres.key
 </code></pre></div>
 
-<p>4 - Vérification de sa création :</p>
+<p>4) Vérification de sa création :</p>
 <div class="codehilite"><pre><span></span><code>ls -l autorite/cles/ca-chartres.key
 openssl pkey -in autorite/cles/ca-chartres.key -noout -check
 </code></pre></div>
 
-<p>5 - Création de CSR de votre CA existante</p>
+<p>5) Création de la CSR de votre CA existante</p>
 <div class="codehilite"><pre><span></span><code>mkdir -p autorite/demandes
 
 openssl req -new -sha256 \
@@ -724,20 +724,20 @@ openssl req -new -sha256 \
 openssl req -in autorite/demandes/ca-groupe.csr -noout -verify -text
 </code></pre></div>
 
-<p>Puis transmettre uniquement <code>ca-chartres.csr</code> au prestataire (enseignant), le prestataire controlera la demande et signera avec les extensions d'une CA intermédiaire.</p>
-<p>6 - Récuperer et vérifier la confiance des certificats</p>
-<p>Récuperation du certicat public de la CA racine SportLudique et nous récupérons le CA intermédiaire signé par le prestataire</p>
-<p>Attention : Vérifiez l'empreinte SHA-256 :</p>
+<p>Puis, transmettez uniquement <code>ca-chartres.csr</code> au prestataire (enseignant) ; le prestataire contrôlera la demande et signera avec les extensions d'une CA intermédiaire.</p>
+<p>6) Récupérer et vérifier la confiance des certificats</p>
+<p>Récupération du certificat public de la CA racine SportLudique et récupération de la CA intermédiaire signée par le prestataire.</p>
+<p>Attention : vérifiez l'empreinte SHA-256 :</p>
 <div class="codehilite"><pre><span></span><code>openssl x509 -in autorite/certificats/sportludique-root.crt.pem -noout -fingerprint -sha256
 </code></pre></div>
 
-<p>7 - Vérificationd de la chaîne de confiance</p>
-<p>Vérification des deux certificats récuperé de la CA racine :</p>
+<p>7) Vérification de la chaîne de confiance</p>
+<p>Vérification des deux certificats récupérés de la CA racine :</p>
 <div class="codehilite"><pre><span></span><code>openssl x509 -in autorite/certificats/sportludique-root.crt.pem \
   -noout -fingerprint -sha256
 </code></pre></div>
 
-<p>Vérifiez ensuite que le CA intermédiaire a bien été certifiée par la CA racine SportLudique</p>
+<p>Vérifiez ensuite que le CA intermédiaire a bien été certifié par la CA racine SportLudique.</p>
 <div class="codehilite"><pre><span></span><code>openssl verify \
   -CAfile autorite/certificats/sportludique-root.crt.pem \
   autorite/certificats/ca-intermediaire.crt
@@ -747,7 +747,7 @@ openssl req -in autorite/demandes/ca-groupe.csr -noout -verify -text
 <div class="codehilite"><pre><span></span><code>autorite/certificats/ca-intermediaire.crt: OK
 </code></pre></div>
 
-<p>8 - Découvrir me registre d'une CA</p>
+<p>8) Découvrir le registre d'une CA</p>
 <p>Préparer ce registre une seule fois, sans écraser un registre déjà utilisé :</p>
 <div class="codehilite"><pre><span></span><code>mkdir -p autorite/newcerts autorite/crl
 touch autorite/index.txt
@@ -780,7 +780,7 @@ printf '1000\n' &gt; autorite/crlnumber
 <span class="na">commonName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">supplied</span>
 </code></pre></div>
 
-<p>9 - Emettre un nouveau certificat serveur</p>
+<p>9) Émettre un nouveau certificat serveur</p>
 <p>Nous reprenons le certificat <code>ca-chartres.csr</code>, puis nous créons <code>serveur/demandes/web.ext</code> en adaptant les noms DNS :</p>
 <div class="codehilite"><pre><span></span><code>basicConstraints = critical, CA:FALSE
 keyUsage = critical, digitalSignature, keyEncipherment
@@ -790,7 +790,7 @@ authorityKeyIdentifier = keyid:always,issuer
 subjectAltName = DNS:www.chartres.sportludique.fr,DNS:chartres.sportludique.fr
 </code></pre></div>
 
-<p>Puis on signe avec le certificat intermédiaire :</p>
+<p>Puis, on signe avec le certificat intermédiaire :</p>
 <div class="codehilite"><pre><span></span><code>openssl ca -config autorite/openssl.cnf \
   -in serveur/demandes/web.csr \
   -extfile serveur/demandes/web.ext \
@@ -798,7 +798,7 @@ subjectAltName = DNS:www.chartres.sportludique.fr,DNS:chartres.sportludique.fr
   -notext -days 200
 </code></pre></div>
 
-<p>Puis nous vérifions la chaîne complète :</p>
+<p>Puis, nous vérifions la chaîne complète :</p>
 <div class="codehilite"><pre><span></span><code>openssl verify -show_chain \
   -verify_hostname "www.ville.sportludique.fr" \
   -CAfile autorite/certificats/sportludique-root.crt.pem \
@@ -806,7 +806,7 @@ subjectAltName = DNS:www.chartres.sportludique.fr,DNS:chartres.sportludique.fr
   serveur/certificats/web-intermediaire.crt
 </code></pre></div>
 
-<p>Création du fichier fullchain.pem :</p>
+<p>Création du fichier <code>fullchain.pem</code> :</p>
 <div class="codehilite"><pre><span></span><code>cat serveur/certificats/web-intermediaire.crt \
     autorite/certificats/ca-intermediaire.crt \
 &gt; serveur/certificats/fullchain.pem
@@ -814,13 +814,13 @@ subjectAltName = DNS:www.chartres.sportludique.fr,DNS:chartres.sportludique.fr
 
 <p>Cette commande regroupe deux certificats publics dans un même fichier, dans l'ordre attendu par Apache.</p>
 <h3 id="76-publication-du-site-en-https-sur-apache">7.6 - Publication du site en HTTPS sur Apache</h3>
-<p>1 - Installation des certificats sur le serveur web</p>
-<p>Sur le serveur Apache, nous préparons les dossiers de destinations :</p>
+<p>1) Installation des certificats sur le serveur web</p>
+<p>Sur le serveur Apache, nous préparons les dossiers de destination :</p>
 <div class="codehilite"><pre><span></span><code>sudo mkdir -p /etc/ssl/sportludique/certs
 sudo mkdir -p /etc/ssl/sportludique/private
 </code></pre></div>
 
-<p>Nous copions les fichiers nécessaire depuis le répertoire PKI vers ces dossiers : </p>
+<p>Nous copions les fichiers nécessaires depuis le répertoire PKI vers ces dossiers : </p>
 <ul>
 <li>
 <p><code>web.key</code> vers <code>/etc/ssl/sportludique/private/web.key</code> ;</p>
@@ -829,15 +829,16 @@ sudo mkdir -p /etc/ssl/sportludique/private
 <p>CA intermédiaire :<code>fullchain.pem</code> vers <code>/etc/ssl/sportludique/certs/fullchain.pem</code>.</p>
 </li>
 </ul>
-<p>Nous protégeons la clé privé sur le serveur web :</p>
+<p>Nous protégeons la clé privée sur le serveur web :</p>
 <div class="codehilite"><pre><span></span><code>sudo chown root:root /etc/ssl/sportludique/private/web.key
 sudo chmod 600 /etc/ssl/sportludique/private/web.key
 </code></pre></div>
 
-<p>2 - Activer HTTPS</p>
+<p>Nous protégeons la clé privée sur le serveur web</p>
+<p>2) Activer HTTPS</p>
 <p>On active le module SSL : <code>sudo a2enmod ssl</code></p>
-<p>Nous créeons le fichier <code>/etc/apache2/sites-avaibles/sportludique-ssl.conf</code></p>
-<p>Nous mettons la configuration suivante dans le fichier qui pécède :</p>
+<p>Nous créons le fichier <code>/etc/apache2/sites-avaibles/sportludique-ssl.conf</code></p>
+<p>Nous mettons la configuration suivante dans le fichier qui précède :</p>
 <div class="codehilite"><pre><span></span><code><span class="nt">&lt;VirtualHost</span><span class="w"> </span><span class="err">*:443</span><span class="nt">&gt;</span>
 <span class="w">    </span>ServerName<span class="w"> </span>www.chartres.sportludique.fr
 <span class="w">    </span>DocumentRoot<span class="w"> </span>/var/www/sportludique-public
@@ -852,7 +853,7 @@ sudo chmod 600 /etc/ssl/sportludique/private/web.key
 <span class="nt">&lt;/VirtualHost&gt;</span>
 </code></pre></div>
 
-<p>On active donc le site, nous testons la configuration et on recharge Apache :</p>
+<p>On active donc le site, nous testons la configuration et nous rechargeons Apache :</p>
 <div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">a2ensite</span><span class="w"> </span><span class="n">sportludique</span><span class="o">-</span><span class="n">ssl</span><span class="o">.</span><span class="n">conf</span>
 <span class="n">sudo</span><span class="w"> </span><span class="n">apache2ctl</span><span class="w"> </span><span class="n">configtest</span>
 <span class="n">sudo</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">apache2</span>
