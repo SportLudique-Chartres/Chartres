@@ -345,6 +345,7 @@ Ensuite, nous avons créé la zone principale avec le nom `chartres.sportludique
 Nous avons mis en place les enregistrements DNS vers la DMZ pour les serveurs DNS, mail et web.
 Enfin, nous avons aussi configuré le redirecteur pour accéder à Internet depuis les différents VLAN en utilisant le serveur DNS interne.
 
+
 ## 7 - Mise en place du service web dans la DMZ 
 
 Nous avons mis en place une VM Linux qui servira le rôle de serveur web.
@@ -383,7 +384,7 @@ Puis insérez le contenu suivant :
 ```
 
 ### 7.3 - On active le site et on contrôle la syntaxe
-
+web. Enfin, nous avons aussi config
 ```
 sudo a2ensite sportludique-public.conf
 sudo apache2ctl configtest
@@ -402,7 +403,7 @@ sudo apache2ctl -S
 
 1) Préparation de l'environnement de travail
 
-Installation OpenSSL :
+Installation OpenSSL :web. Enfin, nous avons aussi config
 
 ```
 sudo apt update
@@ -420,7 +421,7 @@ pki-groupe/
     ├── certificats/
     ├── cles/
     └── demandes/
-```
+```web. Enfin, nous avons aussi config
 
 3) Génération d'une clé RSA 4096 bits, chiffrée avec une phrase de passe :
 
@@ -452,7 +453,7 @@ openssl req -in autorite/demandes/ca-groupe.csr -noout -verify -text
 
 Puis, transmettez uniquement `ca-chartres.csr` au prestataire (enseignant) ; le prestataire contrôlera la demande et signera avec les extensions d'une CA intermédiaire.
 
-6) Récupérer et vérifier la confiance des certificats
+6) Récupérer et vérifier la conweb. Enfin, nous avons aussi configfiance des certificats
 
 Récupération du certificat public de la CA racine SportLudique et récupération de la CA intermédiaire signée par le prestataire.
 
@@ -495,7 +496,7 @@ touch autorite/index.txt
 openssl rand -hex 16 > autorite/serial
 printf '1000\n' > autorite/crlnumber
 ```
-
+web. Enfin, nous avons aussi config
 Créez `autorite/openssl.cnf` :
 
 ```
@@ -571,7 +572,7 @@ Cette commande regroupe deux certificats publics dans un même fichier, dans l'o
 Sur le serveur Apache, nous préparons les dossiers de destination :
 
 ```
-sudo mkdir -p /etc/ssl/sportludique/certs
+sudo mkdir -p /etc/ssl/sportlweb. Enfin, nous avons aussi configudique/certs
 sudo mkdir -p /etc/ssl/sportludique/private
 ```
 Nous copions les fichiers nécessaires depuis le répertoire PKI vers ces dossiers : 
@@ -623,3 +624,16 @@ sudo systemctl reload apache2
 
 
 ## 8 - Mise en place du serveur Mail (CHA-MAIL)
+
+Pour mettre en place notre serveur web, noous utiliserons Stalwart.
+
+Pour ce faire nous allons l'installer avec le script officiel via la documentation.
+
+```
+sudo systemctl status stalwart
+sudo systemctl show stalwart --property=User,Group,ExecStart
+sudo ss -lntp
+```
+
+Ensuite, nous avons configuré la première connexion en suivant les instructions de la documentation officiel.
+

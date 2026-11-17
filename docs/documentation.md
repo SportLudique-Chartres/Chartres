@@ -267,7 +267,7 @@ options {
 };
         listen-on-v6 { none; };
 
-        recursion no;
+        recursion no;Un listeners accepte les connexio  sur une adresse et un port, puis leur associe un protocol
 
         allow-query { any; };
         allow-recursion { none; };
@@ -298,7 +298,7 @@ $TTL 3600
 
 @            IN NS      ns.chartres.sportludique.fr.
 
-ns           IN A       221.87.128.1
+ns           IN A       221.87.128.1Un listeners accepte les connexio  sur une adresse et un port, puis leur associe un protocol
 
 @            IN A       221.87.128.1
 www          IN A       221.87.128.1
@@ -401,7 +401,7 @@ sudo apache2ctl -S
 
 ### 7.5 - Créer l'autorité de certification de Chartres
 
-1 - Préparation de l'environnement de travail
+1) Préparation de l'environnement de travail
 
 Installation OpenSSL :web. Enfin, nous avons aussi config
 
@@ -410,7 +410,7 @@ sudo apt update
 sudo apt install openssl tree
 ```
 
-2 - Création d'un dossier pki-groupe en respectant donc l'arborescence :
+2) Création d'un dossier pki-groupe en respectant donc l'arborescence :
 
 ```
 pki-groupe/
@@ -422,9 +422,10 @@ pki-groupe/
     ├── cles/
     └── demandes/
 ```
+
 Enfin, nous avons aussi config
 
-3 - Génération d'une clé RSA 4096 bits, chiffrée avec une phrase de passe :
+3) Génération d'une clé RSA 4096 bits, chiffrée avec une phrase de passe :
 
 ```
 openssl genpkey -algorithm RSA -aes-256-cbc \
@@ -432,15 +433,14 @@ openssl genpkey -algorithm RSA -aes-256-cbc \
   -out autorite/cles/ca-chartres.key
 ```
 
-4 - Vérification de sa création :
+4) Vérification de sa création :
 
 ```
 ls -l autorite/cles/ca-chartres.key
 openssl pkey -in autorite/cles/ca-chartres.key -noout -check
 ```
 
-
-5 - Création de la CSR de votre CA existante
+5) Création de la CSR de votre CA existante
 
 ```
 mkdir -p autorite/demandes
@@ -455,17 +455,17 @@ openssl req -in autorite/demandes/ca-groupe.csr -noout -verify -text
 
 Puis, transmettez uniquement `ca-chartres.csr` au prestataire (enseignant) ; le prestataire contrôlera la demande et signera avec les extensions d'une CA intermédiaire.
 
-
-6 - Récupérer et vérifier la conweb. Enfin, nous avons aussi configfiance des certificats
-
+6) Récupérer et vérifier la conweb. Enfin, nous avons aussi configfiance des certificats
 
 Récupération du certificat public de la CA racine SportLudique et récupération de la CA intermédiaire signée par le prestataire.
 
 Attention : vérifiez l'empreinte SHA-256 :
 
-`openssl x509 -in autorite/certificats/sportludique-root.crt.pem -noout -fingerprint -sha256`
+```
+openssl x509 -in autorite/certificats/sportludique-root.crt.pem -noout -fingerprint -sha256
+```
 
-7 - Vérification de la chaîne de confiance
+7) Vérification de la chaîne de confiance
 
 Vérification des deux certificats récupérés de la CA racine :
 
@@ -488,7 +488,7 @@ Résultat attendu :
 autorite/certificats/ca-intermediaire.crt: OK
 ```
 
-8 - Découvrir le registre d'une CA
+8) Découvrir le registre d'une CA
 
 Préparer ce registre une seule fois, sans écraser un registre déjà utilisé :
 
@@ -525,8 +525,7 @@ countryName = optional
 organizationName = optional
 commonName = supplied
 ```
-
-9 - Émettre un nouveau certificat serveur
+9) Émettre un nouveau certificat serveur
 
 Nous reprenons le certificat `ca-chartres.csr`, puis nous créons `serveur/demandes/web.ext` en adaptant les noms DNS :
 
@@ -548,13 +547,12 @@ openssl ca -config autorite/openssl.cnf \
   -out serveur/certificats/web-intermediaire.crt \
   -notext -days 200
 ```
-
 Puis, nous vérifions la chaîne complète :
 
 ```
 openssl verify -show_chain \
   -verify_hostname "www.ville.sportludique.fr" \
-  -CAfile autorite/certificats/sportludique-root.crt.pem \
+  -CAfile autorite/certiweb. ficats/sportludique-root.crt.pem \
   -untrusted autorite/certificats/ca-intermediaire.crt \
   serveur/certificats/web-intermediaire.crt
 ```
@@ -641,3 +639,95 @@ sudo ss -lntp
 
 Ensuite, nous avons configuré la première connexion en suivant les instructions de la documentation officiel.
 
+### 8.1 - Accès a l'administration en HTTPS
+
+Accès à l'administration via : `https://mail.chartres.sportludique.fr/`
+
+Le navigateur affichera donc un avertissement de sécurité, car le certificat est auto-signé.
+
+On accepte le risque est on accède donc à la page d'adminstration et nous nous connectons.
+
+### 8.2 - Vérifier le domaine de Bob et Alice
+
+1 - On ouvre Management > Domains > Domains et on vérifie le domaine chartres.sportludique.
+
+2 - On ouvre Management > Directory >  Accounts puis on créé les comptes de Bob et Alice.
+
+3 - Nous avons renseigner les différentes valeurs pour les comptes.
+
+### 8.3 - Ajouter les listeners sans TLS
+
+Un listeners accepte les connexio  sur une adresse et un port, puis leur associe un protocol
+
+1 - Configurer STARTTLS
+
+Dans **Settings > Network > Listeners**, nous alons adaptez les deux listeners.
+
+Puis nous redémarrons Stalwart : `sudo systemctl restart stalwart`
+
+Nous testons le bon fonctionnement avec ThunderBird avec les paramètres suivant :
+
+
+| Paramètres | Serveur entrant | Serveur sortant |
+|---|---|---|
+| Protocole | IMAP | SMTP |
+| **Port** | **143** | **587** |
+| Sécurité | **STARTTLS** | **STARTTLS** |
+| Authentification | Mot de passe normal | Mot de passe normal |
+
+
+### 8.4 - Tester TLS implicite
+
+Dans **Settings > Network > Listeners**, et nous activons TLS implicite.
+
+Dans Thunderbird nous mettons en sécurité -> SSL/TLS
+
+### 8.5 - Récupération le certificat autosigné
+
+1 - Obtenir un certificat signé par la CA intermédiaire.
+
+On réutilise la procédure  du module PKI :
+
+  1. Sur le serveur mail, créez une **clé privé** et une **demande de signature (CSR)** pour `mail.chartres.sportludique.fr`
+
+  2. On vérifie  que ce nom figure dans le **SAN** de la demande.
+
+  3. Faites signer la CSR par **la CA intermédiraire** qui est sur le serveur web, dejà signée par la racine SportLudique.
+
+  4. Nous récupérons ainsi le certificat du serveur et le certificat public de la CA intermédiaire.
+
+
+| Ordre | Certificat                                 | Rôle                                        |
+|-------|--------------------------------------------|---------------------------------------------|
+| 1     | Certificat de `mail.ville.sportludique.fr` | Identifie le serveur                        |
+| 2     | Certificat de la CA intermédiaire          | Permet de construire la chaîne de confiance |
+
+### 8.6 - Installation du certificat dans Stalwart
+
+Dans **Settings > TLS > Certificates > Create** :
+
+| Champ           | Valeur                                                                                   |
+|-----------------|------------------------------------------------------------------------------------------|
+| **Certificate** | **Text value** : contenu PEM du certificat serveur suivi de celui de la CA intermédiaire |
+| **Private Key** | **Secret value** : clé privée du serveur mail                                            |
+
+Puis on redémarre les services : `sudo systemctl restart stalwart`
+
+### 8.7 - Faire reconnaître la CA par Thunderbird
+
+Nous téléchargeons le certificat public de la racine SportLudique, puis **on vérifie son empreinte**.
+
+Dans Thunderbird : **Paramètres > Vie privée et sécurité > Certificats > Gérer les certificats > Autorités > Importer**, puis on importe la CA racine.
+
+### 8.8 - Interdire  l'authentification sans TLS
+
+Le niveau Socle autorise volontairement l'authentification IMAP en clair. Nous allons donc supprime la possibilité d'effectuer cela.
+
+| Emplacement dans Stalwart                                 | Réglage attendu                                                                  |
+|-----------------------------------------------------------|----------------------------------------------------------------------------------|
+| **Settings › Network › IMAP › Authentication settings**   | **Allow plain text authentication** : désactivé (`false`)                        |
+| **Settings › SMTP › AUTH Stage › Allowed Mechanisms**     | Autoriser les mécanismes d'authentification uniquement lorsque `is_tls` est vrai |
+| **Settings › SMTP › AUTH Stage › Require Authentication** | `local_port != 25`                                                               |
+| **Settings › SMTP › AUTH Stage › Must match sender**      | `true`                                                                           |
+
+On enrengistre et **on redémarre Stalwart**
