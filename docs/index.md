@@ -28,7 +28,7 @@ title: Accueil
     <div class="sl-hero-visual" aria-hidden="true">
       <div class="sl-orbit sl-orbit-one"></div><div class="sl-orbit sl-orbit-two"></div>
       <div class="sl-core"><span class="sl-core-icon">⌘</span><strong>DSI</strong><small>CHARTRES</small></div>
-      <span class="sl-float sl-float-top">⚽</span><span class="sl-float sl-float-right">🏀</span><span class="sl-float sl-float-bottom">🏐</span><span class="sl-float sl-float-left">🤾</span>
+      <span class="sl-float sl-float-top">⚽</span><span class="sl-float sl-float-right">🏀</span><span class="sl-float sl-float-left">🤾</span>
       <div class="sl-mini-card">● <span>RÉSEAU · SYSTÈMES · SÉCURITÉ</span></div>
     </div>
   </section>
