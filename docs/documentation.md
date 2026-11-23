@@ -730,4 +730,192 @@ Le niveau Socle autorise volontairement l'authentification IMAP en clair. Nous a
 | **Settings › SMTP › AUTH Stage › Require Authentication** | `local_port != 25`                                                               |
 | **Settings › SMTP › AUTH Stage › Must match sender**      | `true`                                                                           |
 
-On enrengistre et **on redémarre Stalwart**
+On enregistre et **on redémarre Stalwart**
+
+
+## 9 - Mise en place du serveur Ticket (CHA-TICKET) et du serveur DB (CHA-DB)
+
+
+Nous allons mettre en place le serveur ticket (osticket) et le serveur db pour que les Slam puisse nous envoyer leur requete ou leur probleme sur le serveur web qu'on va mettre en place pour eux.
+
+### 9.1 - Installation du serveur DB (CHA-DB)
+
+Pour pouvoir faire un serveur de base de donnée nous devons installer mariadb.
+
+```
+sudo apt update && sudo apt install mariadb-server -y
+sudo mariadb-secure-installation
+```
+
+Nous devons autoriser MariaDB a écouter sur le réseau
+
+```
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+```
+
+Sur la ligne bind-address on doit remplacer le 127.0.0.1 par son IP privé.
+
+```
+bind-address = 192.168.225.1
+```
+
+Redémarrer MariaDB pour appliquer les changement.
+
+```
+sudo systemctl restart mariadb
+```
+
+Ensuite nous allons creer une base de donnée et un utilisateur
+
+```
+sudo mariaDB
+```
+
+Puis :
+
+```
+CREATE DATABASE osticket CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'cha-ticket'@'192.168.224.5' IDENTIFIED BY 'P@ssW0rd';
+GRANT ALL PRIVILEGES ON osticket.* TO 'cha-ticket'@'192.168.224.5';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+### 9.2 - Installation du serveur ticket (CHA-TICKET)
+
+On doit installer Apache, PHP et le client MariaDB
+
+```
+sudo apt update 
+sudo apt install mariadb-client
+sudo apt install apache2 \
+php php-cli libapache2-mod-php php-mysql \
+php-gd php-imap php-intl php-mbstring \
+php-xml php-curl php-zip php-apcu \
+php-bcmath php-ldap unzip wget curl -y
+```
+
+Activer les modules Apache:
+
+```
+sudo a2enmod rewrite
+sudo systemctl restart apache2
+```
+
+Ensuite nous allons télécharger et installer osTicket
+
+```
+cd /tmp
+wget https://github.com/osTicket/osTicket/releases/download/v1.18.4/osTicket-v1.18.4.zip
+```
+
+Décompresser
+
+```
+unzip osTicket-v1.18.4.zip -d osticket
+```
+
+Ensuite on doit creer et deplacer les fichiers au bonne endroit :
+
+```
+sudo mkdir -p /var/www/osticket
+sudo cp -r /tmp/osticket/upload/. /var/www/osticket/
+sudo chown -R www-data:www-data /var/www/osticket
+```
+
+Maintenant on doit copier osTicket dans Apache
+
+```
+sudo mkdir -p /var/www/osticket
+sudo cp -r /tmp/osticket/upload/. /var/www/osticket/
+sudo chown -R www-data:www-data /var/www/osticket
+sudo chmod -R 755 /var/www/osticket
+```
+
+Créer le fichier de configuration :
+
+```
+sudo cp /var/www/osticket/include/ost-sampleconfig.php \
+/var/www/osticket/include/ost-config.php
+```
+
+Puis mettre les droit pour permettre a l'installateur de configurer osTicket
+
+```
+sudo chmod 0666 /var/www/osticket/include/ost-config.php
+```
+
+On doit vérifier les extension de php :
+
+```
+php -m
+```
+
+On doit verifier la présence de :
+
+-mysqli
+-gd
+-imap
+-intl
+-mbstring
+-xml
+-curl
+-zip
+-apcu
+
+Si certaines extensions sont absentes :
+
+```
+sudo apt install php-mysql php-gd php-imap php-intl \
+php-mbstring php-xml php-curl php-zip php-apcu -y
+```
+
+On doit configurer Apache créant le fichier de conf de osTicket :
+
+```
+sudo nano /etc/apache2/sites-available/osticket.conf
+```
+
+Ajouter
+
+```
+<VirtualHost *:80>
+    ServerName cha-ticket
+    DocumentRoot /var/www/osticket
+
+    <Directory /var/www/osticket>
+        Options FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/osticket_error.log
+    CustomLog ${APACHE_LOG_DIR}/osticket_access.log combined
+</VirtualHost>
+```
+
+Ensuite activer la configuration
+
+```
+sudo a2enmod rewrite
+sudo a2ensite osticket.conf
+sudo a2dissite 000-default.conf
+sudo apache2ctl configtest
+sudo systemctl reload apache2
+```
+
+Vérifier la configuration :
+```
+sudo apache2ctl configtest
+```
+Puis reload apache2
+
+```
+sudo systemctl reload apache2
+```
+
+Ouvrir le navigateur pour pouvoir le configurer
+
+```
+http://IP_DE_TON_SERVEUR/setup/
+```
