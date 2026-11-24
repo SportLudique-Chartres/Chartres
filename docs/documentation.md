@@ -745,36 +745,36 @@ On enregistre et **on redémarre Stalwart**
 ## 9 - Mise en place du serveur Ticket (CHA-TICKET) et du serveur DB (CHA-DB)
 
 
-Nous allons mettre en place le serveur ticket (osticket) et le serveur db pour que les Slam puisse nous envoyer leur requete ou leur probleme sur le serveur web qu'on va mettre en place pour eux.
+Nous allons mettre en place le serveur de tickets (osTicket) et le serveur de base de données pour que les SLAM puissent nous envoyer leurs requêtes ou leurs problèmes sur le serveur Web que nous allons mettre en place pour eux.
 
 ### 9.1 - Installation du serveur DB (CHA-DB)
 
-Pour pouvoir faire un serveur de base de donnée nous devons installer mariadb.
+Pour pouvoir faire un serveur de base de données, nous devons installer MariaDB.
 
 ```
 sudo apt update && sudo apt install mariadb-server -y
 sudo mariadb-secure-installation
 ```
 
-Nous devons autoriser MariaDB a écouter sur le réseau
+Nous devons autoriser MariaDB à écouter sur le réseau.
 
 ```
 sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
 ```
 
-Sur la ligne bind-address on doit remplacer le 127.0.0.1 par son IP privé.
+Sur la ligne bind-address on doit remplacer le 127.0.0.1 par son IP privée.
 
 ```
 bind-address = 192.168.225.1
 ```
 
-Redémarrer MariaDB pour appliquer les changement.
+Nous redémarrons MariaDB pour appliquer les changements.
 
 ```
 sudo systemctl restart mariadb
 ```
 
-Ensuite nous allons creer une base de donnée et un utilisateur
+Ensuite, nous allons créer une base de données et un utilisateur.
 
 ```
 sudo mariaDB
@@ -792,7 +792,7 @@ EXIT;
 
 ### 9.2 - Installation du serveur ticket (CHA-TICKET)
 
-On doit installer Apache, PHP et le client MariaDB
+On doit installer Apache, PHP et le client MariaDB.
 
 ```
 sudo apt update 
@@ -804,27 +804,27 @@ php-xml php-curl php-zip php-apcu \
 php-bcmath php-ldap unzip wget curl -y
 ```
 
-Activer les modules Apache:
+Activer les modules Apache :
 
 ```
 sudo a2enmod rewrite
 sudo systemctl restart apache2
 ```
 
-Ensuite nous allons télécharger et installer osTicket
+Ensuite, nous allons télécharger et installer osTicket.
 
 ```
 cd /tmp
 wget https://github.com/osTicket/osTicket/releases/download/v1.18.4/osTicket-v1.18.4.zip
 ```
 
-Décompresser
+Nous décompressons le dossier :
 
 ```
 unzip osTicket-v1.18.4.zip -d osticket
 ```
 
-Ensuite on doit creer et deplacer les fichiers au bonne endroit :
+Ensuite, on doit créer et déplacer les fichiers au bon endroit :
 
 ```
 sudo mkdir -p /var/www/osticket
@@ -832,7 +832,7 @@ sudo cp -r /tmp/osticket/upload/. /var/www/osticket/
 sudo chown -R www-data:www-data /var/www/osticket
 ```
 
-Maintenant on doit copier osTicket dans Apache
+Maintenant, on doit copier osTicket dans Apache.
 
 ```
 sudo mkdir -p /var/www/osticket
@@ -848,7 +848,7 @@ sudo cp /var/www/osticket/include/ost-sampleconfig.php \
 /var/www/osticket/include/ost-config.php
 ```
 
-Puis mettre les droit pour permettre a l'installateur de configurer osTicket
+Puis, mettre les droits pour permettre à l'installateur de configurer osTicket.
 
 ```
 sudo chmod 0666 /var/www/osticket/include/ost-config.php
@@ -881,7 +881,7 @@ sudo apt install php-mysql php-gd php-imap php-intl \
 php-mbstring php-xml php-curl php-zip php-apcu -y
 ```
 
-On doit configurer Apache créant le fichier de conf de osTicket :
+On doit configurer Apache en créant le fichier de configuration d'osTicket :
 
 ```
 sudo nano /etc/apache2/sites-available/osticket.conf
@@ -905,7 +905,7 @@ Ajouter
 </VirtualHost>
 ```
 
-Ensuite activer la configuration
+Ensuite, on active la configuration
 
 ```
 sudo a2enmod rewrite
@@ -1064,5 +1064,16 @@ Puis on reload apache2
 sudo systemctl reload apache2
 ```
 
+## 10 - Configuration du serveur NGINX
 
+### 10.1 - Reconfiguration du LACP
 
+Nous créons le VLAN 226 (DMZ_CYBER) sur le switch, et ensuite sur les ports 23 et 24, nous reconfigurons donc le LACP en ajoutant le VLAN 226 cité précedemment.
+
+### 10.2 - Configuration de l'interface virtuelle sur le FW-CHA
+
+Nous ajoutons donc une nouvelle interface sur l'interface parente :
+
+`DMZ_CYBER -> 192.168.226.0/24`
+
+Ainsi, nous aurons un VLAN dédié pour la sécurité.
