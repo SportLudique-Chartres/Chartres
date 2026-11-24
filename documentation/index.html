@@ -439,7 +439,7 @@ write memory
 <span class="nv">interface</span><span class="w"> </span><span class="nv">range</span><span class="w"> </span><span class="nv">GigabitEthernet1</span><span class="o">/</span><span class="mi">0</span><span class="o">/</span><span class="mi">23</span><span class="o">-</span><span class="mi">24</span>
 <span class="w"> </span><span class="nv">description</span><span class="w"> </span><span class="nv">LACP</span><span class="o">-</span><span class="nv">ETHERCHANNEL</span>
 <span class="w"> </span><span class="nv">switchport</span><span class="w"> </span><span class="nv">mode</span><span class="w"> </span><span class="nv">trunk</span>
-<span class="w"> </span><span class="nv">switchport</span><span class="w"> </span><span class="nv">trunk</span><span class="w"> </span><span class="nv">allowed</span><span class="w"> </span><span class="nv">vlan</span><span class="w"> </span><span class="mi">120</span>,<span class="mi">220</span>
+<span class="w"> </span><span class="nv">switchport</span><span class="w"> </span><span class="nv">trunk</span><span class="w"> </span><span class="nv">allowed</span><span class="w"> </span><span class="nv">vlan</span><span class="w"> </span><span class="mi">120</span>,<span class="mi">220</span>,<span class="mi">221</span>,<span class="mi">223</span>,<span class="mi">224</span>,<span class="mi">225</span>
 <span class="w"> </span><span class="nv">channel</span><span class="o">-</span><span class="nv">group</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nv">mode</span><span class="w"> </span><span class="nv">active</span>
 <span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">shutdown</span>
 <span class="w"> </span><span class="k">exit</span>
@@ -447,7 +447,7 @@ write memory
 <span class="nv">interface</span><span class="w"> </span><span class="nv">Port</span><span class="o">-</span><span class="nv">channel1</span>
 <span class="w"> </span><span class="nv">description</span><span class="w"> </span><span class="nv">LACP</span><span class="o">-</span><span class="nv">TRUNK</span>
 <span class="w"> </span><span class="nv">switchport</span><span class="w"> </span><span class="nv">mode</span><span class="w"> </span><span class="nv">trunk</span>
-<span class="w"> </span><span class="nv">switchport</span><span class="w"> </span><span class="nv">trunk</span><span class="w"> </span><span class="nv">allowed</span><span class="w"> </span><span class="nv">vlan</span><span class="w"> </span><span class="mi">120</span>,<span class="mi">220</span>
+<span class="w"> </span><span class="nv">switchport</span><span class="w"> </span><span class="nv">trunk</span><span class="w"> </span><span class="nv">allowed</span><span class="w"> </span><span class="nv">vlan</span><span class="w"> </span><span class="mi">120</span>,<span class="mi">220</span>,<span class="mi">221</span>,<span class="mi">223</span>,<span class="mi">224</span>,<span class="mi">225</span>
 <span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">shutdown</span>
 <span class="w"> </span><span class="k">exit</span>
 
@@ -1094,7 +1094,7 @@ sudo systemctl restart apache2
 </code></pre></div>
 
 <p>On doit verifier la présence de :</p>
-<p>-mysqli
+<div class="codehilite"><pre><span></span><code>-mysqli
 -gd
 -imap
 -intl
@@ -1102,7 +1102,9 @@ sudo systemctl restart apache2
 -xml
 -curl
 -zip
--apcu</p>
+-apcu
+</code></pre></div>
+
 <p>Si certaines extensions sont absentes :</p>
 <div class="codehilite"><pre><span></span><code>sudo apt install php-mysql php-gd php-imap php-intl \
 php-mbstring php-xml php-curl php-zip php-apcu -y
@@ -1140,7 +1142,7 @@ php-mbstring php-xml php-curl php-zip php-apcu -y
 <div class="codehilite"><pre><span></span><code>sudo apache2ctl configtest
 </code></pre></div>
 
-<p>Puis reload apache2</p>
+<p>Puis reload apache2 :</p>
 <div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">apache2</span>
 </code></pre></div>
 
