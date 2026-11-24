@@ -72,7 +72,7 @@ conf t
 interface range GigabitEthernet1/0/23-24
  description LACP-ETHERCHANNEL
  switchport mode trunk
- switchport trunk allowed vlan 120,220
+ switchport trunk allowed vlan 120,220,221,223,224,225
  channel-group 1 mode active
  no shutdown
  exit
@@ -80,7 +80,7 @@ interface range GigabitEthernet1/0/23-24
 interface Port-channel1
  description LACP-TRUNK
  switchport mode trunk
- switchport trunk allowed vlan 120,220
+ switchport trunk allowed vlan 120,220,221,223,224,225
  no shutdown
  exit
 
@@ -853,6 +853,7 @@ php -m
 
 On doit verifier la présence de :
 
+```
 -mysqli
 -gd
 -imap
@@ -862,6 +863,7 @@ On doit verifier la présence de :
 -curl
 -zip
 -apcu
+```
 
 Si certaines extensions sont absentes :
 
@@ -908,7 +910,7 @@ Vérifier la configuration :
 ```
 sudo apache2ctl configtest
 ```
-Puis reload apache2
+Puis reload apache2 :
 
 ```
 sudo systemctl reload apache2
