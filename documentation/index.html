@@ -1026,26 +1026,26 @@ sudo chmod 600 /etc/ssl/sportludique/private/web.key
 </table></div>
 <p>On enregistre et <strong>on redémarre Stalwart</strong></p>
 <h2 id="9-mise-en-place-du-serveur-ticket-cha-ticket-et-du-serveur-db-cha-db">9 - Mise en place du serveur Ticket (CHA-TICKET) et du serveur DB (CHA-DB)</h2>
-<p>Nous allons mettre en place le serveur ticket (osticket) et le serveur db pour que les Slam puisse nous envoyer leur requete ou leur probleme sur le serveur web qu'on va mettre en place pour eux.</p>
+<p>Nous allons mettre en place le serveur de tickets (osTicket) et le serveur de base de données pour que les SLAM puissent nous envoyer leurs requêtes ou leurs problèmes sur le serveur Web que nous allons mettre en place pour eux.</p>
 <h3 id="91-installation-du-serveur-db-cha-db">9.1 - Installation du serveur DB (CHA-DB)</h3>
-<p>Pour pouvoir faire un serveur de base de donnée nous devons installer mariadb.</p>
+<p>Pour pouvoir faire un serveur de base de données, nous devons installer MariaDB.</p>
 <div class="codehilite"><pre><span></span><code>sudo apt update &amp;&amp; sudo apt install mariadb-server -y
 sudo mariadb-secure-installation
 </code></pre></div>
 
-<p>Nous devons autoriser MariaDB a écouter sur le réseau</p>
+<p>Nous devons autoriser MariaDB à écouter sur le réseau.</p>
 <div class="codehilite"><pre><span></span><code>sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
 </code></pre></div>
 
-<p>Sur la ligne bind-address on doit remplacer le 127.0.0.1 par son IP privé.</p>
+<p>Sur la ligne bind-address on doit remplacer le 127.0.0.1 par son IP privée.</p>
 <div class="codehilite"><pre><span></span><code><span class="nx">bind</span><span class="o">-</span><span class="nx">address</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="m m-Double">192.168.225.1</span>
 </code></pre></div>
 
-<p>Redémarrer MariaDB pour appliquer les changement.</p>
+<p>Nous redémarrons MariaDB pour appliquer les changements.</p>
 <div class="codehilite"><pre><span></span><code>sudo systemctl restart mariadb
 </code></pre></div>
 
-<p>Ensuite nous allons creer une base de donnée et un utilisateur</p>
+<p>Ensuite, nous allons créer une base de données et un utilisateur.</p>
 <div class="codehilite"><pre><span></span><code>sudo mariaDB
 </code></pre></div>
 
@@ -1058,7 +1058,7 @@ sudo mariadb-secure-installation
 </code></pre></div>
 
 <h3 id="92-installation-du-serveur-ticket-cha-ticket">9.2 - Installation du serveur ticket (CHA-TICKET)</h3>
-<p>On doit installer Apache, PHP et le client MariaDB</p>
+<p>On doit installer Apache, PHP et le client MariaDB.</p>
 <div class="codehilite"><pre><span></span><code>sudo apt update 
 sudo apt install mariadb-client
 sudo apt install apache2 \
@@ -1068,27 +1068,27 @@ php-xml php-curl php-zip php-apcu \
 php-bcmath php-ldap unzip wget curl -y
 </code></pre></div>
 
-<p>Activer les modules Apache:</p>
+<p>Activer les modules Apache :</p>
 <div class="codehilite"><pre><span></span><code>sudo a2enmod rewrite
 sudo systemctl restart apache2
 </code></pre></div>
 
-<p>Ensuite nous allons télécharger et installer osTicket</p>
+<p>Ensuite, nous allons télécharger et installer osTicket.</p>
 <div class="codehilite"><pre><span></span><code><span class="n">cd</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span>
 <span class="n">wget</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">osTicket</span><span class="o">/</span><span class="n">osTicket</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">v1</span><span class="o">.</span><span class="mf">18.4</span><span class="o">/</span><span class="n">osTicket</span><span class="o">-</span><span class="n">v1</span><span class="o">.</span><span class="mf">18.4</span><span class="o">.</span><span class="n">zip</span>
 </code></pre></div>
 
-<p>Décompresser</p>
+<p>Nous décompressons le dossier :</p>
 <div class="codehilite"><pre><span></span><code>unzip osTicket-v1.18.4.zip -d osticket
 </code></pre></div>
 
-<p>Ensuite on doit creer et deplacer les fichiers au bonne endroit :</p>
+<p>Ensuite, on doit créer et déplacer les fichiers au bon endroit :</p>
 <div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">mkdir</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span>
 <span class="n">sudo</span><span class="w"> </span><span class="n">cp</span><span class="w"> </span><span class="o">-</span><span class="n">r</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span><span class="n">upload</span><span class="o">/.</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span>
 <span class="n">sudo</span><span class="w"> </span><span class="n">chown</span><span class="w"> </span><span class="o">-</span><span class="n">R</span><span class="w"> </span><span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="p">:</span><span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span>
 </code></pre></div>
 
-<p>Maintenant on doit copier osTicket dans Apache</p>
+<p>Maintenant, on doit copier osTicket dans Apache.</p>
 <div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">mkdir</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span>
 <span class="n">sudo</span><span class="w"> </span><span class="n">cp</span><span class="w"> </span><span class="o">-</span><span class="n">r</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span><span class="n">upload</span><span class="o">/.</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span>
 <span class="n">sudo</span><span class="w"> </span><span class="n">chown</span><span class="w"> </span><span class="o">-</span><span class="n">R</span><span class="w"> </span><span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="p">:</span><span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span>
@@ -1100,7 +1100,7 @@ sudo systemctl restart apache2
 <span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">ost</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">php</span>
 </code></pre></div>
 
-<p>Puis mettre les droit pour permettre a l'installateur de configurer osTicket</p>
+<p>Puis, mettre les droits pour permettre à l'installateur de configurer osTicket.</p>
 <div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">chmod</span><span class="w"> </span><span class="mi">0666</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">ost</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">php</span>
 </code></pre></div>
 
@@ -1125,7 +1125,7 @@ sudo systemctl restart apache2
 php-mbstring php-xml php-curl php-zip php-apcu -y
 </code></pre></div>
 
-<p>On doit configurer Apache créant le fichier de conf de osTicket :</p>
+<p>On doit configurer Apache en créant le fichier de configuration d'osTicket :</p>
 <div class="codehilite"><pre><span></span><code>sudo nano /etc/apache2/sites-available/osticket.conf
 </code></pre></div>
 
@@ -1145,7 +1145,7 @@ php-mbstring php-xml php-curl php-zip php-apcu -y
 <span class="nt">&lt;/VirtualHost&gt;</span>
 </code></pre></div>
 
-<p>Ensuite activer la configuration</p>
+<p>Ensuite, on active la configuration</p>
 <div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">a2enmod</span><span class="w"> </span><span class="n">rewrite</span>
 <span class="n">sudo</span><span class="w"> </span><span class="n">a2ensite</span><span class="w"> </span><span class="n">osticket</span><span class="o">.</span><span class="n">conf</span>
 <span class="n">sudo</span><span class="w"> </span><span class="n">a2dissite</span><span class="w"> </span><span class="mi">000</span><span class="o">-</span><span class="n">default</span><span class="o">.</span><span class="n">conf</span>
@@ -1266,6 +1266,14 @@ sudo apache2ctl configtest
 <p>Puis on reload apache2</p>
 <div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">apache2</span>
 </code></pre></div>
+
+<h2 id="10-configuration-du-serveur-nginx">10 - Configuration du serveur NGINX</h2>
+<h3 id="101-reconfiguration-du-lacp">10.1 - Reconfiguration du LACP</h3>
+<p>Nous créons le VLAN 226 (DMZ_CYBER) sur le switch, et ensuite sur les ports 23 et 24, nous reconfigurons donc le LACP en ajoutant le VLAN 226 cité précedemment.</p>
+<h3 id="102-configuration-de-linterface-virtuelle-sur-le-fw-cha">10.2 - Configuration de l'interface virtuelle sur le FW-CHA</h3>
+<p>Nous ajoutons donc une nouvelle interface sur l'interface parente :</p>
+<p><code>DMZ_CYBER -&gt; 192.168.226.0/24</code></p>
+<p>Ainsi, nous aurons un VLAN dédié pour la sécurité.</p>
   </div>
 </article>
                                 <div id="bottom-navigation" class="mx-auto flex h-16 w-full max-w-2xl items-center justify-between gap-2 px-4 md:px-0">
@@ -1587,6 +1595,22 @@ sudo apache2ctl configtest
         
         <a href="#95-mettre-le-support-cha-ticket-en-https" data-active="false" data-depth="3">
             9.5 - Mettre le support (CHA-TICKET) en https
+        </a>
+        
+        
+
+        
+        <a href="#10-configuration-du-serveur-nginx" data-active="false" data-depth="2">
+            10 - Configuration du serveur NGINX
+        </a>
+        
+        
+        <a href="#101-reconfiguration-du-lacp" data-active="false" data-depth="3">
+            10.1 - Reconfiguration du LACP
+        </a>
+        
+        <a href="#102-configuration-de-linterface-virtuelle-sur-le-fw-cha" data-active="false" data-depth="3">
+            10.2 - Configuration de l'interface virtuelle sur le FW-CHA
         </a>
         
         
