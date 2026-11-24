@@ -289,19 +289,28 @@ Ensuite, nous le configurons de la manière suivante :
 $TTL 3600
 
 @   IN SOA ns.chartres.sportludique.fr. admin.chartres.sportludique.fr. (
-2026101301
+2026102401
 3600
 900
 604800
 3600
 )
 
+//Serveur DNS
 @            IN NS      ns.chartres.sportludique.fr.
+ns           IN A       221.87.128.1
 
-ns           IN A       221.87.128.1Un listeners accepte les connexio  sur une adresse et un port, puis leur associe un protocol
-
+//CHA-WEB1
 @            IN A       221.87.128.1
-www          IN A       221.87.128.1
+www          IN CNAME   @
+
+//Support Ticket
+support IN CNAME        @
+
+// Mail
+@ IN MX 10  mail.chartres.sportludique.fr.
+mail IN A 221.87.128.1
+
 ```
 Nous devons par la suite ajouter la redirection de port sur le routeur, pour permettre aux utilisateurs en dehors du LAN d'y accéder (voir 2.3).
 
@@ -618,7 +627,7 @@ Nous mettons la configuration suivante dans le fichier qui précède :
 
 On active donc le site, nous testons la configuration et nous rechargeons Apache :
 
-```
+```dig support.chartres.sportludique.fr
 sudo a2ensite sportludique-ssl.conf
 sudo apache2ctl configtest
 sudo systemctl reload apache2
@@ -921,3 +930,6 @@ Ouvrir le navigateur pour pouvoir le configurer
 ```
 http://IP_DE_TON_SERVEUR/setup/
 ```
+
+## 10 - Mise en place de la solution de ticket `OS TICKET`
+
