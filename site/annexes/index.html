@@ -435,6 +435,7 @@
 <th style="text-align: center;">Nom</th>
 <th style="text-align: center;">Vlan</th>
 <th style="text-align: center;">IP</th>
+<th style="text-align: center;">Passerelle</th>
 </tr>
 </thead>
 <tbody>
@@ -442,21 +443,43 @@
 <td style="text-align: center;">MANA</td>
 <td style="text-align: center;">120</td>
 <td style="text-align: center;">10.28.2.0/28</td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td style="text-align: center;">SERVEUR</td>
 <td style="text-align: center;">220</td>
 <td style="text-align: center;">172.28.220.0/24</td>
+<td style="text-align: center;">172.28.220.254</td>
 </tr>
 <tr>
 <td style="text-align: center;">CLIENT</td>
 <td style="text-align: center;">221</td>
 <td style="text-align: center;">172.28.221.0/24</td>
+<td style="text-align: center;">172.28.221.254</td>
+</tr>
+<tr>
+<td style="text-align: center;">WAN</td>
+<td style="text-align: center;">222</td>
+<td style="text-align: center;">192.168.222.0/24</td>
+<td style="text-align: center;">192.168.222.1</td>
 </tr>
 <tr>
 <td style="text-align: center;">LAN</td>
-<td style="text-align: center;">222</td>
-<td style="text-align: center;">192.168.222.0/24</td>
+<td style="text-align: center;">223</td>
+<td style="text-align: center;">192.168.223.0/24</td>
+<td style="text-align: center;">192.168.223.1</td>
+</tr>
+<tr>
+<td style="text-align: center;">DMZ_EXT</td>
+<td style="text-align: center;">224</td>
+<td style="text-align: center;">192.168.224.0/24</td>
+<td style="text-align: center;">192.168.224.254</td>
+</tr>
+<tr>
+<td style="text-align: center;">DMZ_INT</td>
+<td style="text-align: center;">225</td>
+<td style="text-align: center;">192.168.225.0/24</td>
+<td style="text-align: center;">192.168.225.254</td>
 </tr>
 </tbody>
 </table></div>
@@ -494,7 +517,7 @@
 <tr>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">Gig0/5</td>
-<td style="text-align: center;"></td>
+<td style="text-align: center;">Trunk (DMZ_INT/DMZ_EXT)</td>
 </tr>
 <tr>
 <td style="text-align: center;"></td>
@@ -514,12 +537,12 @@
 <tr>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">Gig0/9</td>
-<td style="text-align: center;">SERVEUR</td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">Gig0/10</td>
-<td style="text-align: center;">SERVEUR</td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td style="text-align: center;"></td>
@@ -534,12 +557,12 @@
 <tr>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">Gig0/13</td>
-<td style="text-align: center;">MANA</td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">Gig0/14</td>
-<td style="text-align: center;">MANA</td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td style="text-align: center;"></td>
@@ -564,12 +587,12 @@
 <tr>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">Gig0/19</td>
-<td style="text-align: center;"></td>
+<td style="text-align: center;">CLIENTS</td>
 </tr>
 <tr>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">Gig0/20</td>
-<td style="text-align: center;">Serveur</td>
+<td style="text-align: center;">SERVEUR</td>
 </tr>
 <tr>
 <td style="text-align: center;"></td>
@@ -584,12 +607,12 @@
 <tr>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">Gig0/23</td>
-<td style="text-align: center;">MANA</td>
+<td style="text-align: center;">LACP</td>
 </tr>
 <tr>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">Gig0/24 </td>
-<td style="text-align: center;">Trunk (MANA / Serveur)</td>
+<td style="text-align: center;">LACP</td>
 </tr>
 <tr>
 <td style="text-align: center;"></td>
