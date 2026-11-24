@@ -142,7 +142,7 @@
 </button>
             <a data-slot="button" class="button ghost gap-2 hidden lg:flex"
     
-    href="None">
+    href="../">
     <span class="flex flex-row justify-center items-center">
         
 
@@ -201,10 +201,14 @@
 
                 
 
-                <div data-orientation="vertical" role="none" data-slot="separator"
+                
+                
+                
+                <div class="hidden 3xl:flex items-center gap-2">
+                    <div data-orientation="vertical" role="none" data-slot="separator"
     class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px">
 </div>
-                <button class="ghost icon" title="Toggle layout" onclick="toggleLayout(event)">
+                    <button class="ghost icon" title="Toggle layout" onclick="toggleLayout(event)">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
     class="lucide lucide-gallery-horizontal">
@@ -213,6 +217,7 @@
     <path d="M22 3v18"></path>
 </svg>
 </button>
+                </div>
                 <div data-orientation="vertical" role="none" data-slot="separator"
     class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px">
 </div>
@@ -248,6 +253,7 @@
                         </div>
                         <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden mx-auto no-scrollbar w-(--sidebar-menu-width) overflow-x-hidden px-2"
                             data-sidebar="content" data-slot="sidebar-content" view-transition-name="sidebar">
+                            
                             
 
 
@@ -324,7 +330,7 @@
 <div
     class="sticky -bottom-1 z-10 h-16 shrink-0 bg-gradient-to-t from-background via-background/80 to-background/50 blur-xs">
 </div>
-
+                            
                         </div>
                     </div>
                     <div class="h-full w-full">
@@ -865,208 +871,245 @@ sudo chmod 600 /etc/ssl/sportludique/private/web.key
 </code></pre></div>
 
 <p>On active donc le site, nous testons la configuration et nous rechargeons Apache :</p>
-<p>```dig support.chartres.sportludique.fr
-sudo a2ensite sportludique-ssl.conf
-sudo apache2ctl configtest
-sudo systemctl reload apache2</p>
-<div class="codehilite"><pre><span></span><code>## 8 - Mise en place du serveur Mail (CHA-MAIL)
-
-Pour mettre en place notre serveur web, noous utiliserons Stalwart.
-
-Pour ce faire nous allons l'installer avec le script officiel via la documentation.
+<div class="codehilite"><pre><span></span><code><span class="n">dig</span><span class="w"> </span><span class="n">support</span><span class="o">.</span><span class="n">chartres</span><span class="o">.</span><span class="n">sportludique</span><span class="o">.</span><span class="n">fr</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">a2ensite</span><span class="w"> </span><span class="n">sportludique</span><span class="o">-</span><span class="n">ssl</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">apache2ctl</span><span class="w"> </span><span class="n">configtest</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">apache2</span>
 </code></pre></div>
 
-<p>sudo systemctl status stalwart
-sudo systemctl show stalwart --property=User,Group,ExecStart
-sudo ss -lntp</p>
-<div class="codehilite"><pre><span></span><code><span class="n">Ensuite</span><span class="p">,</span><span class="w"> </span><span class="n">nous</span><span class="w"> </span><span class="n">avons</span><span class="w"> </span><span class="n">configuré</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">première</span><span class="w"> </span><span class="n">connexion</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="n">suivant</span><span class="w"> </span><span class="n">les</span><span class="w"> </span><span class="n">instructions</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">documentation</span><span class="w"> </span><span class="n">officiel</span><span class="p">.</span>
-
-<span class="c1">### 8.1 - Accès a l'administration en HTTPS</span>
-
-<span class="n">Accès</span><span class="w"> </span><span class="n">à</span><span class="w"> </span><span class="n">l</span><span class="s1">'administration via : `https://mail.chartres.sportludique.fr/`</span>
-
-<span class="s1">Le navigateur affichera donc un avertissement de sécurité, car le certificat est auto-signé.</span>
-
-<span class="s1">On accepte le risque est on accède donc à la page d'</span><span class="n">adminstration</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="n">nous</span><span class="w"> </span><span class="n">nous</span><span class="w"> </span><span class="n">connectons</span><span class="p">.</span>
-
-<span class="c1">### 8.2 - Vérifier le domaine de Bob et Alice</span>
-
-<span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">On</span><span class="w"> </span><span class="n">ouvre</span><span class="w"> </span><span class="n">Management</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Domains</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Domains</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">vérifie</span><span class="w"> </span><span class="n">le</span><span class="w"> </span><span class="n">domaine</span><span class="w"> </span><span class="n">chartres</span><span class="p">.</span><span class="n">sportludique</span><span class="p">.</span>
-
-<span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">On</span><span class="w"> </span><span class="n">ouvre</span><span class="w"> </span><span class="n">Management</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="k">Directory</span><span class="w"> </span><span class="o">&gt;</span><span class="w">  </span><span class="n">Accounts</span><span class="w"> </span><span class="n">puis</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">créé</span><span class="w"> </span><span class="n">les</span><span class="w"> </span><span class="n">comptes</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">Bob</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="n">Alice</span><span class="p">.</span>
-
-<span class="mi">3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Nous</span><span class="w"> </span><span class="n">avons</span><span class="w"> </span><span class="n">renseigner</span><span class="w"> </span><span class="n">les</span><span class="w"> </span><span class="n">différentes</span><span class="w"> </span><span class="n">valeurs</span><span class="w"> </span><span class="n">pour</span><span class="w"> </span><span class="n">les</span><span class="w"> </span><span class="n">comptes</span><span class="p">.</span>
-
-<span class="c1">### 8.3 - Ajouter les listeners sans TLS</span>
-
-<span class="n">Un</span><span class="w"> </span><span class="n">listeners</span><span class="w"> </span><span class="n">accepte</span><span class="w"> </span><span class="n">les</span><span class="w"> </span><span class="n">connexio</span><span class="w">  </span><span class="n">sur</span><span class="w"> </span><span class="n">une</span><span class="w"> </span><span class="n">adresse</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="n">un</span><span class="w"> </span><span class="k">port</span><span class="p">,</span><span class="w"> </span><span class="n">puis</span><span class="w"> </span><span class="n">leur</span><span class="w"> </span><span class="n">associe</span><span class="w"> </span><span class="n">un</span><span class="w"> </span><span class="n">protocol</span>
-
-<span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Configurer</span><span class="w"> </span><span class="n">STARTTLS</span>
-
-<span class="n">Dans</span><span class="w"> </span><span class="o">**</span><span class="n">Settings</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Network</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Listeners</span><span class="o">**</span><span class="p">,</span><span class="w"> </span><span class="n">nous</span><span class="w"> </span><span class="n">alons</span><span class="w"> </span><span class="n">adaptez</span><span class="w"> </span><span class="n">les</span><span class="w"> </span><span class="n">deux</span><span class="w"> </span><span class="n">listeners</span><span class="p">.</span>
-
-<span class="n">Puis</span><span class="w"> </span><span class="n">nous</span><span class="w"> </span><span class="n">redémarrons</span><span class="w"> </span><span class="n">Stalwart</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n n-Quoted">`sudo systemctl restart stalwart`</span>
-
-<span class="n">Nous</span><span class="w"> </span><span class="n">testons</span><span class="w"> </span><span class="n">le</span><span class="w"> </span><span class="n">bon</span><span class="w"> </span><span class="n">fonctionnement</span><span class="w"> </span><span class="n">avec</span><span class="w"> </span><span class="n">ThunderBird</span><span class="w"> </span><span class="n">avec</span><span class="w"> </span><span class="n">les</span><span class="w"> </span><span class="n">paramètres</span><span class="w"> </span><span class="n">suivant</span><span class="w"> </span><span class="o">:</span>
-
-
-<span class="o">|</span><span class="w"> </span><span class="n">Paramètres</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Serveur</span><span class="w"> </span><span class="n">entrant</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Serveur</span><span class="w"> </span><span class="n">sortant</span><span class="w"> </span><span class="o">|</span>
-<span class="o">|---|---|---|</span>
-<span class="o">|</span><span class="w"> </span><span class="n">Protocole</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">IMAP</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">SMTP</span><span class="w"> </span><span class="o">|</span>
-<span class="o">|</span><span class="w"> </span><span class="o">**</span><span class="k">Port</span><span class="o">**</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">**</span><span class="mi">143</span><span class="o">**</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">**</span><span class="mi">587</span><span class="o">**</span><span class="w"> </span><span class="o">|</span>
-<span class="o">|</span><span class="w"> </span><span class="n">Sécurité</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">**</span><span class="n">STARTTLS</span><span class="o">**</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">**</span><span class="n">STARTTLS</span><span class="o">**</span><span class="w"> </span><span class="o">|</span>
-<span class="o">|</span><span class="w"> </span><span class="n">Authentification</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Mot</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">passe</span><span class="w"> </span><span class="n">normal</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Mot</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">passe</span><span class="w"> </span><span class="n">normal</span><span class="w"> </span><span class="o">|</span>
-
-
-<span class="c1">### 8.4 - Tester TLS implicite</span>
-
-<span class="n">Dans</span><span class="w"> </span><span class="o">**</span><span class="n">Settings</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Network</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Listeners</span><span class="o">**</span><span class="p">,</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="n">nous</span><span class="w"> </span><span class="n">activons</span><span class="w"> </span><span class="k">TLS</span><span class="w"> </span><span class="n">implicite</span><span class="p">.</span>
-
-<span class="n">Dans</span><span class="w"> </span><span class="n">Thunderbird</span><span class="w"> </span><span class="n">nous</span><span class="w"> </span><span class="n">mettons</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="n">sécurité</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">SSL</span><span class="o">/</span><span class="k">TLS</span>
-
-<span class="c1">### 8.5 - Récupération le certificat autosigné</span>
-
-<span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Obtenir</span><span class="w"> </span><span class="n">un</span><span class="w"> </span><span class="n">certificat</span><span class="w"> </span><span class="n">signé</span><span class="w"> </span><span class="n">par</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">CA</span><span class="w"> </span><span class="n">intermédiaire</span><span class="p">.</span>
-
-<span class="k">On</span><span class="w"> </span><span class="n">réutilise</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">procédure</span><span class="w">  </span><span class="n">du</span><span class="w"> </span><span class="n">module</span><span class="w"> </span><span class="n">PKI</span><span class="w"> </span><span class="o">:</span>
-
-<span class="w">  </span><span class="mf">1.</span><span class="w"> </span><span class="n">Sur</span><span class="w"> </span><span class="n">le</span><span class="w"> </span><span class="n">serveur</span><span class="w"> </span><span class="n">mail</span><span class="p">,</span><span class="w"> </span><span class="n">créez</span><span class="w"> </span><span class="n">une</span><span class="w"> </span><span class="o">**</span><span class="n">clé</span><span class="w"> </span><span class="n">privé</span><span class="o">**</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="n">une</span><span class="w"> </span><span class="o">**</span><span class="n">demande</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">signature</span><span class="w"> </span><span class="p">(</span><span class="n">CSR</span><span class="p">)</span><span class="o">**</span><span class="w"> </span><span class="n">pour</span><span class="w"> </span><span class="n n-Quoted">`mail.chartres.sportludique.fr`</span>
-
-<span class="w">  </span><span class="mf">2.</span><span class="w"> </span><span class="k">On</span><span class="w"> </span><span class="n">vérifie</span><span class="w">  </span><span class="n">que</span><span class="w"> </span><span class="n">ce</span><span class="w"> </span><span class="n">nom</span><span class="w"> </span><span class="n">figure</span><span class="w"> </span><span class="n">dans</span><span class="w"> </span><span class="n">le</span><span class="w"> </span><span class="o">**</span><span class="n">SAN</span><span class="o">**</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">demande</span><span class="p">.</span>
-
-<span class="w">  </span><span class="mf">3.</span><span class="w"> </span><span class="n">Faites</span><span class="w"> </span><span class="n">signer</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">CSR</span><span class="w"> </span><span class="n">par</span><span class="w"> </span><span class="o">**</span><span class="n">la</span><span class="w"> </span><span class="n">CA</span><span class="w"> </span><span class="n">intermédiraire</span><span class="o">**</span><span class="w"> </span><span class="n">qui</span><span class="w"> </span><span class="n">est</span><span class="w"> </span><span class="n">sur</span><span class="w"> </span><span class="n">le</span><span class="w"> </span><span class="n">serveur</span><span class="w"> </span><span class="n">web</span><span class="p">,</span><span class="w"> </span><span class="n">dejà</span><span class="w"> </span><span class="n">signée</span><span class="w"> </span><span class="n">par</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">racine</span><span class="w"> </span><span class="n">SportLudique</span><span class="p">.</span>
-
-<span class="w">  </span><span class="mf">4.</span><span class="w"> </span><span class="n">Nous</span><span class="w"> </span><span class="n">récupérons</span><span class="w"> </span><span class="n">ainsi</span><span class="w"> </span><span class="n">le</span><span class="w"> </span><span class="n">certificat</span><span class="w"> </span><span class="n">du</span><span class="w"> </span><span class="n">serveur</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="n">le</span><span class="w"> </span><span class="n">certificat</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">CA</span><span class="w"> </span><span class="n">intermédiaire</span><span class="p">.</span>
-
-
-<span class="o">|</span><span class="w"> </span><span class="n">Ordre</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Certificat</span><span class="w">                                 </span><span class="o">|</span><span class="w"> </span><span class="n">Rôle</span><span class="w">                                        </span><span class="o">|</span>
-<span class="o">|-------|--------------------------------------------|---------------------------------------------|</span>
-<span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="n">Certificat</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n n-Quoted">`mail.ville.sportludique.fr`</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Identifie</span><span class="w"> </span><span class="n">le</span><span class="w"> </span><span class="n">serveur</span><span class="w">                        </span><span class="o">|</span>
-<span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="n">Certificat</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">CA</span><span class="w"> </span><span class="n">intermédiaire</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">Permet</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">construire</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">chaîne</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">confiance</span><span class="w"> </span><span class="o">|</span>
-
-<span class="c1">### 8.6 - Installation du certificat dans Stalwart</span>
-
-<span class="n">Dans</span><span class="w"> </span><span class="o">**</span><span class="n">Settings</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="k">TLS</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Certificates</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="k">Create</span><span class="o">**</span><span class="w"> </span><span class="o">:</span>
-
-<span class="o">|</span><span class="w"> </span><span class="n">Champ</span><span class="w">           </span><span class="o">|</span><span class="w"> </span><span class="n">Valeur</span><span class="w">                                                                                   </span><span class="o">|</span>
-<span class="o">|-----------------|------------------------------------------------------------------------------------------|</span>
-<span class="o">|</span><span class="w"> </span><span class="o">**</span><span class="n">Certificate</span><span class="o">**</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">**</span><span class="kt">Text</span><span class="w"> </span><span class="k">value</span><span class="o">**</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">contenu</span><span class="w"> </span><span class="n">PEM</span><span class="w"> </span><span class="n">du</span><span class="w"> </span><span class="n">certificat</span><span class="w"> </span><span class="n">serveur</span><span class="w"> </span><span class="n">suivi</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">celui</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">CA</span><span class="w"> </span><span class="n">intermédiaire</span><span class="w"> </span><span class="o">|</span>
-<span class="o">|</span><span class="w"> </span><span class="o">**</span><span class="n">Private</span><span class="w"> </span><span class="k">Key</span><span class="o">**</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">**</span><span class="n">Secret</span><span class="w"> </span><span class="k">value</span><span class="o">**</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">clé</span><span class="w"> </span><span class="n">privée</span><span class="w"> </span><span class="n">du</span><span class="w"> </span><span class="n">serveur</span><span class="w"> </span><span class="n">mail</span><span class="w">                                            </span><span class="o">|</span>
-
-<span class="n">Puis</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">redémarre</span><span class="w"> </span><span class="n">les</span><span class="w"> </span><span class="n">services</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n n-Quoted">`sudo systemctl restart stalwart`</span>
-
-<span class="c1">### 8.7 - Faire reconnaître la CA par Thunderbird</span>
-
-<span class="n">Nous</span><span class="w"> </span><span class="n">téléchargeons</span><span class="w"> </span><span class="n">le</span><span class="w"> </span><span class="n">certificat</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">racine</span><span class="w"> </span><span class="n">SportLudique</span><span class="p">,</span><span class="w"> </span><span class="n">puis</span><span class="w"> </span><span class="o">**</span><span class="k">on</span><span class="w"> </span><span class="n">vérifie</span><span class="w"> </span><span class="n">son</span><span class="w"> </span><span class="n">empreinte</span><span class="o">**</span><span class="p">.</span>
-
-<span class="n">Dans</span><span class="w"> </span><span class="n">Thunderbird</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">**</span><span class="n">Paramètres</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Vie</span><span class="w"> </span><span class="n">privée</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="n">sécurité</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Certificats</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Gérer</span><span class="w"> </span><span class="n">les</span><span class="w"> </span><span class="n">certificats</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Autorités</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Importer</span><span class="o">**</span><span class="p">,</span><span class="w"> </span><span class="n">puis</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">importe</span><span class="w"> </span><span class="n">la</span><span class="w"> </span><span class="n">CA</span><span class="w"> </span><span class="n">racine</span><span class="p">.</span>
-
-<span class="c1">### 8.8 - Interdire  l'authentification sans TLS</span>
-
-<span class="n">Le</span><span class="w"> </span><span class="n">niveau</span><span class="w"> </span><span class="n">Socle</span><span class="w"> </span><span class="n">autorise</span><span class="w"> </span><span class="n">volontairement</span><span class="w"> </span><span class="n">l</span><span class="s1">'authentification IMAP en clair. Nous allons donc supprime la possibilité d'</span><span class="n">effectuer</span><span class="w"> </span><span class="n">cela</span><span class="p">.</span>
-
-<span class="o">|</span><span class="w"> </span><span class="n">Emplacement</span><span class="w"> </span><span class="n">dans</span><span class="w"> </span><span class="n">Stalwart</span><span class="w">                                 </span><span class="o">|</span><span class="w"> </span><span class="n">Réglage</span><span class="w"> </span><span class="n">attendu</span><span class="w">                                                                  </span><span class="o">|</span>
-<span class="o">|-----------------------------------------------------------|----------------------------------------------------------------------------------|</span>
-<span class="o">|</span><span class="w"> </span><span class="o">**</span><span class="n">Settings</span><span class="w"> </span><span class="n">›</span><span class="w"> </span><span class="n">Network</span><span class="w"> </span><span class="n">›</span><span class="w"> </span><span class="n">IMAP</span><span class="w"> </span><span class="n">›</span><span class="w"> </span><span class="k">Authentication</span><span class="w"> </span><span class="n">settings</span><span class="o">**</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="o">**</span><span class="n">Allow</span><span class="w"> </span><span class="n">plain</span><span class="w"> </span><span class="kt">text</span><span class="w"> </span><span class="k">authentication</span><span class="o">**</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">désactivé</span><span class="w"> </span><span class="p">(</span><span class="n n-Quoted">`false`</span><span class="p">)</span><span class="w">                        </span><span class="o">|</span>
-<span class="o">|</span><span class="w"> </span><span class="o">**</span><span class="n">Settings</span><span class="w"> </span><span class="n">›</span><span class="w"> </span><span class="n">SMTP</span><span class="w"> </span><span class="n">›</span><span class="w"> </span><span class="n">AUTH</span><span class="w"> </span><span class="n">Stage</span><span class="w"> </span><span class="n">›</span><span class="w"> </span><span class="n">Allowed</span><span class="w"> </span><span class="n">Mechanisms</span><span class="o">**</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="n">Autoriser</span><span class="w"> </span><span class="n">les</span><span class="w"> </span><span class="n">mécanismes</span><span class="w"> </span><span class="n">d</span><span class="s1">'authentification uniquement lorsque `is_tls` est vrai |</span>
-<span class="s1">| **Settings › SMTP › AUTH Stage › Require Authentication** | `local_port != 25`                                                               |</span>
-<span class="s1">| **Settings › SMTP › AUTH Stage › Must match sender**      | `true`                                                                           |</span>
-
-<span class="s1">On enregistre et **on redémarre Stalwart**</span>
-
-
-<span class="s1">## 9 - Mise en place du serveur Ticket (CHA-TICKET) et du serveur DB (CHA-DB)</span>
-
-
-<span class="s1">Nous allons mettre en place le serveur ticket (osticket) et le serveur db pour que les Slam puisse nous envoyer leur requete ou leur probleme sur le serveur web qu'</span><span class="k">on</span><span class="w"> </span><span class="n">va</span><span class="w"> </span><span class="n">mettre</span><span class="w"> </span><span class="n">en</span><span class="w"> </span><span class="n">place</span><span class="w"> </span><span class="n">pour</span><span class="w"> </span><span class="n">eux</span><span class="p">.</span>
-
-<span class="c1">### 9.1 - Installation du serveur DB (CHA-DB)</span>
-
-<span class="n">Pour</span><span class="w"> </span><span class="n">pouvoir</span><span class="w"> </span><span class="n">faire</span><span class="w"> </span><span class="n">un</span><span class="w"> </span><span class="n">serveur</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">donnée</span><span class="w"> </span><span class="n">nous</span><span class="w"> </span><span class="n">devons</span><span class="w"> </span><span class="n">installer</span><span class="w"> </span><span class="n">mariadb</span><span class="p">.</span>
+<h2 id="8-mise-en-place-du-serveur-mail-cha-mail">8 - Mise en place du serveur Mail (CHA-MAIL)</h2>
+<p>Pour mettre en place notre serveur web, noous utiliserons Stalwart.</p>
+<p>Pour ce faire nous allons l'installer avec le script officiel via la documentation.</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">sudo</span><span class="w"> </span><span class="nv">systemctl</span><span class="w"> </span><span class="nv">status</span><span class="w"> </span><span class="nv">stalwart</span>
+<span class="nv">sudo</span><span class="w"> </span><span class="nv">systemctl</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="nv">stalwart</span><span class="w"> </span><span class="o">--</span><span class="nv">property</span><span class="o">=</span><span class="nv">User</span>,<span class="nv">Group</span>,<span class="nv">ExecStart</span>
+<span class="nv">sudo</span><span class="w"> </span><span class="nv">ss</span><span class="w"> </span><span class="o">-</span><span class="nv">lntp</span>
 </code></pre></div>
 
-<p>sudo apt update &amp;&amp; sudo apt install mariadb-server -y
-sudo mariadb-secure-installation</p>
-<div class="codehilite"><pre><span></span><code>Nous devons autoriser MariaDB a écouter sur le réseau
+<p>Ensuite, nous avons configuré la première connexion en suivant les instructions de la documentation officiel.</p>
+<h3 id="81-acces-a-ladministration-en-https">8.1 - Accès a l'administration en HTTPS</h3>
+<p>Accès à l'administration via : <code>https://mail.chartres.sportludique.fr/</code></p>
+<p>Le navigateur affichera donc un avertissement de sécurité, car le certificat est auto-signé.</p>
+<p>On accepte le risque est on accède donc à la page d'adminstration et nous nous connectons.</p>
+<h3 id="82-verifier-le-domaine-de-bob-et-alice">8.2 - Vérifier le domaine de Bob et Alice</h3>
+<p>1 - On ouvre Management &gt; Domains &gt; Domains et on vérifie le domaine chartres.sportludique.</p>
+<p>2 - On ouvre Management &gt; Directory &gt;  Accounts puis on créé les comptes de Bob et Alice.</p>
+<p>3 - Nous avons renseigner les différentes valeurs pour les comptes.</p>
+<h3 id="83-ajouter-les-listeners-sans-tls">8.3 - Ajouter les listeners sans TLS</h3>
+<p>Un listeners accepte les connexio  sur une adresse et un port, puis leur associe un protocol</p>
+<p>1 - Configurer STARTTLS</p>
+<p>Dans <strong>Settings &gt; Network &gt; Listeners</strong>, nous alons adaptez les deux listeners.</p>
+<p>Puis nous redémarrons Stalwart : <code>sudo systemctl restart stalwart</code></p>
+<p>Nous testons le bon fonctionnement avec ThunderBird avec les paramètres suivant :</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Paramètres</th>
+<th>Serveur entrant</th>
+<th>Serveur sortant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Protocole</td>
+<td>IMAP</td>
+<td>SMTP</td>
+</tr>
+<tr>
+<td><strong>Port</strong></td>
+<td><strong>143</strong></td>
+<td><strong>587</strong></td>
+</tr>
+<tr>
+<td>Sécurité</td>
+<td><strong>STARTTLS</strong></td>
+<td><strong>STARTTLS</strong></td>
+</tr>
+<tr>
+<td>Authentification</td>
+<td>Mot de passe normal</td>
+<td>Mot de passe normal</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="84-tester-tls-implicite">8.4 - Tester TLS implicite</h3>
+<p>Dans <strong>Settings &gt; Network &gt; Listeners</strong>, et nous activons TLS implicite.</p>
+<p>Dans Thunderbird nous mettons en sécurité -&gt; SSL/TLS</p>
+<h3 id="85-recuperation-le-certificat-autosigne">8.5 - Récupération le certificat autosigné</h3>
+<p>1 - Obtenir un certificat signé par la CA intermédiaire.</p>
+<p>On réutilise la procédure  du module PKI :</p>
+<ol>
+<li>
+<p>Sur le serveur mail, créez une <strong>clé privé</strong> et une <strong>demande de signature (CSR)</strong> pour <code>mail.chartres.sportludique.fr</code></p>
+</li>
+<li>
+<p>On vérifie  que ce nom figure dans le <strong>SAN</strong> de la demande.</p>
+</li>
+<li>
+<p>Faites signer la CSR par <strong>la CA intermédiraire</strong> qui est sur le serveur web, dejà signée par la racine SportLudique.</p>
+</li>
+<li>
+<p>Nous récupérons ainsi le certificat du serveur et le certificat public de la CA intermédiaire.</p>
+</li>
+</ol>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Ordre</th>
+<th>Certificat</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Certificat de <code>mail.ville.sportludique.fr</code></td>
+<td>Identifie le serveur</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Certificat de la CA intermédiaire</td>
+<td>Permet de construire la chaîne de confiance</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="86-installation-du-certificat-dans-stalwart">8.6 - Installation du certificat dans Stalwart</h3>
+<p>Dans <strong>Settings &gt; TLS &gt; Certificates &gt; Create</strong> :</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Champ</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Certificate</strong></td>
+<td><strong>Text value</strong> : contenu PEM du certificat serveur suivi de celui de la CA intermédiaire</td>
+</tr>
+<tr>
+<td><strong>Private Key</strong></td>
+<td><strong>Secret value</strong> : clé privée du serveur mail</td>
+</tr>
+</tbody>
+</table></div>
+<p>Puis on redémarre les services : <code>sudo systemctl restart stalwart</code></p>
+<h3 id="87-faire-reconnaitre-la-ca-par-thunderbird">8.7 - Faire reconnaître la CA par Thunderbird</h3>
+<p>Nous téléchargeons le certificat public de la racine SportLudique, puis <strong>on vérifie son empreinte</strong>.</p>
+<p>Dans Thunderbird : <strong>Paramètres &gt; Vie privée et sécurité &gt; Certificats &gt; Gérer les certificats &gt; Autorités &gt; Importer</strong>, puis on importe la CA racine.</p>
+<h3 id="88-interdire-lauthentification-sans-tls">8.8 - Interdire  l'authentification sans TLS</h3>
+<p>Le niveau Socle autorise volontairement l'authentification IMAP en clair. Nous allons donc supprime la possibilité d'effectuer cela.</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Emplacement dans Stalwart</th>
+<th>Réglage attendu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Settings › Network › IMAP › Authentication settings</strong></td>
+<td><strong>Allow plain text authentication</strong> : désactivé (<code>false</code>)</td>
+</tr>
+<tr>
+<td><strong>Settings › SMTP › AUTH Stage › Allowed Mechanisms</strong></td>
+<td>Autoriser les mécanismes d'authentification uniquement lorsque <code>is_tls</code> est vrai</td>
+</tr>
+<tr>
+<td><strong>Settings › SMTP › AUTH Stage › Require Authentication</strong></td>
+<td><code>local_port != 25</code></td>
+</tr>
+<tr>
+<td><strong>Settings › SMTP › AUTH Stage › Must match sender</strong></td>
+<td><code>true</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>On enregistre et <strong>on redémarre Stalwart</strong></p>
+<h2 id="9-mise-en-place-du-serveur-ticket-cha-ticket-et-du-serveur-db-cha-db">9 - Mise en place du serveur Ticket (CHA-TICKET) et du serveur DB (CHA-DB)</h2>
+<p>Nous allons mettre en place le serveur ticket (osticket) et le serveur db pour que les Slam puisse nous envoyer leur requete ou leur probleme sur le serveur web qu'on va mettre en place pour eux.</p>
+<h3 id="91-installation-du-serveur-db-cha-db">9.1 - Installation du serveur DB (CHA-DB)</h3>
+<p>Pour pouvoir faire un serveur de base de donnée nous devons installer mariadb.</p>
+<div class="codehilite"><pre><span></span><code>sudo apt update &amp;&amp; sudo apt install mariadb-server -y
+sudo mariadb-secure-installation
 </code></pre></div>
 
-<p>sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf</p>
-<div class="codehilite"><pre><span></span><code><span class="nx">Sur</span><span class="w"> </span><span class="nx">la</span><span class="w"> </span><span class="nx">ligne</span><span class="w"> </span><span class="nx">bind</span><span class="o">-</span><span class="nx">address</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">doit</span><span class="w"> </span><span class="nx">remplacer</span><span class="w"> </span><span class="nx">le</span><span class="w"> </span><span class="m m-Double">127.0.0.1</span><span class="w"> </span><span class="nx">par</span><span class="w"> </span><span class="nx">son</span><span class="w"> </span><span class="nx">IP</span><span class="w"> </span><span class="nx">privé</span><span class="p">.</span>
+<p>Nous devons autoriser MariaDB a écouter sur le réseau</p>
+<div class="codehilite"><pre><span></span><code>sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
 </code></pre></div>
 
-<p>bind-address = 192.168.225.1</p>
-<div class="codehilite"><pre><span></span><code>Redémarrer MariaDB pour appliquer les changement.
+<p>Sur la ligne bind-address on doit remplacer le 127.0.0.1 par son IP privé.</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">bind</span><span class="o">-</span><span class="nx">address</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="m m-Double">192.168.225.1</span>
 </code></pre></div>
 
-<p>sudo systemctl restart mariadb</p>
-<div class="codehilite"><pre><span></span><code>Ensuite nous allons creer une base de donnée et un utilisateur
+<p>Redémarrer MariaDB pour appliquer les changement.</p>
+<div class="codehilite"><pre><span></span><code>sudo systemctl restart mariadb
 </code></pre></div>
 
-<p>sudo mariaDB</p>
-<div class="codehilite"><pre><span></span><code>Puis :
+<p>Ensuite nous allons creer une base de donnée et un utilisateur</p>
+<div class="codehilite"><pre><span></span><code>sudo mariaDB
 </code></pre></div>
 
-<p>CREATE DATABASE osticket CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'cha-ticket'@'192.168.224.5' IDENTIFIED BY 'P@ssW0rd';
-GRANT ALL PRIVILEGES ON osticket.* TO 'cha-ticket'@'192.168.224.5';
-FLUSH PRIVILEGES;
-EXIT;</p>
-<div class="codehilite"><pre><span></span><code>### 9.2 - Installation du serveur ticket (CHA-TICKET)
-
-On doit installer Apache, PHP et le client MariaDB
+<p>Puis :</p>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">osticket</span><span class="w"> </span><span class="k">CHARACTER</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">utf8mb4</span><span class="w"> </span><span class="k">COLLATE</span><span class="w"> </span><span class="n">utf8mb4_unicode_ci</span><span class="p">;</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="s1">'cha-ticket'</span><span class="err">@</span><span class="s1">'192.168.224.5'</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="s1">'P@ssW0rd'</span><span class="p">;</span>
+<span class="k">GRANT</span><span class="w"> </span><span class="ow">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">osticket</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">'cha-ticket'</span><span class="err">@</span><span class="s1">'192.168.224.5'</span><span class="p">;</span>
+<span class="n">FLUSH</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="p">;</span>
+<span class="k">EXIT</span><span class="p">;</span>
 </code></pre></div>
 
-<p>sudo apt update 
+<h3 id="92-installation-du-serveur-ticket-cha-ticket">9.2 - Installation du serveur ticket (CHA-TICKET)</h3>
+<p>On doit installer Apache, PHP et le client MariaDB</p>
+<div class="codehilite"><pre><span></span><code>sudo apt update 
 sudo apt install mariadb-client
 sudo apt install apache2 \
 php php-cli libapache2-mod-php php-mysql \
 php-gd php-imap php-intl php-mbstring \
 php-xml php-curl php-zip php-apcu \
-php-bcmath php-ldap unzip wget curl -y</p>
-<div class="codehilite"><pre><span></span><code>Activer les modules Apache:
+php-bcmath php-ldap unzip wget curl -y
 </code></pre></div>
 
-<p>sudo a2enmod rewrite
-sudo systemctl restart apache2</p>
-<div class="codehilite"><pre><span></span><code>Ensuite nous allons télécharger et installer osTicket
+<p>Activer les modules Apache:</p>
+<div class="codehilite"><pre><span></span><code>sudo a2enmod rewrite
+sudo systemctl restart apache2
 </code></pre></div>
 
-<p>cd /tmp
-wget https://github.com/osTicket/osTicket/releases/download/v1.18.4/osTicket-v1.18.4.zip</p>
-<div class="codehilite"><pre><span></span><code>Décompresser
+<p>Ensuite nous allons télécharger et installer osTicket</p>
+<div class="codehilite"><pre><span></span><code><span class="n">cd</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span>
+<span class="n">wget</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">osTicket</span><span class="o">/</span><span class="n">osTicket</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">v1</span><span class="o">.</span><span class="mf">18.4</span><span class="o">/</span><span class="n">osTicket</span><span class="o">-</span><span class="n">v1</span><span class="o">.</span><span class="mf">18.4</span><span class="o">.</span><span class="n">zip</span>
 </code></pre></div>
 
-<p>unzip osTicket-v1.18.4.zip -d osticket</p>
-<div class="codehilite"><pre><span></span><code>Ensuite on doit creer et deplacer les fichiers au bonne endroit :
+<p>Décompresser</p>
+<div class="codehilite"><pre><span></span><code>unzip osTicket-v1.18.4.zip -d osticket
 </code></pre></div>
 
-<p>sudo mkdir -p /var/www/osticket
-sudo cp -r /tmp/osticket/upload/. /var/www/osticket/
-sudo chown -R www-data:www-data /var/www/osticket</p>
-<div class="codehilite"><pre><span></span><code>Maintenant on doit copier osTicket dans Apache
+<p>Ensuite on doit creer et deplacer les fichiers au bonne endroit :</p>
+<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">mkdir</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">cp</span><span class="w"> </span><span class="o">-</span><span class="n">r</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span><span class="n">upload</span><span class="o">/.</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">chown</span><span class="w"> </span><span class="o">-</span><span class="n">R</span><span class="w"> </span><span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="p">:</span><span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span>
 </code></pre></div>
 
-<p>sudo mkdir -p /var/www/osticket
-sudo cp -r /tmp/osticket/upload/. /var/www/osticket/
-sudo chown -R www-data:www-data /var/www/osticket
-sudo chmod -R 755 /var/www/osticket</p>
-<div class="codehilite"><pre><span></span><code>Créer le fichier de configuration :
+<p>Maintenant on doit copier osTicket dans Apache</p>
+<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">mkdir</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">cp</span><span class="w"> </span><span class="o">-</span><span class="n">r</span><span class="w"> </span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span><span class="n">upload</span><span class="o">/.</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">chown</span><span class="w"> </span><span class="o">-</span><span class="n">R</span><span class="w"> </span><span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="p">:</span><span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">chmod</span><span class="w"> </span><span class="o">-</span><span class="n">R</span><span class="w"> </span><span class="mi">755</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span>
 </code></pre></div>
 
-<p>sudo cp /var/www/osticket/include/ost-sampleconfig.php \
-/var/www/osticket/include/ost-config.php</p>
-<div class="codehilite"><pre><span></span><code>Puis mettre les droit pour permettre a l'installateur de configurer osTicket
+<p>Créer le fichier de configuration :</p>
+<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">cp</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">ost</span><span class="o">-</span><span class="n">sampleconfig</span><span class="o">.</span><span class="n">php</span><span class="w"> </span>\
+<span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">ost</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">php</span>
 </code></pre></div>
 
-<p>sudo chmod 0666 /var/www/osticket/include/ost-config.php</p>
-<div class="codehilite"><pre><span></span><code>On doit vérifier les extension de php :
+<p>Puis mettre les droit pour permettre a l'installateur de configurer osTicket</p>
+<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">chmod</span><span class="w"> </span><span class="mi">0666</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">ost</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">php</span>
 </code></pre></div>
 
-<p>php -m</p>
-<div class="codehilite"><pre><span></span><code>On doit verifier la présence de :
+<p>On doit vérifier les extension de php :</p>
+<div class="codehilite"><pre><span></span><code>php -m
 </code></pre></div>
 
-<p>-mysqli
+<p>On doit verifier la présence de :</p>
+<div class="codehilite"><pre><span></span><code>-mysqli
 -gd
 -imap
 -intl
@@ -1074,55 +1117,155 @@ sudo chmod -R 755 /var/www/osticket</p>
 -xml
 -curl
 -zip
--apcu</p>
-<div class="codehilite"><pre><span></span><code>Si certaines extensions sont absentes :
+-apcu
 </code></pre></div>
 
-<p>sudo apt install php-mysql php-gd php-imap php-intl \
-php-mbstring php-xml php-curl php-zip php-apcu -y</p>
-<div class="codehilite"><pre><span></span><code>On doit configurer Apache créant le fichier de conf de osTicket :
+<p>Si certaines extensions sont absentes :</p>
+<div class="codehilite"><pre><span></span><code>sudo apt install php-mysql php-gd php-imap php-intl \
+php-mbstring php-xml php-curl php-zip php-apcu -y
 </code></pre></div>
 
-<p>sudo nano /etc/apache2/sites-available/osticket.conf</p>
-<div class="codehilite"><pre><span></span><code>Ajouter
+<p>On doit configurer Apache créant le fichier de conf de osTicket :</p>
+<div class="codehilite"><pre><span></span><code>sudo nano /etc/apache2/sites-available/osticket.conf
 </code></pre></div>
 
-<p><VirtualHost *:80>
-    ServerName cha-ticket
-    DocumentRoot /var/www/osticket</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;Directory</span> <span class="err">/var/www/osticket</span><span class="nt">&gt;</span>
-<span class="w">    </span>Options<span class="w"> </span>FollowSymLinks
-<span class="w">    </span>AllowOverride<span class="w"> </span>All
-<span class="w">    </span>Require<span class="w"> </span>all<span class="w"> </span>granted
-<span class="nt">&lt;/Directory&gt;</span>
+<p>Ajouter</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;VirtualHost</span> <span class="err">*:80</span><span class="nt">&gt;</span>
+<span class="w">    </span>ServerName<span class="w"> </span>cha-ticket
+<span class="w">    </span>DocumentRoot<span class="w"> </span>/var/www/osticket
 
-ErrorLog<span class="w"> </span><span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/osticket_error.log
-CustomLog<span class="w"> </span><span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/osticket_access.log<span class="w"> </span>combined
+<span class="w">    </span><span class="nt">&lt;Directory</span> <span class="err">/var/www/osticket</span><span class="nt">&gt;</span>
+<span class="w">        </span>Options<span class="w"> </span>FollowSymLinks
+<span class="w">        </span>AllowOverride<span class="w"> </span>All
+<span class="w">        </span>Require<span class="w"> </span>all<span class="w"> </span>granted
+<span class="w">    </span><span class="nt">&lt;/Directory&gt;</span>
+
+<span class="w">    </span>ErrorLog<span class="w"> </span><span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/osticket_error.log
+<span class="w">    </span>CustomLog<span class="w"> </span><span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/osticket_access.log<span class="w"> </span>combined
+<span class="nt">&lt;/VirtualHost&gt;</span>
 </code></pre></div>
 
-<p></VirtualHost></p>
-<div class="codehilite"><pre><span></span><code>Ensuite activer la configuration
+<p>Ensuite activer la configuration</p>
+<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">a2enmod</span><span class="w"> </span><span class="n">rewrite</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">a2ensite</span><span class="w"> </span><span class="n">osticket</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">a2dissite</span><span class="w"> </span><span class="mi">000</span><span class="o">-</span><span class="n">default</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">apache2ctl</span><span class="w"> </span><span class="n">configtest</span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">apache2</span>
 </code></pre></div>
 
-<p>sudo a2enmod rewrite
-sudo a2ensite osticket.conf
-sudo a2dissite 000-default.conf
+<p>Vérifier la configuration :</p>
+<div class="codehilite"><pre><span></span><code>sudo apache2ctl configtest
+</code></pre></div>
+
+<p>Puis reload apache2 :</p>
+<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">apache2</span>
+</code></pre></div>
+
+<p>Ouvrir le navigateur pour pouvoir le configurer</p>
+<div class="codehilite"><pre><span></span><code>http://IP_DE_TON_SERVEUR/setup/
+</code></pre></div>
+
+<h3 id="93-configuration-de-osticket-depuis-linterface-web">9.3 - Configuration de osTicket depuis l'interface web</h3>
+<p>On a fait la configuration général de osTicket :
+-Renseigner le nom, l'email par défaut et l'URL du support
+-Creer un compte administrateur
+-Renseigner la base de donnée</p>
+<p>Après pour raison de sécuriter on doit supprimer le dossier setup qui ne sert plus a rien :</p>
+<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">rm</span><span class="w"> </span><span class="o">-</span><span class="n">rf</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span><span class="n">setup</span>
+</code></pre></div>
+
+<p>Ensuite on doit retirer les droit d'écriture sur le fichier de configuration</p>
+<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">chmod</span><span class="w"> </span><span class="mi">644</span><span class="w"> </span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">osticket</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">ost</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">php</span>
+</code></pre></div>
+
+<h3 id="94-creation-du-certificat-ssl">9.4 - Création du certificat ssl</h3>
+<p>On a creer une clé priver sur CHA-TICKET puis creer la csr.</p>
+<p>Ensuite nous avons transferer la csr sur le serveur web qui contient la pki-groupe.</p>
+<p>On a creer le support.ext qui contient :</p>
+<div class="codehilite"><pre><span></span><code>basicConstraints = critical, CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+subjectAltName = DNS:support.chartres.sportludique.fr,DNS:chartres.sportludique.fr
+</code></pre></div>
+
+<p>Puis avec le support.csr et le support.ext on a pu signer avec le certificat intermédiaire :</p>
+<div class="codehilite"><pre><span></span><code>openssl ca -config autorite/openssl.cnf \
+  -in serveur/demandes/support.csr \
+  -extfile serveur/demandes/support.ext \
+  -out serveur/certificats/support-intermediaire.crt \
+  -notext -days 200
+</code></pre></div>
+
+<p>On vérifie la chaine complète :</p>
+<div class="codehilite"><pre><span></span><code>openssl verify -show_chain \
+  -verify_hostname "www.ville.sportludique.fr" \
+  -CAfile autorite/certificats/sportludique-root.crt.pem \
+  -untrusted autorite/certificats/ca-intermediaire.crt \
+  serveur/certificats/web-intermediaire.crt
+</code></pre></div>
+
+<p>On crée la fullchain qui va nous servir a mettre le support en https :</p>
+<div class="codehilite"><pre><span></span><code>cat serveur/certificats/web-intermediaire.crt \
+    autorite/certificats/ca-intermediaire.crt \
+    &gt; serveur/certificats/supportfullchain.pem
+</code></pre></div>
+
+<p>Pour finir on transfère la fullchain sur CHA-TICKET dans /etc/ssl</p>
+<h3 id="95-mettre-le-support-cha-ticket-en-https">9.5 - Mettre le support (CHA-TICKET) en https</h3>
+<p>On doit creer le VirtualHost HTTPS</p>
+<div class="codehilite"><pre><span></span><code>sudo nano /etc/apache2/sites-available/osticket-le-ssl.conf
+</code></pre></div>
+
+<p>On met cette configuration</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;VirtualHost</span> <span class="err">*:443</span><span class="nt">&gt;</span>
+
+<span class="w">    </span>ServerName<span class="w"> </span>support.chartres.sportludique.fr
+
+<span class="w">    </span>DocumentRoot<span class="w"> </span>/var/www/osticket
+
+<span class="w">    </span><span class="nt">&lt;Directory</span> <span class="err">/var/www/osticket</span><span class="nt">&gt;</span>
+<span class="w">        </span>Options<span class="w"> </span>FollowSymLinks
+<span class="w">        </span>AllowOverride<span class="w"> </span>All
+<span class="w">        </span>Require<span class="w"> </span>all<span class="w"> </span>granted
+<span class="w">    </span><span class="nt">&lt;/Directory&gt;</span>
+
+<span class="w">    </span>SSLEngine<span class="w"> </span>on
+
+<span class="w">    </span>SSLCertificateFile<span class="w"> </span>/etc/ssl/supportfullchain.pem
+<span class="w">    </span>SSLCertificateKeyFile<span class="w"> </span>/etc/ssl/private.key
+
+<span class="w">    </span>ErrorLog<span class="w"> </span><span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/osticket_ssl_error.log
+<span class="w">    </span>CustomLog<span class="w"> </span><span class="cp">${</span><span class="n">APACHE_LOG_DIR</span><span class="cp">}</span>/osticket_ssl_access.log<span class="w"> </span>combined
+
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</code></pre></div>
+
+<p>Puis on redirige le HTTP vers le HTTPS</p>
+<div class="codehilite"><pre><span></span><code>sudo nano /etc/apache2/sites-available/osticket.conf
+</code></pre></div>
+
+<p>Et on met</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;VirtualHost</span><span class="w"> </span><span class="err">*:80</span><span class="nt">&gt;</span>
+
+<span class="w">    </span>ServerName<span class="w"> </span>support.chartres.sportludique.fr
+
+<span class="w">    </span>Redirect<span class="w"> </span>permanent<span class="w"> </span>/<span class="w"> </span>https://support.chartres.sportludique.fr/
+
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</code></pre></div>
+
+<p>On active le HTTPS et vérifie la syntax</p>
+<div class="codehilite"><pre><span></span><code>sudo a2enmod ssl
+sudo a2enmod rewrite
+sudo a2ensite osticket-le-ssl.conf
 sudo apache2ctl configtest
-sudo systemctl reload apache2</p>
-<div class="codehilite"><pre><span></span><code>Vérifier la configuration :
 </code></pre></div>
 
-<p>sudo apache2ctl configtest</p>
-<div class="codehilite"><pre><span></span><code><span class="n">Puis</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">apache2</span><span class="w"> </span><span class="p">:</span>
+<p>Puis on reload apache2</p>
+<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">systemctl</span><span class="w"> </span><span class="n">reload</span><span class="w"> </span><span class="n">apache2</span>
 </code></pre></div>
-
-<p>sudo systemctl reload apache2</p>
-<div class="codehilite"><pre><span></span><code>Ouvrir le navigateur pour pouvoir le configurer
-</code></pre></div>
-
-<p>http://IP_DE_TON_SERVEUR/setup/
-```</p>
-<h2 id="10-mise-en-place-de-la-solution-de-ticket-os-ticket">10 - Mise en place de la solution de ticket <code>OS TICKET</code></h2>
   </div>
 </article>
                                 <div id="bottom-navigation" class="mx-auto flex h-16 w-full max-w-2xl items-center justify-between gap-2 px-4 md:px-0">
@@ -1381,9 +1524,71 @@ sudo systemctl reload apache2</p>
         
 
         
-        <a href="#10-mise-en-place-de-la-solution-de-ticket-os-ticket" data-active="false" data-depth="2">
-            10 - Mise en place de la solution de ticket OS TICKET
+        <a href="#8-mise-en-place-du-serveur-mail-cha-mail" data-active="false" data-depth="2">
+            8 - Mise en place du serveur Mail (CHA-MAIL)
         </a>
+        
+        
+        <a href="#81-acces-a-ladministration-en-https" data-active="false" data-depth="3">
+            8.1 - Accès a l'administration en HTTPS
+        </a>
+        
+        <a href="#82-verifier-le-domaine-de-bob-et-alice" data-active="false" data-depth="3">
+            8.2 - Vérifier le domaine de Bob et Alice
+        </a>
+        
+        <a href="#83-ajouter-les-listeners-sans-tls" data-active="false" data-depth="3">
+            8.3 - Ajouter les listeners sans TLS
+        </a>
+        
+        <a href="#84-tester-tls-implicite" data-active="false" data-depth="3">
+            8.4 - Tester TLS implicite
+        </a>
+        
+        <a href="#85-recuperation-le-certificat-autosigne" data-active="false" data-depth="3">
+            8.5 - Récupération le certificat autosigné
+        </a>
+        
+        <a href="#86-installation-du-certificat-dans-stalwart" data-active="false" data-depth="3">
+            8.6 - Installation du certificat dans Stalwart
+        </a>
+        
+        <a href="#87-faire-reconnaitre-la-ca-par-thunderbird" data-active="false" data-depth="3">
+            8.7 - Faire reconnaître la CA par Thunderbird
+        </a>
+        
+        <a href="#88-interdire-lauthentification-sans-tls" data-active="false" data-depth="3">
+            8.8 - Interdire l'authentification sans TLS
+        </a>
+        
+        
+
+        
+        <a href="#9-mise-en-place-du-serveur-ticket-cha-ticket-et-du-serveur-db-cha-db" data-active="false" data-depth="2">
+            9 - Mise en place du serveur Ticket (CHA-TICKET) et du serveur DB (CHA-DB)
+        </a>
+        
+        
+        <a href="#91-installation-du-serveur-db-cha-db" data-active="false" data-depth="3">
+            9.1 - Installation du serveur DB (CHA-DB)
+        </a>
+        
+        <a href="#92-installation-du-serveur-ticket-cha-ticket" data-active="false" data-depth="3">
+            9.2 - Installation du serveur ticket (CHA-TICKET)
+        </a>
+        
+        <a href="#93-configuration-de-osticket-depuis-linterface-web" data-active="false" data-depth="3">
+            9.3 - Configuration de osTicket depuis l'interface web
+        </a>
+        
+        <a href="#94-creation-du-certificat-ssl" data-active="false" data-depth="3">
+            9.4 - Création du certificat ssl
+        </a>
+        
+        <a href="#95-mettre-le-support-cha-ticket-en-https" data-active="false" data-depth="3">
+            9.5 - Mettre le support (CHA-TICKET) en https
+        </a>
+        
         
 
         

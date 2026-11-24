@@ -626,8 +626,8 @@ Nous mettons la configuration suivante dans le fichier qui précède :
 ```
 
 On active donc le site, nous testons la configuration et nous rechargeons Apache :
-
-```dig support.chartres.sportludique.fr
+```
+dig support.chartres.sportludique.fr
 sudo a2ensite sportludique-ssl.conf
 sudo apache2ctl configtest
 sudo systemctl reload apache2
@@ -931,5 +931,138 @@ Ouvrir le navigateur pour pouvoir le configurer
 http://IP_DE_TON_SERVEUR/setup/
 ```
 
-## 10 - Mise en place de la solution de ticket `OS TICKET`
+### 9.3 - Configuration de osTicket depuis l'interface web
+
+On a fait la configuration général de osTicket :
+-Renseigner le nom, l'email par défaut et l'URL du support
+-Creer un compte administrateur
+-Renseigner la base de donnée
+
+Après pour raison de sécuriter on doit supprimer le dossier setup qui ne sert plus a rien :
+
+```
+sudo rm -rf /var/www/osticket/setup
+```
+
+Ensuite on doit retirer les droit d'écriture sur le fichier de configuration
+
+```
+sudo chmod 644 /var/www/osticket/include/ost-config.php
+```
+
+### 9.4 - Création du certificat ssl
+
+On a creer une clé priver sur CHA-TICKET puis creer la csr.
+
+Ensuite nous avons transferer la csr sur le serveur web qui contient la pki-groupe.
+
+On a creer le support.ext qui contient :
+
+```
+basicConstraints = critical, CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+subjectAltName = DNS:support.chartres.sportludique.fr,DNS:chartres.sportludique.fr
+```
+
+Puis avec le support.csr et le support.ext on a pu signer avec le certificat intermédiaire :
+
+```
+openssl ca -config autorite/openssl.cnf \
+  -in serveur/demandes/support.csr \
+  -extfile serveur/demandes/support.ext \
+  -out serveur/certificats/support-intermediaire.crt \
+  -notext -days 200
+```
+
+On vérifie la chaine complète :
+
+```
+openssl verify -show_chain \
+  -verify_hostname "www.ville.sportludique.fr" \
+  -CAfile autorite/certificats/sportludique-root.crt.pem \
+  -untrusted autorite/certificats/ca-intermediaire.crt \
+  serveur/certificats/web-intermediaire.crt
+```
+
+On crée la fullchain qui va nous servir a mettre le support en https :
+
+```
+cat serveur/certificats/web-intermediaire.crt \
+    autorite/certificats/ca-intermediaire.crt \
+    > serveur/certificats/supportfullchain.pem
+```
+
+Pour finir on transfère la fullchain sur CHA-TICKET dans /etc/ssl
+
+### 9.5 - Mettre le support (CHA-TICKET) en https
+
+On doit creer le VirtualHost HTTPS
+
+```
+sudo nano /etc/apache2/sites-available/osticket-le-ssl.conf
+```
+
+On met cette configuration
+
+```
+<VirtualHost *:443>
+
+    ServerName support.chartres.sportludique.fr
+
+    DocumentRoot /var/www/osticket
+
+    <Directory /var/www/osticket>
+        Options FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    SSLEngine on
+
+    SSLCertificateFile /etc/ssl/supportfullchain.pem
+    SSLCertificateKeyFile /etc/ssl/private.key
+
+    ErrorLog ${APACHE_LOG_DIR}/osticket_ssl_error.log
+    CustomLog ${APACHE_LOG_DIR}/osticket_ssl_access.log combined
+
+</VirtualHost>
+```
+
+Puis on redirige le HTTP vers le HTTPS
+
+```
+sudo nano /etc/apache2/sites-available/osticket.conf
+```
+
+Et on met
+
+```
+<VirtualHost *:80>
+
+    ServerName support.chartres.sportludique.fr
+
+    Redirect permanent / https://support.chartres.sportludique.fr/
+
+</VirtualHost>
+```
+
+On active le HTTPS et vérifie la syntax
+
+```
+sudo a2enmod ssl
+sudo a2enmod rewrite
+sudo a2ensite osticket-le-ssl.conf
+sudo apache2ctl configtest
+```
+
+Puis on reload apache2
+
+```
+sudo systemctl reload apache2
+```
+
+
 
