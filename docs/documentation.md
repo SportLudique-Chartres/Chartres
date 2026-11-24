@@ -853,6 +853,7 @@ php -m
 
 On doit verifier la présence de :
 
+```
 -mysqli
 -gd
 -imap
@@ -862,6 +863,7 @@ On doit verifier la présence de :
 -curl
 -zip
 -apcu
+```
 
 Si certaines extensions sont absentes :
 
@@ -908,7 +910,7 @@ Vérifier la configuration :
 ```
 sudo apache2ctl configtest
 ```
-Puis reload apache2
+Puis reload apache2 :
 
 ```
 sudo systemctl reload apache2
